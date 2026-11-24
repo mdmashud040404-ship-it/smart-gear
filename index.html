@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Smart Gear — দরকারি অনলাইন টুলস, সহজে ও বিনামূল্যে।">
+  <title>Smart Gear | Free Online Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root{--bg:#f4f1e9;--panel:#fffdf8;--panel2:#e9e5d9;--text:#24271f;--muted:#77786c;--green:#596342;--gold:#b58a4a;--line:rgba(48,52,37,.13)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 78% -8%,#e3ddc9 0,transparent 40%),var(--bg);color:var(--text);font-family:'Hind Siliguri',Inter,sans-serif}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,92%);margin:auto}
+    header{position:sticky;top:0;z-index:10;background:rgba(244,241,233,.91);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;font-family:Inter,sans-serif;font-weight:800;font-size:22px;letter-spacing:-.7px}
+    .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#737d55,#424a31);display:grid;place-items:center;color:#fffdf4;font-size:22px;box-shadow:0 8px 25px #59634233}
+    .navlinks{display:flex;gap:26px;color:var(--muted);font-size:15px}.navlinks a:hover{color:var(--green)}
+    .navbtn,.primary{background:linear-gradient(135deg,#c6b27d,#92956c);color:#211f16;border:0;border-radius:12px;padding:11px 18px;font-weight:700;cursor:pointer;font-family:inherit}
+    .hero{padding:88px 0 66px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;border:1px solid #32d6a044;color:var(--green);background:#32d6a012;border-radius:99px;padding:7px 13px;font-size:13px}
+    h1{font-family:Inter,'Hind Siliguri',sans-serif;font-size:clamp(42px,6vw,68px);line-height:1.08;letter-spacing:-2.8px;margin:22px 0 18px}
+    h1 span{background:linear-gradient(90deg,#c0c294,#d8bd83);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:19px;line-height:1.8;color:var(--muted);max-width:610px}.hero-actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:27px}
+    .secondary{border:1px solid #59634245;background:#fffdf8;color:var(--text);border-radius:12px;padding:11px 18px;font-weight:600}
+    .hero-card{background:linear-gradient(145deg,#e8e3d5,#fffdf8);border:1px solid #5963422b;border-radius:26px;padding:25px;box-shadow:0 25px 70px #514a3420;transform:rotate(1deg)}
+    .mini-top{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}.dots{display:flex;gap:5px}.dots i{width:7px;height:7px;background:#5e748a;border-radius:50%}
+    .preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}.preview{border:1px solid var(--line);background:#ffffffa8;border-radius:16px;padding:17px;min-height:105px}.preview b{display:block;font-family:Inter,sans-serif;font-size:14px;margin-top:13px}.preview small{color:var(--muted)}
+    .section{padding:50px 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:25px}.kicker{color:var(--green);font-size:14px;font-weight:600}.section h2{font-size:34px;margin:5px 0 0}.muted{color:var(--muted)}
+    .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.tool{background:linear-gradient(145deg,#fffdf8,#eeebdf);border:1px solid var(--line);border-radius:19px;padding:22px;transition:.2s}.tool:hover{transform:translateY(-4px);border-color:#b8b58a88}.tool-icon{width:48px;height:48px;border-radius:15px;background:#59634218;display:grid;place-items:center;font-size:23px}.tool h3{margin:16px 0 5px;font-size:20px}.tool p{color:var(--muted);line-height:1.6;margin:0 0 15px}.tool button{border:0;background:transparent;color:var(--green);font:600 15px 'Hind Siliguri';padding:0;cursor:pointer}
+    .workspace{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 24px #514a3409}.panel h3{margin:0 0 14px;font-size:21px}.field{width:100%;background:#fffefa;border:1px solid #59634238;border-radius:11px;color:var(--text);padding:12px 13px;font:15px 'Hind Siliguri';outline:none}.field:focus{border-color:var(--green)}textarea.field{min-height:130px;resize:vertical}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}.hint{color:var(--muted);font-size:13px;margin-top:9px}.result{color:var(--green);font-weight:600;margin-top:12px;min-height:22px}.qrbox{background:white;border-radius:12px;padding:12px;width:max-content;margin-top:14px;min-height:20px}
+    .drop{border:1px dashed #59634270;border-radius:13px;padding:19px;text-align:center;color:var(--muted)}input[type=file]{max-width:100%;color:var(--muted)}
+    .download-list{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.download-item{padding:18px;border-radius:16px;background:#fffdf8;border:1px solid var(--line);display:flex;align-items:center;gap:13px}.fileicon{font-size:24px}.download-item b{display:block}.download-item small{color:var(--muted)}
+    .about{background:linear-gradient(120deg,#e6e2d4,#fffdf8);border:1px solid var(--line);border-radius:23px;padding:30px;display:flex;justify-content:space-between;gap:25px;align-items:center}.about p{max-width:720px;color:var(--muted);line-height:1.8;margin-bottom:0}
+    footer{border-top:1px solid var(--line);margin-top:55px;padding:27px 0;color:var(--muted);font-size:14px;background:#ece8dc}.foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+    @media(max-width:800px){.hero{grid-template-columns:1fr;padding-top:58px}.hero-card{max-width:500px}.tools{grid-template-columns:repeat(2,1fr)}.download-list{grid-template-columns:1fr 1fr}.navlinks{display:none}}
+    @media(max-width:560px){.tools,.workspace,.download-list{grid-template-columns:1fr}.section-head{display:block}.about{display:block}.about .primary{margin-top:18px}h1{letter-spacing:-1.5px}.hero{padding-bottom:35px}}
+  </style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <a class="brand" href="#"><span class="logo">✦</span>SMART GEAR</a>
+  <nav class="navlinks"><a href="#tools">টুলস</a><a href="#workspace">ব্যবহার করুন</a><a href="#downloads">ডাউনলোড</a><a href="#about">আমাদের সম্পর্কে</a></nav>
+  <a class="navbtn" href="#tools">টুলস দেখুন ↗</a>
+</div></header>
+<main>
+  <section class="wrap hero">
+    <div><span class="eyebrow">✧ আপনার কাজের স্মার্ট সঙ্গী</span>
+      <h1>কাজ হোক আরও <span>সহজ ও স্মার্ট।</span></h1>
+      <p class="lead">Smart Gear-এ পাবেন প্রতিদিনের প্রয়োজনীয় অনলাইন টুলস ও দরকারি ফাইল—সহজে, দ্রুত এবং বিনামূল্যে। কোনো সফটওয়্যার ইনস্টল করার প্রয়োজন নেই।</p>
+      <div class="hero-actions"><a class="primary" href="#tools">ফ্রি টুলস ব্যবহার করুন</a><a class="secondary" href="#about">আরও জানুন</a></div>
+    </div>
+    <div class="hero-card"><div class="mini-top"><span>SMART GEAR / TOOLKIT</span><span class="dots"><i></i><i></i><i></i></span></div><div style="display:flex;align-items:center;gap:17px;margin:20px 0 5px"><img src="smart-gear-profile.jpg" alt="Smart Gear profile" style="width:88px;height:88px;object-fit:cover;object-position:center 28%;border-radius:22px;border:3px solid #fff;box-shadow:0 7px 22px #514a3425"><div><div style="font:700 19px Inter,sans-serif;color:#343b2a">SMART GEAR</div><div style="color:#77786c;font-size:14px">Tools for everyday work</div><div style="color:#8c7044;font-size:12px;margin-top:5px">SIMPLE · USEFUL · FREE</div></div></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:22px;padding:13px;border:1px solid var(--line);border-radius:18px;background:#ffffff08">
+        <img src="profile.jpg" alt="Smart Gear profile" style="width:82px;height:92px;object-fit:cover;object-position:center 25%;border-radius:14px;border:2px solid #a4a77a">
+        <div><div style="font:700 17px Inter,sans-serif;color:var(--gold)">SMART GEAR</div><div style="color:var(--muted);font-size:14px;line-height:1.6">স্মার্ট কাজের সহজ ঠিকানা<br>বিশ্বাস, সরলতা ও আধুনিকতার ছোঁয়া</div></div>
+      </div>
+      <div class="preview-grid">
+        <div class="preview"><span>✍️</span><b>Text Counter</b><small>শব্দ ও অক্ষর গণনা</small></div>
+        <div class="preview"><span>▦</span><b>QR Generator</b><small>নিজেই QR তৈরি করুন</small></div>
+        <div class="preview"><span>🖼️</span><b>Image Compressor</b><small>ছবির সাইজ কমান</small></div>
+        <div class="preview"><span>⬇️</span><b>File Download</b><small>দরকারি ফাইল সংগ্রহ</small></div>
+      </div>
+    </div>
+  </section>
+  <section class="wrap section" id="tools">
+    <div class="section-head"><div><div class="kicker">OUR FREE TOOLS</div><h2>দরকারি টুলস</h2></div><div class="muted">সহজ ব্যবহার · দ্রুত ফলাফল</div></div>
+    <div class="tools">
+      <article class="tool"><div class="tool-icon">✍️</div><h3>টেক্সট কাউন্টার</h3><p>বাংলা বা ইংরেজি লেখার শব্দ, অক্ষর ও লাইনের সংখ্যা জানুন।</p><button onclick="document.querySelector('#textTool').scrollIntoView({behavior:'smooth'})">টুলটি ব্যবহার করুন →</button></article>
+      <article class="tool"><div class="tool-icon">▦</div><h3>QR কোড জেনারেটর</h3><p>যেকোনো লেখা, ওয়েব ঠিকানা বা তথ্য থেকে QR কোড তৈরি করুন।</p><button onclick="document.querySelector('#qrTool').scrollIntoView({behavior:'smooth'})">টুলটি ব্যবহার করুন →</button></article>
+      <article class="tool"><div class="tool-icon">🖼️</div><h3>ইমেজ কমপ্রেসর</h3><p>ছবির মান ঠিক রেখে ব্রাউজারেই ফাইলের সাইজ কমান।</p><button onclick="document.querySelector('#imageTool').scrollIntoView({behavior:'smooth'})">টুলটি ব্যবহার করুন →</button></article>
+    </div>
+  </section>
+  <section class="wrap section" id="workspace">
+    <div class="section-head"><div><div class="kicker">TRY IT NOW</div><h2>অনলাইন টুলস ব্যবহার করুন</h2></div></div>
+    <div class="workspace">
+      <div class="panel" id="textTool"><h3>✍️ টেক্সট কাউন্টার</h3><textarea class="field" id="textInput" placeholder="এখানে আপনার লেখা টাইপ বা পেস্ট করুন..."></textarea><div class="row"><span class="muted">শব্দ: <b id="words">0</b></span><span class="muted">অক্ষর: <b id="chars">0</b></span><span class="muted">লাইন: <b id="lines">0</b></span></div><div class="row"><button class="primary" onclick="downloadText()">TXT ডাউনলোড</button><button class="secondary" onclick="document.querySelector('#textInput').value='';updateCount()">মুছুন</button></div></div>
+      <div class="panel" id="qrTool"><h3>▦ QR কোড জেনারেটর</h3><input class="field" id="qrInput" placeholder="লিংক বা লেখা লিখুন"><div class="row"><button class="primary" onclick="makeQR()">QR তৈরি করুন</button><button class="secondary" onclick="document.querySelector('#qrOutput').innerHTML=''">মুছুন</button></div><div id="qrOutput" class="qrbox"></div><div class="hint">QR তৈরির জন্য ইন্টারনেট সংযোগ প্রয়োজন হতে পারে।</div></div>
+      <div class="panel" id="imageTool"><h3>🖼️ ইমেজ কমপ্রেসর</h3><div class="drop"><input type="file" id="imageInput" accept="image/*"><div class="hint">JPG, PNG বা WebP ছবি নির্বাচন করুন</div></div><div class="row"><label class="muted">মান: <b id="qualityLabel">75%</b></label><input id="quality" type="range" min="20" max="95" value="75" style="flex:1"></div><div class="row"><button class="primary" onclick="compressImage()">কমপ্রেস করুন</button></div><div class="result" id="imageResult"></div><a id="imageDownload" class="secondary" style="display:none;display:inline-block;margin-top:8px" download="smart-gear-compressed.jpg">কমপ্রেস করা ছবি ডাউনলোড</a></div>
+      <div class="panel"><h3>⬇️ দ্রুত ডাউনলোড</h3><p class="muted">আপনার প্রতিষ্ঠানের প্রয়োজনীয় PDF, নোটিশ, ফরম বা অন্যান্য ফাইল এখানে যুক্ত করুন।</p><div class="hint">নিচের ডাউনলোড অংশে নিজের ফাইলের লিংক বসাতে পারবেন।</div><a class="secondary" href="#downloads" style="display:inline-block;margin-top:12px">ডাউনলোড সেকশন দেখুন</a></div>
+    </div>
+  </section>
+  <section class="wrap section" id="downloads"><div class="section-head"><div><div class="kicker">DOWNLOAD CENTER</div><h2>ফাইল ডাউনলোড</h2></div></div>
+    <div class="download-list">
+      <div class="download-item"><span class="fileicon">📄</span><div><b>প্রয়োজনীয় PDF</b><small>আপনার PDF লিংক যোগ করুন</small></div></div>
+      <div class="download-item"><span class="fileicon">📋</span><div><b>নোটিশ ও ফরম</b><small>নোটিশের ফাইল যোগ করুন</small></div></div>
+      <div class="download-item"><span class="fileicon">📦</span><div><b>অন্যান্য ফাইল</b><small>ডাউনলোড লিংক যোগ করুন</small></div></div>
+    </div>
+  </section>
+  <section class="wrap section" id="about"><div class="about"><div><div class="kicker">ABOUT SMART GEAR</div><h2 style="margin:6px 0">Smart Gear — স্মার্ট কাজের সহজ ঠিকানা</h2><p>Smart Gear একটি সহজ ও ব্যবহারবান্ধব অনলাইন টুলস প্ল্যাটফর্ম। আমাদের লক্ষ্য হলো প্রয়োজনীয় ডিজিটাল কাজগুলোকে সবার জন্য সহজলভ্য করা। এই ওয়েবসাইটটি আরও উন্নত করতে নতুন টুলস ও ডাউনলোড ফাইল নিয়মিত যোগ করা যাবে।</p></div><a class="primary" href="mailto:your-email@example.com">যোগাযোগ করুন</a></div></section>
+</main>
+<footer><div class="wrap foot"><span>© <span id="year"></span> Smart Gear. সর্বস্বত্ব সংরক্ষিত।</span><span>Made with care ✦ Free online tools</span></div></footer>
+<script>
+  document.getElementById('year').textContent=new Date().getFullYear();
+  const textInput=document.getElementById('textInput');
+  function updateCount(){const v=textInput.value;document.getElementById('chars').textContent=v.length;document.getElementById('words').textContent=v.trim()?v.trim().split(/\s+/u).length:0;document.getElementById('lines').textContent=v?v.split(/\r\n|\r|\n/).length:0}
+  textInput.addEventListener('input',updateCount);
+  function downloadText(){const blob=new Blob([textInput.value],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='smart-gear-text.txt';a.click();URL.revokeObjectURL(a.href)}
+  function makeQR(){const val=document.getElementById('qrInput').value.trim(),box=document.getElementById('qrOutput');box.innerHTML='';if(!val){box.textContent='আগে কিছু লেখা বা লিংক দিন।';return}if(!window.QRCode){box.textContent='QR লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।';return}new QRCode(box,{text:val,width:180,height:180,colorDark:'#07111f',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H})}
+  const quality=document.getElementById('quality');quality.addEventListener('input',()=>document.getElementById('qualityLabel').textContent=quality.value+'%');
+  function compressImage(){const file=document.getElementById('imageInput').files[0],result=document.getElementById('imageResult'),link=document.getElementById('imageDownload');if(!file){result.textContent='প্রথমে একটি ছবি নির্বাচন করুন।';return}const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{const canvas=document.createElement('canvas');canvas.width=img.naturalWidth;canvas.height=img.naturalHeight;canvas.getContext('2d').drawImage(img,0,0);canvas.toBlob(blob=>{if(!blob){result.textContent='ছবি কমপ্রেস করা যায়নি।';return}const newUrl=URL.createObjectURL(blob);link.href=newUrl;link.style.display='inline-block';result.textContent=`আগের সাইজ: ${(file.size/1024).toFixed(1)} KB · নতুন সাইজ: ${(blob.size/1024).toFixed(1)} KB`;},'image/jpeg',Number(quality.value)/100);URL.revokeObjectURL(url)};img.onerror=()=>result.textContent='ছবিটি খোলা যায়নি।';img.src=url}
+</script>
+</body></html>
