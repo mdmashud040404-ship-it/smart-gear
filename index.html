@@ -33,6 +33,8 @@ button:disabled{opacity:.5}
 .product .price{font-size:14px;margin:7px 0}
 .product>button{width:100%;padding:9px 5px}
 .price,.total{color:var(--gold);font-weight:bold}
+.old-price{text-decoration:line-through;color:var(--muted);font-size:12px;margin-right:5px}
+.discount-tag{display:inline-block;background:#8b3030;color:white;padding:3px 6px;border-radius:5px;font-size:11px;margin-left:4px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:18px 0}
 .muted{color:var(--muted);font-size:14px}
 .hidden{display:none!important}
@@ -54,6 +56,31 @@ footer{text-align:center;color:var(--muted);padding:25px}
 .comment-item strong{color:var(--gold)}
 .comment-item p{margin:5px 0}
 .delete-comment{background:#8b3030;color:white;width:auto!important;padding:5px 8px!important;margin-top:5px}
+
+/* Chatbot */
+.chat-launch{
+ position:fixed;right:17px;bottom:18px;z-index:10000;
+ width:58px;height:58px;border-radius:50%;
+ background:var(--gold);font-size:25px;box-shadow:0 3px 15px #0008
+}
+.chat-panel{
+ position:fixed;right:12px;bottom:88px;width:min(350px,calc(100% - 24px));
+ height:440px;max-height:70vh;background:var(--panel);
+ border:1px solid var(--line);border-radius:14px;z-index:10000;
+ display:none;flex-direction:column;overflow:hidden;box-shadow:0 5px 25px #0009
+}
+.chat-head{padding:13px;background:#26352b;display:flex;justify-content:space-between;align-items:center}
+.chat-head strong{color:var(--gold)}
+.chat-head button{padding:5px 10px}
+.chat-messages{flex:1;overflow-y:auto;padding:12px}
+.chat-message{padding:9px 11px;border-radius:10px;margin:8px 0;max-width:88%;font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.bot-message{background:#2b382f;margin-right:auto}
+.user-message{background:#66552d;margin-left:auto}
+.chat-input-area{display:flex;gap:6px;padding:9px;border-top:1px solid var(--line)}
+.chat-input-area input{margin:0;min-width:0}
+.chat-input-area button{padding:10px}
+.chat-wa{display:block;text-align:center;background:#168c49;color:white;padding:9px;margin:0 10px 10px;border-radius:8px;font-weight:bold}
+
 @media(min-width:600px){
  .products{grid-template-columns:repeat(3,minmax(0,1fr))}
  .product img{height:165px}
@@ -131,6 +158,7 @@ footer{text-align:center;color:var(--muted);padding:25px}
 
 <div class="panel">
 <p>প্রতি পণ্যের মূল্য: ৳<span id="unitPrice">0</span></p>
+<p id="discountLine" class="muted hidden">ডিসকাউন্ট: <span id="discountPercent">0</span>%</p>
 <p>পরিমাণ: <span id="showQty">1</span> টি</p>
 <p>প্রোডাক্টের মোট মূল্য: ৳<span id="productPrice">0</span></p>
 <p>ডেলিভারি চার্জ: ৳<span id="deliveryPrice">0</span></p>
@@ -147,7 +175,7 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <p>মোবাইল: 01854673321</p>
 <a href="tel:+8801854673321">📞 সরাসরি কল করুন</a>
 <a href="https://wa.me/8801854673321" target="_blank" rel="noopener">🟢 WhatsApp-এ যোগাযোগ</a>
-<a href="https://imo.im/" target="_blank" rel="noopener">💬 IMO — 01854673321</a>
+<a href="https://imo.im/" target="_blank" rel="noopener">💬 IMO</a>
 </section>
 </main>
 
@@ -161,10 +189,42 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <p>Contact: 01854673321</p>
 </footer>
 
+<!-- Chatbot -->
+<button class="chat-launch" id="chatLaunch" type="button" aria-label="Chat">💬</button>
+
+<div class="chat-panel" id="chatPanel">
+ <div class="chat-head">
+  <strong>Smart Gear সহায়তা</strong>
+  <button type="button" id="chatClose">✕</button>
+ </div>
+ <div class="chat-messages" id="chatMessages">
+  <div class="chat-message bot-message">আসসালামু আলাইকুম! Smart Gear-এ স্বাগতম। 😊
+আপনি কী জানতে চান?
+
+যেমন:
+• ডেলিভারি চার্জ
+• পেমেন্ট
+• অর্ডার করার নিয়ম
+• ডিসকাউন্ট
+• প্রোডাক্ট</div>
+ </div>
+ <div class="chat-input-area">
+  <input id="chatInput" placeholder="আপনার প্রশ্ন লিখুন...">
+  <button id="chatSend" type="button">পাঠান</button>
+ </div>
+ <a class="chat-wa" href="https://wa.me/8801854673321" target="_blank" rel="noopener">WhatsApp-এ যোগাযোগ</a>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 
 <script>
+if(!window.supabase || !window.SUPABASE_URL || !window.SUPABASE_ANON_KEY){
+ document.getElementById("products").textContent =
+ "Supabase সংযোগ পাওয়া যায়নি। config.js ফাইল পরীক্ষা করুন।";
+ throw new Error("Supabase configuration missing");
+}
+
 const db=window.supabase.createClient(
  window.SUPABASE_URL,window.SUPABASE_ANON_KEY
 );
@@ -177,11 +237,13 @@ const productsBox=document.getElementById("products");
 const orderBox=document.getElementById("orderBox");
 
 async function checkAdmin(){
- const {data:{user}}=await db.auth.getUser();
- if(!user)return;
- const {data}=await db.from("admins")
- .select("user_id").eq("user_id",user.id).maybeSingle();
- isAdmin=!!data;
+ try{
+  const {data:{user}}=await db.auth.getUser();
+  if(!user)return;
+  const {data}=await db.from("admins")
+   .select("user_id").eq("user_id",user.id).maybeSingle();
+  isAdmin=!!data;
+ }catch(e){console.log(e)}
 }
 
 function copyPaymentNumber(){
@@ -200,20 +262,32 @@ function closeImage(){
  document.getElementById("largeProductImage").src="";
 }
 
+function finalPrice(p){
+ const original=Number(p.price||0);
+ const discount=Math.max(0,Math.min(100,Number(p.discount_percent||0)));
+ return Math.round(original*(100-discount)/100*100)/100;
+}
+
 async function loadProducts(){
  productsBox.textContent="প্রোডাক্ট লোড হচ্ছে...";
  const {data,error}=await db.from("products")
- .select("id,title,description,price,image_url,is_active,created_at")
+ .select("id,title,description,price,image_url,is_active,created_at,original_price,discount_percent")
  .eq("is_active",true).order("created_at",{ascending:false});
 
- if(error){productsBox.textContent="প্রোডাক্ট লোড হয়নি: "+error.message;return;}
+ if(error){
+  productsBox.textContent="প্রোডাক্ট লোড হয়নি: "+error.message;
+  return;
+ }
  allProducts=data||[];
  showProducts(allProducts);
 }
 
 function showProducts(items){
  productsBox.innerHTML="";
- if(!items.length){productsBox.textContent="এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";return;}
+ if(!items.length){
+  productsBox.textContent="এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
+  return;
+ }
 
  items.forEach(p=>{
   const card=document.createElement("div");
@@ -234,7 +308,26 @@ function showProducts(items){
 
   const price=document.createElement("p");
   price.className="price";
-  price.textContent="৳"+Number(p.price||0);
+
+  const discount=Math.max(0,Math.min(100,Number(p.discount_percent||0)));
+  const current=finalPrice(p);
+
+  if(discount>0){
+   const old=document.createElement("span");
+   old.className="old-price";
+   old.textContent="৳"+Number(p.price||0);
+
+   const now=document.createElement("strong");
+   now.textContent="৳"+current;
+
+   const tag=document.createElement("span");
+   tag.className="discount-tag";
+   tag.textContent=discount+"% ছাড়";
+
+   price.append(old,now,tag);
+  }else{
+   price.textContent="৳"+Number(p.price||0);
+  }
 
   const btn=document.createElement("button");
   btn.textContent="অর্ডার করুন";
@@ -356,8 +449,8 @@ function openOrder(p){
 document.getElementById("search").addEventListener("input",e=>{
  const q=e.target.value.toLowerCase();
  showProducts(allProducts.filter(p=>
- (p.title||"").toLowerCase().includes(q)||
- (p.description||"").toLowerCase().includes(q)
+  (p.title||"").toLowerCase().includes(q)||
+  (p.description||"").toLowerCase().includes(q)
  ));
 });
 
@@ -385,15 +478,19 @@ function getDeliveryCharge(){
 
 function updateTotal(){
  const qty=Math.max(1,Math.min(99,Number(document.getElementById("quantity").value)||1));
- const unit=Number(selected?.price||0);
+ const unit=selected?finalPrice(selected):0;
  const productTotal=unit*qty;
  const delivery=getDeliveryCharge();
+ const discount=selected?Number(selected.discount_percent||0):0;
 
  document.getElementById("unitPrice").textContent=unit;
  document.getElementById("showQty").textContent=qty;
  document.getElementById("productPrice").textContent=productTotal;
  document.getElementById("deliveryPrice").textContent=delivery;
  document.getElementById("totalPrice").textContent=productTotal+delivery;
+
+ document.getElementById("discountLine").classList.toggle("hidden",discount<=0);
+ document.getElementById("discountPercent").textContent=discount;
 }
 document.getElementById("district").addEventListener("input",updateTotal);
 
@@ -413,7 +510,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
  msg.textContent="অর্ডার জমা হচ্ছে...";
 
  const quantity=Math.max(1,Math.min(99,Number(document.getElementById("quantity").value)||1));
- const unitPrice=Number(selected.price||0);
+ const unitPrice=finalPrice(selected);
  const productTotal=unitPrice*quantity;
  const delivery=getDeliveryCharge();
  const payment=document.getElementById("payment").value;
@@ -437,7 +534,11 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
  };
 
  const {error}=await db.from("orders").insert(order);
- if(error){msg.textContent="অর্ডার জমা হয়নি: "+error.message;btn.disabled=false;return;}
+ if(error){
+  msg.textContent="অর্ডার জমা হয়নি: "+error.message;
+  btn.disabled=false;
+  return;
+ }
 
  msg.textContent="অভিনন্দন! আপনার অর্ডার সফলভাবে জমা হয়েছে।";
 
@@ -470,6 +571,85 @@ Transaction ID: ${order.transaction_id||"COD"}`;
  msg.appendChild(document.createElement("br"));
  msg.appendChild(waLink);
  btn.textContent="অর্ডার জমা হয়েছে";
+});
+
+/* FAQ chatbot: predefined replies, not AI */
+const chatPanel=document.getElementById("chatPanel");
+const chatMessages=document.getElementById("chatMessages");
+const chatInput=document.getElementById("chatInput");
+
+document.getElementById("chatLaunch").onclick=()=>{
+ chatPanel.style.display="flex";
+ chatInput.focus();
+};
+document.getElementById("chatClose").onclick=()=>{
+ chatPanel.style.display="none";
+};
+
+function addChatMessage(text,type){
+ const div=document.createElement("div");
+ div.className="chat-message "+(type==="user"?"user-message":"bot-message");
+ div.textContent=text;
+ chatMessages.appendChild(div);
+ chatMessages.scrollTop=chatMessages.scrollHeight;
+}
+
+function getBotReply(question){
+ const q=question.toLowerCase();
+
+ if(/হ্যালো|হ্যালো|আসসালামু|সালাম|hello|hi|হাই/.test(q)){
+  return "ওয়ালাইকুম আসসালাম! Smart Gear-এ স্বাগতম। কীভাবে সাহায্য করতে পারি?";
+ }
+
+ if(/ডেলিভারি|চার্জ|কুরিয়ার|delivery/.test(q)){
+  return "চট্টগ্রাম জেলায় ডেলিভারি চার্জ ৭০ টাকা। চট্টগ্রামের বাইরে ১৪০ টাকা।";
+ }
+
+ if(/বিকাশ|bkash|নগদ|nagad|পেমেন্ট|payment/.test(q)){
+  return "আমাদের পেমেন্ট নম্বর: 01854673321। বিকাশ অথবা নগদ নির্বাচন করে পেমেন্ট করুন এবং Transaction ID লিখুন। ক্যাশ অন ডেলিভারিও আছে।";
+ }
+
+ if(/অর্ডার|কিনব|কিনতে|order/.test(q)){
+  return "প্রোডাক্টের নিচে 'অর্ডার করুন' বাটনে চাপ দিন। আপনার নাম, মোবাইল, ঠিকানা ও পেমেন্ট তথ্য দিয়ে অর্ডার নিশ্চিত করুন।";
+ }
+
+ if(/ডিসকাউন্ট|ছাড়|কম দাম|discount|offer/.test(q)){
+  const discounted=allProducts.filter(p=>Number(p.discount_percent||0)>0);
+  if(!discounted.length)return "এই মুহূর্তে কোনো প্রোডাক্টে ডিসকাউন্ট দেখানো যাচ্ছে না। নতুন অফারের জন্য প্রোডাক্টগুলো দেখুন।";
+  return "বর্তমানে ডিসকাউন্টে থাকা প্রোডাক্ট:\n"+discounted.map(p=>p.title+" — "+Number(p.discount_percent)+"% ছাড়").join("\n");
+ }
+
+ if(/প্রোডাক্ট|পণ্য|product|কী কী আছে/.test(q)){
+  if(!allProducts.length)return "এখনো প্রোডাক্টের তালিকা লোড হয়নি। একটু পরে চেষ্টা করুন।";
+  return "আমাদের প্রোডাক্ট:\n"+allProducts.slice(0,15).map(p=>p.title+" — ৳"+finalPrice(p)).join("\n");
+ }
+
+ if(/যোগাযোগ|ফোন|নম্বর|whatsapp|হোয়াটসঅ্যাপ|কল/.test(q)){
+  return "আমাদের মোবাইল ও WhatsApp নম্বর: 01854673321। সরাসরি যোগাযোগ করতে WhatsApp বাটনে চাপ দিন।";
+ }
+
+ if(/ধন্যবাদ|thanks|thank you/.test(q)){
+  return "আপনাকেও ধন্যবাদ! Smart Gear-এর সঙ্গে থাকার জন্য কৃতজ্ঞ। ❤️";
+ }
+
+ return "দুঃখিত, আপনার প্রশ্নটি বুঝতে পারিনি। ডেলিভারি, পেমেন্ট, অর্ডার, ডিসকাউন্ট বা প্রোডাক্ট সম্পর্কে প্রশ্ন করুন। জরুরি প্রয়োজনে WhatsApp: 01854673321";
+}
+
+function sendChat(){
+ const question=chatInput.value.trim();
+ if(!question)return;
+
+ addChatMessage(question,"user");
+ chatInput.value="";
+
+ setTimeout(()=>{
+  addChatMessage(getBotReply(question),"bot");
+ },350);
+}
+
+document.getElementById("chatSend").onclick=sendChat;
+chatInput.addEventListener("keydown",e=>{
+ if(e.key==="Enter")sendChat();
 });
 
 async function start(){
