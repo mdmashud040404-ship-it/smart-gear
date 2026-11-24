@@ -9,87 +9,63 @@
 
 <style>
 :root{
- --bg:#111713;
- --panel:#1b241e;
- --cream:#f2ead8;
- --muted:#b9b39f;
- --gold:#c5a45b;
- --line:#344238;
+ --bg:#111713;--panel:#1b241e;--cream:#f2ead8;
+ --muted:#b9b39f;--gold:#c5a45b;--line:#344238;
 }
 *{box-sizing:border-box}
-body{
- margin:0;background:var(--bg);color:var(--cream);
- font-family:Arial,sans-serif;
-}
-header{
- text-align:center;padding:18px;background:var(--panel);
- border-bottom:1px solid var(--line);
-}
+body{margin:0;background:var(--bg);color:var(--cream);font-family:Arial,sans-serif}
+header{text-align:center;padding:18px;background:var(--panel);border-bottom:1px solid var(--line)}
 .logo{width:80px;height:80px;object-fit:cover;border-radius:50%}
 h1{color:var(--gold);margin:8px}
-main{max-width:900px;margin:auto;padding:16px}
+main{max-width:1000px;margin:auto;padding:12px}
 input,select,textarea{
  width:100%;padding:12px;margin:7px 0 13px;
  border:1px solid var(--line);border-radius:8px;
- background:var(--bg);color:var(--cream);font-size:16px;
+ background:var(--bg);color:var(--cream);font-size:16px
 }
-button{
- border:0;border-radius:8px;padding:12px 17px;
- background:var(--gold);color:#171810;
- font-weight:bold;cursor:pointer;font-size:15px;
-}
+button{border:0;border-radius:8px;padding:11px 15px;background:var(--gold);color:#171810;font-weight:bold;cursor:pointer;font-size:14px}
 button:disabled{opacity:.5}
-.products{
- display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));
- gap:13px;
-}
-.product{
- background:var(--panel);border:1px solid var(--line);
- border-radius:12px;padding:12px;
-}
-.product img{
- width:100%;height:220px;object-fit:contain;
- background:#fff;border-radius:9px;cursor:zoom-in;
-}
-.product h3{margin:10px 0 5px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.product{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;overflow:hidden}
+.product img{width:100%;height:125px;object-fit:contain;background:#fff;border-radius:7px;cursor:zoom-in}
+.product h3{font-size:14px;line-height:1.4;margin:7px 0 4px;overflow-wrap:anywhere}
+.product .muted{font-size:12px;line-height:1.4;margin:4px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:33px}
+.product .price{font-size:14px;margin:7px 0}
+.product>button{width:100%;padding:9px 5px}
 .price,.total{color:var(--gold);font-weight:bold}
-.panel{
- background:var(--panel);border:1px solid var(--line);
- border-radius:12px;padding:16px;margin:18px 0;
-}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:18px 0}
 .muted{color:var(--muted);font-size:14px}
 .hidden{display:none!important}
 a{color:var(--gold);text-decoration:none}
 footer{text-align:center;color:var(--muted);padding:25px}
-.image-viewer{
- display:none;position:fixed;inset:0;z-index:9999;
- background:rgba(0,0,0,.96);align-items:center;
- justify-content:center;padding:15px;
-}
-.image-viewer img{
- max-width:100%;max-height:85vh;object-fit:contain;
-}
+.image-viewer{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.96);align-items:center;justify-content:center;padding:15px}
+.image-viewer img{max-width:100%;max-height:85vh;object-fit:contain}
 .image-viewer button{position:absolute;top:15px;right:15px}
-.contact-links a{
- display:block;padding:13px;margin:8px 0;
- background:var(--bg);border-radius:8px;
+.contact-links a{display:block;padding:13px;margin:8px 0;background:var(--bg);border-radius:8px}
+.qty-control{display:flex;align-items:center;gap:12px;margin:10px 0 18px}
+.qty-control input{width:75px;text-align:center;margin:0}
+.whatsapp-btn{display:block;background:#25D366;color:white;padding:14px;margin-top:12px;text-align:center;border-radius:8px;font-weight:bold}
+.comment-area{border-top:1px solid var(--line);margin-top:10px;padding-top:9px}
+.comment-area input{font-size:13px;padding:9px;margin:5px 0}
+.comment-area textarea{font-size:13px;padding:9px;margin:5px 0;min-height:65px}
+.comment-area button{width:100%;padding:8px;font-size:12px}
+.comment-list{margin-top:9px}
+.comment-item{background:var(--bg);padding:8px;border-radius:7px;margin:7px 0;font-size:12px;overflow-wrap:anywhere}
+.comment-item strong{color:var(--gold)}
+.comment-item p{margin:5px 0}
+.delete-comment{background:#8b3030;color:white;width:auto!important;padding:5px 8px!important;margin-top:5px}
+@media(min-width:600px){
+ .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .product img{height:165px}
 }
-.qty-control{
- display:flex;align-items:center;gap:12px;margin:10px 0 18px;
-}
-.qty-control input{
- width:75px;text-align:center;margin:0;
-}
-.whatsapp-btn{
- display:block;background:#25D366;color:white;
- padding:14px;margin-top:12px;text-align:center;
- border-radius:8px;font-weight:bold;
+@media(min-width:900px){
+ .products{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .product img{height:180px}
 }
 </style>
 </head>
 
 <body>
-
 <header>
 <img class="logo" src="profile.jpg" alt="Smart Gear Logo">
 <h1>Smart Gear</h1>
@@ -97,18 +73,13 @@ footer{text-align:center;color:var(--muted);padding:25px}
 </header>
 
 <main>
-
 <h2>আমাদের প্রোডাক্ট</h2>
 <input id="search" placeholder="প্রোডাক্ট খুঁজুন...">
-
-<div id="products" class="products">
-প্রোডাক্ট লোড হচ্ছে...
-</div>
+<div id="products" class="products">প্রোডাক্ট লোড হচ্ছে...</div>
 
 <section id="orderBox" class="panel hidden">
 <h2>অর্ডার ফর্ম</h2>
 <p id="selectedProduct"></p>
-
 <form id="orderForm">
 
 <label>কতটি কিনবেন?</label>
@@ -127,14 +98,10 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <label>বিভাগ</label>
 <select id="division" required>
 <option value="">বিভাগ নির্বাচন করুন</option>
-<option>চট্টগ্রাম</option>
-<option>ঢাকা</option>
-<option>রাজশাহী</option>
-<option>খুলনা</option>
-<option>বরিশাল</option>
-<option>সিলেট</option>
-<option>রংপুর</option>
-<option>ময়মনসিংহ</option>
+<option>চট্টগ্রাম</option><option>ঢাকা</option>
+<option>রাজশাহী</option><option>খুলনা</option>
+<option>বরিশাল</option><option>সিলেট</option>
+<option>রংপুর</option><option>ময়মনসিংহ</option>
 </select>
 
 <label>জেলা</label>
@@ -158,7 +125,6 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <p>পেমেন্ট নম্বর:</p>
 <h3 style="color:#c5a45b">01854673321</h3>
 <button type="button" onclick="copyPaymentNumber()">নম্বর কপি করুন</button>
-
 <label>আপনার Transaction ID</label>
 <input id="transaction" placeholder="Transaction ID লিখুন">
 </div>
@@ -172,9 +138,7 @@ footer{text-align:center;color:var(--muted);padding:25px}
 </div>
 
 <button id="submitOrder" type="submit">অর্ডার নিশ্চিত করুন</button>
-
 <p id="orderMessage" class="muted"></p>
-
 </form>
 </section>
 
@@ -185,7 +149,6 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <a href="https://wa.me/8801854673321" target="_blank" rel="noopener">🟢 WhatsApp-এ যোগাযোগ</a>
 <a href="https://imo.im/" target="_blank" rel="noopener">💬 IMO — 01854673321</a>
 </section>
-
 </main>
 
 <div class="image-viewer" id="imageViewer" onclick="closeImage()">
@@ -202,16 +165,24 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <script src="config.js"></script>
 
 <script>
-const db = window.supabase.createClient(
- window.SUPABASE_URL,
- window.SUPABASE_ANON_KEY
+const db=window.supabase.createClient(
+ window.SUPABASE_URL,window.SUPABASE_ANON_KEY
 );
 
-let allProducts = [];
-let selected = null;
+let allProducts=[];
+let selected=null;
+let isAdmin=false;
 
-const productsBox = document.getElementById("products");
-const orderBox = document.getElementById("orderBox");
+const productsBox=document.getElementById("products");
+const orderBox=document.getElementById("orderBox");
+
+async function checkAdmin(){
+ const {data:{user}}=await db.auth.getUser();
+ if(!user)return;
+ const {data}=await db.from("admins")
+ .select("user_id").eq("user_id",user.id).maybeSingle();
+ isAdmin=!!data;
+}
 
 function copyPaymentNumber(){
  navigator.clipboard.writeText("01854673321")
@@ -224,7 +195,6 @@ function openImage(url){
  document.getElementById("largeProductImage").src=url;
  document.getElementById("imageViewer").style.display="flex";
 }
-
 function closeImage(){
  document.getElementById("imageViewer").style.display="none";
  document.getElementById("largeProductImage").src="";
@@ -232,28 +202,18 @@ function closeImage(){
 
 async function loadProducts(){
  productsBox.textContent="প্রোডাক্ট লোড হচ্ছে...";
-
  const {data,error}=await db.from("products")
  .select("id,title,description,price,image_url,is_active,created_at")
- .eq("is_active",true)
- .order("created_at",{ascending:false});
+ .eq("is_active",true).order("created_at",{ascending:false});
 
- if(error){
-  productsBox.textContent="প্রোডাক্ট লোড হয়নি: "+error.message;
-  return;
- }
-
+ if(error){productsBox.textContent="প্রোডাক্ট লোড হয়নি: "+error.message;return;}
  allProducts=data||[];
  showProducts(allProducts);
 }
 
 function showProducts(items){
  productsBox.innerHTML="";
-
- if(!items.length){
-  productsBox.textContent="এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
-  return;
- }
+ if(!items.length){productsBox.textContent="এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";return;}
 
  items.forEach(p=>{
   const card=document.createElement("div");
@@ -280,21 +240,114 @@ function showProducts(items){
   btn.textContent="অর্ডার করুন";
   btn.onclick=()=>openOrder(p);
 
-  card.append(img,title,desc,price,btn);
+  const comments=document.createElement("div");
+  comments.className="comment-area";
+
+  const heading=document.createElement("strong");
+  heading.textContent="💬 ক্রেতাদের কমেন্ট";
+  comments.appendChild(heading);
+
+  const name=document.createElement("input");
+  name.placeholder="আপনার নাম";
+  name.maxLength=80;
+
+  const comment=document.createElement("textarea");
+  comment.placeholder="আপনার মতামত লিখুন...";
+  comment.maxLength=1000;
+
+  const send=document.createElement("button");
+  send.type="button";
+  send.textContent="কমেন্ট পাঠান";
+  send.onclick=()=>addComment(p.id,name,comment,send);
+
+  const list=document.createElement("div");
+  list.className="comment-list";
+  list.textContent="কমেন্ট লোড হচ্ছে...";
+
+  comments.append(name,comment,send,list);
+  card.append(img,title,desc,price,btn,comments);
   productsBox.appendChild(card);
+
+  loadComments(p.id,list);
  });
+}
+
+async function loadComments(productId,list){
+ const {data,error}=await db.from("product_comments")
+ .select("id,product_id,customer_name,comment,created_at")
+ .eq("product_id",String(productId))
+ .order("created_at",{ascending:false});
+
+ list.innerHTML="";
+ if(error){list.textContent="কমেন্ট লোড হয়নি: "+error.message;return;}
+ if(!data||!data.length){list.textContent="এখনো কোনো কমেন্ট নেই।";return;}
+
+ data.forEach(c=>{
+  const item=document.createElement("div");
+  item.className="comment-item";
+
+  const author=document.createElement("strong");
+  author.textContent=c.customer_name;
+
+  const text=document.createElement("p");
+  text.textContent=c.comment;
+
+  item.append(author,text);
+
+  if(isAdmin){
+   const del=document.createElement("button");
+   del.className="delete-comment";
+   del.textContent="কমেন্ট মুছুন";
+   del.onclick=()=>deleteComment(c.id,productId,list);
+   item.appendChild(del);
+  }
+  list.appendChild(item);
+ });
+}
+
+async function addComment(productId,nameInput,commentInput,button){
+ const name=nameInput.value.trim();
+ const comment=commentInput.value.trim();
+
+ if(name.length<2){alert("আপনার নাম লিখুন।");return;}
+ if(comment.length<2){alert("কমেন্ট লিখুন।");return;}
+
+ button.disabled=true;
+ button.textContent="পাঠানো হচ্ছে...";
+
+ const {error}=await db.from("product_comments").insert({
+  product_id:String(productId),
+  customer_name:name,
+  comment:comment
+ });
+
+ button.disabled=false;
+ button.textContent="কমেন্ট পাঠান";
+
+ if(error){alert("কমেন্ট জমা হয়নি: "+error.message);return;}
+
+ commentInput.value="";
+ const list=button.parentElement.querySelector(".comment-list");
+ await loadComments(productId,list);
+ alert("আপনার কমেন্ট জমা হয়েছে।");
+}
+
+async function deleteComment(id,productId,list){
+ if(!isAdmin){alert("শুধু অ্যাডমিন কমেন্ট মুছতে পারবেন।");return;}
+ if(!confirm("এই কমেন্টটি মুছে ফেলবেন?"))return;
+
+ const {error}=await db.from("product_comments").delete().eq("id",id);
+ if(error){alert("মুছতে সমস্যা হয়েছে: "+error.message);return;}
+ await loadComments(productId,list);
 }
 
 function openOrder(p){
  selected=p;
  document.getElementById("selectedProduct").textContent="প্রোডাক্ট: "+p.title;
  document.getElementById("quantity").value=1;
- document.getElementById("unitPrice").textContent=Number(p.price||0);
- document.getElementById("productPrice").textContent=Number(p.price||0);
-
  document.getElementById("orderMessage").textContent="";
  document.getElementById("submitOrder").disabled=false;
-
+ document.getElementById("submitOrder").textContent="অর্ডার নিশ্চিত করুন";
  orderBox.classList.remove("hidden");
  updateTotal();
  orderBox.scrollIntoView({behavior:"smooth"});
@@ -302,10 +355,9 @@ function openOrder(p){
 
 document.getElementById("search").addEventListener("input",e=>{
  const q=e.target.value.toLowerCase();
-
  showProducts(allProducts.filter(p=>
-  (p.title||"").toLowerCase().includes(q)||
-  (p.description||"").toLowerCase().includes(q)
+ (p.title||"").toLowerCase().includes(q)||
+ (p.description||"").toLowerCase().includes(q)
  ));
 });
 
@@ -327,18 +379,12 @@ document.getElementById("quantity").addEventListener("input",()=>{
 
 function getDeliveryCharge(){
  const district=document.getElementById("district").value.trim().toLowerCase();
-
- if(["চট্টগ্রাম","chittagong","chattogram","চট্টগ্রাম জেলা"].includes(district)){
-  return 70;
- }
+ if(["চট্টগ্রাম","chittagong","chattogram","চট্টগ্রাম জেলা"].includes(district))return 70;
  return 140;
 }
 
 function updateTotal(){
- const qty=Math.max(1,Math.min(99,
-  Number(document.getElementById("quantity").value)||1
- ));
-
+ const qty=Math.max(1,Math.min(99,Number(document.getElementById("quantity").value)||1));
  const unit=Number(selected?.price||0);
  const productTotal=unit*qty;
  const delivery=getDeliveryCharge();
@@ -349,12 +395,10 @@ function updateTotal(){
  document.getElementById("deliveryPrice").textContent=delivery;
  document.getElementById("totalPrice").textContent=productTotal+delivery;
 }
-
 document.getElementById("district").addEventListener("input",updateTotal);
 
 document.getElementById("payment").addEventListener("change",e=>{
  const needs=e.target.value==="bKash"||e.target.value==="Nagad";
-
  document.getElementById("transactionBox").classList.toggle("hidden",!needs);
  document.getElementById("transaction").required=needs;
 });
@@ -365,14 +409,10 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
 
  const btn=document.getElementById("submitOrder");
  const msg=document.getElementById("orderMessage");
-
  btn.disabled=true;
  msg.textContent="অর্ডার জমা হচ্ছে...";
 
- const quantity=Math.max(1,Math.min(99,
-  Number(document.getElementById("quantity").value)||1
- ));
-
+ const quantity=Math.max(1,Math.min(99,Number(document.getElementById("quantity").value)||1));
  const unitPrice=Number(selected.price||0);
  const productTotal=unitPrice*quantity;
  const delivery=getDeliveryCharge();
@@ -382,7 +422,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
   product_id:String(selected.id),
   product_title:selected.title,
   price:unitPrice,
-  quantity:quantity,
+  quantity,
   customer_name:document.getElementById("customerName").value.trim(),
   customer_phone:document.getElementById("customerPhone").value.trim(),
   division:document.getElementById("division").value,
@@ -397,12 +437,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
  };
 
  const {error}=await db.from("orders").insert(order);
-
- if(error){
-  msg.textContent="অর্ডার জমা হয়নি: "+error.message;
-  btn.disabled=false;
-  return;
- }
+ if(error){msg.textContent="অর্ডার জমা হয়নি: "+error.message;btn.disabled=false;return;}
 
  msg.textContent="অভিনন্দন! আপনার অর্ডার সফলভাবে জমা হয়েছে।";
 
@@ -432,15 +467,16 @@ Transaction ID: ${order.transaction_id||"COD"}`;
  waLink.rel="noopener";
  waLink.className="whatsapp-btn";
  waLink.textContent="🟢 WhatsApp-এ অর্ডারের তথ্য পাঠান";
-
  msg.appendChild(document.createElement("br"));
  msg.appendChild(waLink);
-
  btn.textContent="অর্ডার জমা হয়েছে";
 });
 
-loadProducts();
+async function start(){
+ await checkAdmin();
+ await loadProducts();
+}
+start();
 </script>
-
 </body>
 </html>
