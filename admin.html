@@ -1,9 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart Gear Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
 <style>
-:root{--bg:#111713;--panel:#1b241e;--cream:#f2ead8;--muted:#b9b39f;--gold:#c5a45b;--line:#344238}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font-family:system-ui,"Noto Sans Bengali",sans-serif;padding:24px}
-main{max-width:850px;margin:auto}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin:18px 0}
-h1{color:var(--gold)}label{display:block;margin:13px 0 6px}input,textarea{width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#0e1410;color:var(--cream);font:inherit}textarea{min-height:90px}
-button{background:var(--gold);color:#161910;border:0;border-radius:9px;padding:11px 16px;font-weight:750;margin:12px 8px 0 0;cursor:pointer}
+*{box-sizing:border-box}
+body{margin:0;background:#111713;color:#f2ead8;font-family:Arial;padding:20px}
+.box{max-width:600px;margin:30px auto;background:#1b241e;padding:20px;border-radius:14px}
+h2{color:#c5a45b;text-align:center}
+input,textarea,button{width:100%;padding:13px;margin:8px 0;border-radius:8px;font-size:16px}
+input,textarea{background:#111713;color:white;border:1px solid #536052}
+button{background:#c5a45b;color:#111713;border:0;font-weight:bold}
+.hidden{display:none}
+.item{border:1px solid #536052;padding:12px;margin:10px 0}
+#status{color:#e8c979}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>Smart Gear Admin</h2>
+<p id="status">লোড হচ্ছে...</p>
+<div id="login" class="hidden">
+<h3>Admin Login</h3>
+<form id="loginForm">
+<input id="email" type="email" placeholder="Email" required>
+<input id="password" type="password" placeholder="Password" required>
+<button>Login</button>
+</form>
+</div>
+<div id="dashboard" class="hidden">
+<h3>নতুন প্রোডাক্ট যোগ করুন</h3>
+<form id="productForm">
+<input id="title" placeholder="প্রোডাক্টের নাম" required>
+<textarea id="description" placeholder="বিবরণ"></textarea>
+<input id="price" type="number" placeholder="দাম" required>
+<label>ছবি</label>
+<input id="image" type="file" accept="image/*" required>
+<label>ডিজিটাল ফাইল</label>
+<input id="file" type="file" required>
+<button>প্রোডাক্ট যোগ করুন</button>
+</form>
+<h3>প্রোডাক্ট তালিকা</h3>
+<div id="products"></div>
+<button id="logout">Logout</button>
+</div>
+</div>
+<script>
+const db=window.supabase.createClient(
+window.SUPABASE_URL,window.SUPABASE_ANON_KEY);
+const statusBox=document.getElementById("status");
+const login=document.getElementById("login");
+const dashboard=document.getElementById("dashboard");
 
-
- 
+function showLogin(){
+login.classList.remove("hidden");
+dashboard.classList.add("hidden");
+}
+function showDashboard(){
+login.classList.add("hidden");
+dashboard.classList.remove("hidden");
+loadProducts();
+}
+async function checkAdmin(){
+const {data:{user}}=await db.auth.getUser();
+if(!user){showLogin();statusBox.textContent="অ্যাডমিন লগইন করুন";return;}
+const {data,error}=await db.from("admins")
+.select("user_id").eq("user_id",user.id).maybeSingle();
+if(error||!data){
+await db.auth.signOut();
+showLogin();
+statusBox.textContent="অ্যাডমিন অনুমোদন পাওয়া যায়নি";
+return;
+}
+statusBox.textContent="লগইন সফল";
+showDashboard();
+}
+document.getElementById("loginForm").onsubmit=async e=>{
+e.preventDefault();
+statusBox.textContent="লগইন হচ্ছে...";
+const {error}=await db.auth.signInWithPassword({
+email:document.getElementById("email").value.trim(),
+password:document.getElementById("password").value
+});
+if(error){statusBox.textContent=error.message;return;}
+checkAdmin();
+};
+async function upload(file){
+const path=crypto.randomUUID()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+const {error}=await db.storage.from("product-assets").upload(path,file);
+if(error)throw error;
+return db.storage.from("product-assets").getPublicUrl(path).data.publicUrl;
+}
+document.getElementById("productForm").onsubmit=async e=>{
+e.preventDefault();
+statusBox.textContent="আপলোড হচ্ছে...";
+try{
+const image=await upload(document.getElementById("image").files[0]);
+const file=await upload(document.getElementById("file").files[0]);
+const {error}=await db.from("products").insert({
+title:document.getElementById("title").value.trim(),
+description:document.getElementById("description").value.trim(),
+price:Number(document.getElementById("price").value),
+image_url:image,download_url:file,is_active:true
+});
+if(error)throw error;
+statusBox.textContent="প্রোডাক্ট যোগ হয়েছে";
+e.target.reset();
+loadProducts();
+}catch(err){statusBox.textContent=err.message;}
+};
+async function loadProducts(){
+const area=document.getElementById("products");
+area.textContent="লোড হচ্ছে...";
+const {data,error}=await db.from("products")
+.select("id,title,price,is_active").order("created_at",{ascending:false});
+if(error){area.textContent=error.message;return;}
+area.innerHTML="";
+(data||[]).forEach(p=>{
+const div=document.createElement("div");
+div.className="item";
+const name=document.createElement("p");
+name.textContent=p.title+" — ৳"+p.price;
+const toggle=document.createElement("button");
+toggle.textContent=p.is_active?"নিষ্ক্রিয় করুন":"সক্রিয় করুন";
+toggle.onclick=async()=>{
+const {error}=await db.from("products")
+.update({is_active:!p.is_active}).eq("id",p.id);
+if(error)alert(error.message);
+loadProducts();
+};
+const del=document.createElement("button");
+del.textContent="ডিলিট";
+del.onclick=async()=>{
+if(!confirm("ডিলিট করবেন?"))return;
+const {error}=await db.from("products").delete().eq("id",p.id);
+if(error)alert(error.message);
+loadProducts();
+};
+div.append(name,toggle,del);
+area.appendChild(div);
+});
+}
+document.getElementById("logout").onclick=async()=>{
+await db.auth.signOut();
+showLogin();
+statusBox.textContent="লগআউট হয়েছে";
+};
+checkAdmin().catch(err=>{
+statusBox.textContent=err.message;
+showLogin();
+});
+</script>
+</body>
+</html>
