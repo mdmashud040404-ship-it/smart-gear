@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Smart Gear Admin</title>
+<style>
+:root{--bg:#111713;--panel:#1b241e;--cream:#f2ead8;--muted:#b9b39f;--gold:#c5a45b;--line:#344238}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font-family:system-ui,"Noto Sans Bengali",sans-serif;padding:24px}
+main{max-width:850px;margin:auto}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin:18px 0}
+h1{color:var(--gold)}label{display:block;margin:13px 0 6px}input,textarea{width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#0e1410;color:var(--cream);font:inherit}textarea{min-height:90px}
+button{background:var(--gold);color:#161910;border:0;border-radius:9px;padding:11px 16px;font-weight:750;margin:12px 8px 0 0;cursor:pointer}
+.secondary{background:#344238;color:var(--cream)}.danger{background:#8d3939;color:white}.hidden{display:none}.item{border-top:1px solid var(--line);padding:14px 0}.muted{color:var(--muted);font-size:14px}a{color:var(--gold)}
+</style></head><body><main><a href="index.html">← ওয়েবসাইটে ফিরুন</a><h1>Smart Gear — Admin Panel</h1>
+<section id="loginBox" class="panel"><h2>Admin Login</h2><p class="muted">Supabase-এ তৈরি করা Admin email ও password দিয়ে লগইন করুন।</p><label>Email</label><input id="email" type="email" autocomplete="username"><label>Password</label><input id="password" type="password" autocomplete="current-password"><button id="login">Login</button><p id="loginMsg" class="muted"></p></section>
+<section id="appBox" class="hidden">
+<div class="panel"><h2>নতুন প্রোডাক্ট যোগ করুন</h2>
+<label>প্রোডাক্টের নাম *</label><input id="title" required>
+<label>বর্ণনা</label><textarea id="description"></textarea>
+<label>মূল্য (যেমন ৳১৫০)</label><input id="price">
+<label>প্রোডাক্টের ছবি (ঐচ্ছিক)</label><input id="image" type="file" accept="image/*">
+<label>ডিজিটাল ফাইল (ঐচ্ছিক: PDF, ZIP, APK ইত্যাদি)</label><input id="file" type="file">
+<button id="save">প্রোডাক্ট প্রকাশ করুন</button><p id="saveMsg" class="muted"></p>
+</div><div class="panel"><h2>প্রোডাক্ট পরিচালনা</h2><div id="list" class="muted">লোড হচ্ছে…</div><button id="logout" class="secondary">Logout</button></div>
+</section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script>
+<script>
+let db;
+const $=id=>document.getElementById(id);
+function msg(id,t){$(id).textContent=t;}
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function init(){
+ if(!window.SUPABASE_URL||!window.SUPABASE_ANON_KEY||window.SUPABASE_URL.includes('YOUR_')){msg('loginMsg','প্রথমে config.js-এ Supabase Project URL ও anon key বসান।');return;}
+ db=supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);
+ db.auth.onAuthStateChange((_e,session)=>show(session));
+ const {data:{session}}=await db.auth.getSession();show(session);
+}
+function show(session){$('loginBox').classList.toggle('hidden',!!session);$('appBox').classList.toggle('hidden',!session);if(session)loadProducts();}
+$('login').onclick=async()=>{const {error}=await db.auth.signInWithPassword({email:$('email').value,password:$('password').value});msg('loginMsg',error?error.message:'লগইন হচ্ছে…');};
+$('logout').onclick=async()=>{await db.auth.signOut();};
+async function upload(file,folder){
+ if(!file)return null;
+ const path=folder+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+ const {error}=await db.storage.from('product-assets').upload(path,file);
+ if(error)throw error;
+ const {data}=db.storage.from('product-assets').getPublicUrl(path);return data.publicUrl;
+}
+$('save').onclick=async()=>{
+ try{
+ const title=$('title').value.trim();if(!title){msg('saveMsg','প্রোডাক্টের নাম লিখুন।');return;}
+ msg('saveMsg','আপলোড হচ্ছে…');
+ const image_url=await upload($('image').files[0],'images');
+ const download_url=await upload($('file').files[0],'downloads');
+ const {error}=await db.from('products').insert({title,description:$('description').value,price:$('price').value,image_url,download_url,is_active:true});
+ if(error)throw error;
+ ['title','description','price','image','file'].forEach(id=>$(id).value='');
+ msg('saveMsg','প্রোডাক্ট সফলভাবে প্রকাশিত হয়েছে।');loadProducts();
+ }catch(e){msg('saveMsg','সমস্যা হয়েছে: '+e.message);}
+};
+async function loadProducts(){
+ const {data,error}=await db.from('products').select('*').order('created_at',{ascending:false});
+ if(error){$('list').textContent=error.message;return;}
+ $('list').innerHTML=(data||[]).map(p=>`<div class="item"><b>${safe(p.title)}</b> — ${safe(p.price||'মূল্য উল্লেখ নেই')}<br><span class="muted">${p.is_active?'প্রকাশিত':'লুকানো'}</span><br><button class="secondary" onclick="toggleProduct('${p.id}',${!p.is_active})">${p.is_active?'লুকান':'প্রকাশ করুন'}</button><button class="danger" onclick="deleteProduct('${p.id}')">মুছুন</button></div>`).join('')||'কোনো প্রোডাক্ট নেই।';
+}
+window.toggleProduct=async(id,value)=>{const {error}=await db.from('products').update({is_active:value}).eq('id',id);if(error)alert(error.message);loadProducts();};
+window.deleteProduct=async(id)=>{if(!confirm('এই প্রোডাক্টটি মুছে ফেলবেন?'))return;const {error}=await db.from('products').delete().eq('id',id);if(error)alert(error.message);loadProducts();};
+init();
+</script></body></html>
