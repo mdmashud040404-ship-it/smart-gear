@@ -1,51 +1,258 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111713">
 <title>Smart Gear — Digital Store</title>
 <style>
 :root{--bg:#111713;--panel:#1b241e;--cream:#f2ead8;--muted:#b9b39f;--gold:#c5a45b;--line:#344238}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}
-header{padding:26px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);gap:16px;flex-wrap:wrap}
-.brand{font-size:25px;font-weight:800;color:var(--gold)}nav a{color:var(--cream);text-decoration:none;margin-left:18px}
-.hero{padding:60px 6% 44px;background:linear-gradient(120deg,#1b2a20,#111713)}h1{font-size:clamp(32px,6vw,54px);margin:0 0 12px}.hero p{color:var(--muted);max-width:650px;line-height:1.8}
-.wrap{padding:34px 6%}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-input,button{font:inherit}input{background:#0e1410;color:var(--cream);border:1px solid var(--line);padding:12px 14px;border-radius:10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:22px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.card img{width:100%;height:170px;object-fit:cover;background:#29352d}.inside{padding:16px}.inside h3{margin:0 0 8px}.inside p{color:var(--muted);line-height:1.6;min-height:48px}
-.price{color:var(--gold);font-weight:800;font-size:19px}.btn{display:inline-block;background:var(--gold);color:#161910;text-decoration:none;border:0;padding:11px 16px;border-radius:10px;font-weight:750;cursor:pointer;margin-top:10px}
-footer{border-top:1px solid var(--line);padding:28px 6%;color:var(--muted);line-height:2}footer a{color:var(--gold);text-decoration:none;margin-right:14px}
-.notice{color:var(--muted);padding:22px 0}.small{font-size:13px;color:var(--muted)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font-family:Arial,sans-serif}
+header{padding:18px 15px;text-align:center;background:#1b241e;border-bottom:1px solid var(--line)}
+.logo{width:75px;height:75px;border-radius:50%;object-fit:cover}
+h1{color:var(--gold);margin:8px 0 4px}
+header p{color:var(--muted);margin:0}
+main{max-width:850px;margin:auto;padding:16px}
+input,select,textarea{width:100%;padding:12px;margin:7px 0 13px;border:1px solid var(--line);border-radius:8px;background:#111713;color:var(--cream);font-size:16px}
+button{border:0;border-radius:8px;padding:12px 17px;background:var(--gold);color:#171810;font-weight:bold;font-size:15px;cursor:pointer}
+button:disabled{opacity:.5}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
+.product{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+.product img{width:100%;height:145px;object-fit:cover;border-radius:8px;background:#27332b}
+.product h3{margin:10px 0 5px}
+.price{color:var(--gold);font-weight:bold;margin:8px 0}
+.muted{color:var(--muted);font-size:14px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:18px 0}
+.hidden{display:none!important}
+.total{font-size:19px;color:var(--gold);font-weight:bold}
+footer{text-align:center;color:var(--muted);padding:25px}
+a{color:var(--gold)}
 </style>
 </head>
 <body>
-<header><div class="brand">SMART GEAR</div><nav><a href="#products">প্রোডাক্ট</a><a href="#contact">যোগাযোগ</a><a href="admin.html">Admin</a></nav></header>
-<section class="hero"><h1>আপনার ডিজিটাল পণ্যের বিশ্বস্ত ঠিকানা</h1><p>ই-বুক, টেমপ্লেট, সফটওয়্যার, ডিজিটাল ফাইলসহ প্রয়োজনীয় ডিজিটাল পণ্য এক জায়গায়। নতুন পণ্য নিয়মিত যোগ করা হবে।</p><a class="btn" href="#products">প্রোডাক্ট দেখুন</a></section>
-<main class="wrap" id="products"><div class="sectionhead"><div><h2>ডিজিটাল প্রোডাক্ট</h2><div class="small">সর্বশেষ যুক্ত পণ্যগুলো এখানে দেখুন</div></div><input id="search" placeholder="প্রোডাক্ট খুঁজুন…" aria-label="প্রোডাক্ট খুঁজুন"></div><div id="productsGrid" class="grid"><div class="notice">প্রোডাক্ট লোড হচ্ছে…</div></div></main>
-<footer id="contact"><h2>যোগাযোগ করুন</h2>
-<div>মোবাইল / WhatsApp / IMO: <a href="tel:01854673321">০১৮৫৪৬৭৩৩২১</a></div>
-<div>WhatsApp: <a href="https://wa.me/8801854673321" target="_blank" rel="noopener">চ্যাট করুন</a> · IMO: <a href="https://imo.im/" target="_blank" rel="noopener">IMO</a></div>
-<div>বিকাশ / নগদ: <strong>০১৮৫৪৬৭৩৩২১</strong></div>
-<p class="small">পেমেন্ট করার আগে WhatsApp-এ যোগাযোগ করে পণ্যের মূল্য ও পেমেন্টের তথ্য নিশ্চিত করুন।</p>
+<header>
+<img class="logo" src="profile.jpg" alt="Smart Gear Logo">
+<h1>Smart Gear</h1>
+<p>আপনার বিশ্বস্ত ডিজিটাল স্টোর</p>
+</header>
+
+<main>
+<h2>আমাদের প্রোডাক্ট</h2>
+<input id="search" placeholder="প্রোডাক্ট খুঁজুন...">
+<div id="products" class="products">প্রোডাক্ট লোড হচ্ছে...</div>
+
+<section id="orderBox" class="panel hidden">
+<h2>অর্ডার ফর্ম</h2>
+<p id="selectedProduct"></p>
+<form id="orderForm">
+<label>আপনার নাম</label>
+<input id="customerName" required placeholder="সম্পূর্ণ নাম">
+
+<label>মোবাইল নম্বর</label>
+<input id="customerPhone" required type="tel" placeholder="01XXXXXXXXX">
+
+<label>বিভাগ</label>
+<select id="division" required>
+<option value="">বিভাগ নির্বাচন করুন</option>
+<option>চট্টগ্রাম</option><option>ঢাকা</option><option>রাজশাহী</option>
+<option>খুলনা</option><option>বরিশাল</option><option>সিলেট</option>
+<option>রংপুর</option><option>ময়মনসিংহ</option>
+</select>
+
+<label>জেলা</label>
+<input id="district" required placeholder="আপনার জেলার নাম">
+
+<label>উপজেলা / থানা</label>
+<input id="upazila" required placeholder="উপজেলা বা থানার নাম">
+
+<label>গ্রাম / এলাকা / বাসা ও রাস্তার ঠিকানা</label>
+<textarea id="address" required rows="3" placeholder="সম্পূর্ণ ডেলিভারি ঠিকানা"></textarea>
+
+<label>পেমেন্ট পদ্ধতি</label>
+<select id="payment" required>
+<option value="">পেমেন্ট নির্বাচন করুন</option>
+<option value="bKash">বিকাশ</option>
+<option value="Nagad">নগদ</option>
+<option value="COD">ক্যাশ অন ডেলিভারি</option>
+</select>
+
+<div id="transactionBox" class="hidden">
+<label>Transaction ID</label>
+<input id="transaction" placeholder="পেমেন্টের Transaction ID">
+<p class="muted">বিকাশ/নগদে পেমেন্ট করার পর Transaction ID লিখুন।</p>
+</div>
+
+<div class="panel">
+<p>প্রোডাক্ট মূল্য: ৳<span id="productPrice">0</span></p>
+<p>ডেলিভারি চার্জ: ৳<span id="deliveryPrice">0</span></p>
+<p class="total">সর্বমোট: ৳<span id="totalPrice">0</span></p>
+</div>
+
+<button id="submitOrder" type="submit">অর্ডার নিশ্চিত করুন</button>
+<p id="orderMessage" class="muted"></p>
+</form>
+</section>
+</main>
+
+<footer>
+<p>Smart Gear — Digital Store</p>
+<p>যোগাযোগ: 01854673321</p>
+<a href="https://wa.me/8801854673321">WhatsApp যোগাযোগ</a>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
-const grid=document.getElementById('productsGrid'), search=document.getElementById('search');
-let products=[];
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function render(){
- const q=search.value.trim().toLowerCase();
- const list=products.filter(p=>(p.title+' '+(p.description||'')).toLowerCase().includes(q));
- grid.innerHTML=list.length?list.map(p=>`<article class="card">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.title)}">`:'<div style="height:170px;display:grid;place-items:center;color:#c5a45b">SMART GEAR</div>'}<div class="inside"><h3>${esc(p.title)}</h3><p>${esc(p.description||'ডিজিটাল প্রোডাক্ট')}</p><div class="price">${esc(p.price||'মূল্য জানতে যোগাযোগ করুন')}</div>${p.download_url?`<a class="btn" href="${esc(p.download_url)}" target="_blank" rel="noopener">ডাউনলোড</a>`:`<a class="btn" href="https://wa.me/8801854673321" target="_blank" rel="noopener">অর্ডার / যোগাযোগ</a>`}</div></article>`).join(''):'<div class="notice">এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।</div>';
+const db = window.supabase.createClient(
+  window.SUPABASE_URL,
+  window.SUPABASE_ANON_KEY
+);
+
+let allProducts = [];
+let selected = null;
+
+const productsBox = document.getElementById("products");
+const orderBox = document.getElementById("orderBox");
+
+async function loadProducts(){
+  productsBox.textContent = "প্রোডাক্ট লোড হচ্ছে...";
+  const {data,error} = await db.from("products")
+    .select("id,title,description,price,image_url,is_active,created_at")
+    .eq("is_active",true)
+    .order("created_at",{ascending:false});
+
+  if(error){
+    productsBox.textContent = "প্রোডাক্ট লোড হয়নি: " + error.message;
+    return;
+  }
+  allProducts = data || [];
+  showProducts(allProducts);
 }
-async function load(){
- if(!window.SUPABASE_URL||!window.SUPABASE_ANON_KEY||window.SUPABASE_URL.includes('YOUR_')){grid.innerHTML='<div class="notice">Supabase সেটআপ বাকি আছে। ZIP-এর README.txt অনুসরণ করে config.js-এ Project URL ও anon key বসান।</div>';return;}
- const client=supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);
- const {data,error}=await client.from('products').select('*').eq('is_active',true).order('created_at',{ascending:false});
- if(error){grid.innerHTML='<div class="notice">প্রোডাক্ট লোড করা যায়নি। Supabase SQL ও config পরীক্ষা করুন।</div>';return;}
- products=data||[];render();
+
+function showProducts(items){
+  productsBox.innerHTML = "";
+  if(!items.length){
+    productsBox.textContent = "এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
+    return;
+  }
+
+  items.forEach(p=>{
+    const card = document.createElement("div");
+    card.className = "product";
+
+    const img = document.createElement("img");
+    img.src = p.image_url || "";
+    img.alt = p.title || "Product";
+
+    const title = document.createElement("h3");
+    title.textContent = p.title || "";
+
+    const desc = document.createElement("p");
+    desc.className = "muted";
+    desc.textContent = p.description || "";
+
+    const price = document.createElement("p");
+    price.className = "price";
+    price.textContent = "৳" + Number(p.price || 0);
+
+    const btn = document.createElement("button");
+    btn.textContent = "অর্ডার করুন";
+    btn.onclick = ()=>openOrder(p);
+
+    card.append(img,title,desc,price,btn);
+    productsBox.appendChild(card);
+  });
 }
-search.addEventListener('input',render);load();
-</script></body></html>
+
+function openOrder(p){
+  selected = p;
+  document.getElementById("selectedProduct").textContent =
+    "প্রোডাক্ট: " + p.title;
+  document.getElementById("productPrice").textContent =
+    Number(p.price || 0);
+  orderBox.classList.remove("hidden");
+  updateTotal();
+  orderBox.scrollIntoView({behavior:"smooth"});
+}
+
+document.getElementById("search").addEventListener("input",e=>{
+  const q = e.target.value.toLowerCase();
+  showProducts(allProducts.filter(p=>
+    (p.title || "").toLowerCase().includes(q) ||
+    (p.description || "").toLowerCase().includes(q)
+  ));
+});
+
+function getDeliveryCharge(){
+  const district = document.getElementById("district").value.trim().toLowerCase();
+  return district === "চট্টগ্রাম" || district === "chittagong" ||
+         district === "চট্টগ্রাম জেলা" ? 70 : 140;
+}
+
+function updateTotal(){
+  const price = Number(selected?.price || 0);
+  const delivery = getDeliveryCharge();
+  document.getElementById("deliveryPrice").textContent = delivery;
+  document.getElementById("totalPrice").textContent = price + delivery;
+}
+
+document.getElementById("district").addEventListener("input",updateTotal);
+
+document.getElementById("payment").addEventListener("change",e=>{
+  const needsTransaction = e.target.value === "bKash" || e.target.value === "Nagad";
+  document.getElementById("transactionBox").classList.toggle("hidden",!needsTransaction);
+  document.getElementById("transaction").required = needsTransaction;
+});
+
+document.getElementById("orderForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(!selected) return;
+
+  const btn = document.getElementById("submitOrder");
+  const msg = document.getElementById("orderMessage");
+  btn.disabled = true;
+  msg.textContent = "অর্ডার জমা হচ্ছে...";
+
+  const delivery = getDeliveryCharge();
+  const price = Number(selected.price || 0);
+  const payment = document.getElementById("payment").value;
+
+  const order = {
+    product_id: String(selected.id),
+    product_title: selected.title,
+    price: price,
+    customer_name: document.getElementById("customerName").value.trim(),
+    customer_phone: document.getElementById("customerPhone").value.trim(),
+    division: document.getElementById("division").value,
+    district: document.getElementById("district").value.trim(),
+    upazila: document.getElementById("upazila").value.trim(),
+    delivery_address: document.getElementById("address").value.trim(),
+    delivery_charge: delivery,
+    total_amount: price + delivery,
+    payment_method: payment,
+    transaction_id: document.getElementById("transaction").value.trim() || null,
+    status: "pending"
+  };
+
+  const {error} = await db.from("orders").insert(order);
+
+  if(error){
+    msg.textContent = "অর্ডার জমা হয়নি: " + error.message;
+    btn.disabled = false;
+    return;
+  }
+
+  msg.textContent = "অভিনন্দন! আপনার অর্ডার সফলভাবে জমা হয়েছে।";
+  document.getElementById("orderForm").reset();
+  document.getElementById("transactionBox").classList.add("hidden");
+  orderBox.classList.add("hidden");
+  selected = null;
+  btn.disabled = false;
+});
+
+loadProducts();
+</script>
+</body>
+</html>
