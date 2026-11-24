@@ -24,7 +24,7 @@ input,select,textarea{
  background:var(--bg);color:var(--cream);font-size:16px
 }
 button{border:0;border-radius:8px;padding:11px 15px;background:var(--gold);color:#171810;font-weight:bold;cursor:pointer;font-size:14px}
-button:disabled{opacity:.5}
+button:disabled{opacity:.5;cursor:not-allowed}
 .products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .product{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;overflow:hidden}
 .product img{width:100%;height:125px;object-fit:contain;background:#fff;border-radius:7px;cursor:zoom-in}
@@ -48,7 +48,6 @@ footer{text-align:center;color:var(--muted);padding:25px}
 .qty-control input{width:75px;text-align:center;margin:0}
 .whatsapp-btn{display:block;background:#25D366;color:white;padding:14px;margin-top:12px;text-align:center;border-radius:8px;font-weight:bold}
 .comment-area{border-top:1px solid var(--line);margin-top:10px;padding-top:9px}
-.comment-area input{font-size:13px;padding:9px;margin:5px 0}
 .comment-area textarea{font-size:13px;padding:9px;margin:5px 0;min-height:65px}
 .comment-area button{width:100%;padding:8px;font-size:12px}
 .comment-list{margin-top:9px}
@@ -111,9 +110,9 @@ footer{text-align:center;color:var(--muted);padding:25px}
 
 <label>কতটি কিনবেন?</label>
 <div class="qty-control">
-<button type="button" onclick="changeQty(-1)">−</button>
+<button type="button" id="minusQty">−</button>
 <input id="quantity" type="number" min="1" max="99" value="1" required>
-<button type="button" onclick="changeQty(1)">+</button>
+<button type="button" id="plusQty">+</button>
 </div>
 
 <label>আপনার নাম</label>
@@ -151,7 +150,7 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <div id="transactionBox" class="hidden">
 <p>পেমেন্ট নম্বর:</p>
 <h3 style="color:#c5a45b">01854673321</h3>
-<button type="button" onclick="copyPaymentNumber()">নম্বর কপি করুন</button>
+<button type="button" id="copyPayment">নম্বর কপি করুন</button>
 <label>আপনার Transaction ID</label>
 <input id="transaction" placeholder="Transaction ID লিখুন">
 </div>
@@ -179,8 +178,8 @@ footer{text-align:center;color:var(--muted);padding:25px}
 </section>
 </main>
 
-<div class="image-viewer" id="imageViewer" onclick="closeImage()">
-<button type="button">বন্ধ করুন ✕</button>
+<div class="image-viewer" id="imageViewer">
+<button type="button" id="closeImageBtn">বন্ধ করুন ✕</button>
 <img id="largeProductImage" src="" alt="Product Image">
 </div>
 
@@ -189,7 +188,6 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <p>Contact: 01854673321</p>
 </footer>
 
-<!-- Chatbot -->
 <button class="chat-launch" id="chatLaunch" type="button" aria-label="Chat">💬</button>
 
 <div class="chat-panel" id="chatPanel">
@@ -219,330 +217,379 @@ footer{text-align:center;color:var(--muted);padding:25px}
 <script src="config.js"></script>
 
 <script>
-if(!window.supabase || !window.SUPABASE_URL || !window.SUPABASE_ANON_KEY){
- document.getElementById("products").textContent =
- "Supabase সংযোগ পাওয়া যায়নি। config.js ফাইল পরীক্ষা করুন।";
- throw new Error("Supabase configuration missing");
+"use strict";
+
+const productsBox = document.getElementById("products");
+const orderBox = document.getElementById("orderBox");
+
+if (!window.supabase || !window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+  productsBox.textContent = "Supabase সংযোগ পাওয়া যায়নি। config.js ফাইল পরীক্ষা করুন।";
+  throw new Error("Supabase configuration missing");
 }
 
-const db=window.supabase.createClient(
- window.SUPABASE_URL,window.SUPABASE_ANON_KEY
+const db = window.supabase.createClient(
+  window.SUPABASE_URL,
+  window.SUPABASE_ANON_KEY
 );
 
-let allProducts=[];
-let selected=null;
-let isAdmin=false;
+let allProducts = [];
+let selected = null;
+let isAdmin = false;
 
-const productsBox=document.getElementById("products");
-const orderBox=document.getElementById("orderBox");
+const $ = id => document.getElementById(id);
 
-async function checkAdmin(){
- try{
-  const {data:{user}}=await db.auth.getUser();
-  if(!user)return;
-  const {data}=await db.from("admins")
-   .select("user_id").eq("user_id",user.id).maybeSingle();
-  isAdmin=!!data;
- }catch(e){console.log(e)}
+function finalPrice(p) {
+  const price = Number(p.price || 0);
+  const discount = Math.max(0, Math.min(100, Number(p.discount_percent || 0)));
+  return Math.round(price * (100 - discount) / 100 * 100) / 100;
 }
 
-function copyPaymentNumber(){
- navigator.clipboard.writeText("01854673321")
- .then(()=>alert("পেমেন্ট নম্বর কপি হয়েছে"))
- .catch(()=>alert("পেমেন্ট নম্বর: 01854673321"));
+async function checkAdmin() {
+  try {
+    const { data: { user } } = await db.auth.getUser();
+    if (!user) return;
+
+    const { data, error } = await db.from("admins")
+      .select("user_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    isAdmin = !error && !!data;
+  } catch (error) {
+    console.log("Admin check:", error);
+  }
 }
 
-function openImage(url){
- if(!url)return;
- document.getElementById("largeProductImage").src=url;
- document.getElementById("imageViewer").style.display="flex";
-}
-function closeImage(){
- document.getElementById("imageViewer").style.display="none";
- document.getElementById("largeProductImage").src="";
-}
+async function loadProducts() {
+  productsBox.textContent = "প্রোডাক্ট লোড হচ্ছে...";
 
-function finalPrice(p){
- const original=Number(p.price||0);
- const discount=Math.max(0,Math.min(100,Number(p.discount_percent||0)));
- return Math.round(original*(100-discount)/100*100)/100;
-}
+  try {
+    const { data, error } = await db.from("products")
+      .select("id,title,description,price,image_url,is_active,created_at,original_price,discount_percent")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
 
-async function loadProducts(){
- productsBox.textContent="প্রোডাক্ট লোড হচ্ছে...";
- const {data,error}=await db.from("products")
- .select("id,title,description,price,image_url,is_active,created_at,original_price,discount_percent")
- .eq("is_active",true).order("created_at",{ascending:false});
+    if (error) throw error;
 
- if(error){
-  productsBox.textContent="প্রোডাক্ট লোড হয়নি: "+error.message;
-  return;
- }
- allProducts=data||[];
- showProducts(allProducts);
+    allProducts = data || [];
+    showProducts(allProducts);
+
+  } catch (error) {
+    console.error("Product loading error:", error);
+    productsBox.textContent = "প্রোডাক্ট লোড হয়নি: " + error.message;
+  }
 }
 
-function showProducts(items){
- productsBox.innerHTML="";
- if(!items.length){
-  productsBox.textContent="এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
-  return;
- }
+function showProducts(items) {
+  productsBox.innerHTML = "";
 
- items.forEach(p=>{
-  const card=document.createElement("div");
-  card.className="product";
-
-  const img=document.createElement("img");
-  img.src=p.image_url||"";
-  img.alt=p.title||"Product";
-  img.loading="lazy";
-  img.onclick=()=>openImage(p.image_url);
-
-  const title=document.createElement("h3");
-  title.textContent=p.title||"";
-
-  const desc=document.createElement("p");
-  desc.className="muted";
-  desc.textContent=p.description||"";
-
-  const price=document.createElement("p");
-  price.className="price";
-
-  const discount=Math.max(0,Math.min(100,Number(p.discount_percent||0)));
-  const current=finalPrice(p);
-
-  if(discount>0){
-   const old=document.createElement("span");
-   old.className="old-price";
-   old.textContent="৳"+Number(p.price||0);
-
-   const now=document.createElement("strong");
-   now.textContent="৳"+current;
-
-   const tag=document.createElement("span");
-   tag.className="discount-tag";
-   tag.textContent=discount+"% ছাড়";
-
-   price.append(old,now,tag);
-  }else{
-   price.textContent="৳"+Number(p.price||0);
+  if (!items.length) {
+    productsBox.textContent = "এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
+    return;
   }
 
-  const btn=document.createElement("button");
-  btn.textContent="অর্ডার করুন";
-  btn.onclick=()=>openOrder(p);
+  items.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "product";
 
-  const comments=document.createElement("div");
-  comments.className="comment-area";
+    const img = document.createElement("img");
+    img.src = p.image_url || "";
+    img.alt = p.title || "Product";
+    img.loading = "lazy";
+    img.onclick = () => openImage(p.image_url);
 
-  const heading=document.createElement("strong");
-  heading.textContent="💬 ক্রেতাদের কমেন্ট";
-  comments.appendChild(heading);
+    const title = document.createElement("h3");
+    title.textContent = p.title || "";
 
-  const name=document.createElement("input");
-  name.placeholder="আপনার নাম";
-  name.maxLength=80;
+    const desc = document.createElement("p");
+    desc.className = "muted";
+    desc.textContent = p.description || "";
 
-  const comment=document.createElement("textarea");
-  comment.placeholder="আপনার মতামত লিখুন...";
-  comment.maxLength=1000;
+    const price = document.createElement("p");
+    price.className = "price";
 
-  const send=document.createElement("button");
-  send.type="button";
-  send.textContent="কমেন্ট পাঠান";
-  send.onclick=()=>addComment(p.id,name,comment,send);
+    const discount = Math.max(0, Math.min(100, Number(p.discount_percent || 0)));
+    const current = finalPrice(p);
 
-  const list=document.createElement("div");
-  list.className="comment-list";
-  list.textContent="কমেন্ট লোড হচ্ছে...";
+    if (discount > 0) {
+      const old = document.createElement("span");
+      old.className = "old-price";
+      old.textContent = "৳" + Number(p.price || 0);
 
-  comments.append(name,comment,send,list);
-  card.append(img,title,desc,price,btn,comments);
-  productsBox.appendChild(card);
+      const now = document.createElement("strong");
+      now.textContent = "৳" + current;
 
-  loadComments(p.id,list);
- });
+      const tag = document.createElement("span");
+      tag.className = "discount-tag";
+      tag.textContent = discount + "% ছাড়";
+
+      price.append(old, now, tag);
+    } else {
+      price.textContent = "৳" + Number(p.price || 0);
+    }
+
+    const btn = document.createElement("button");
+    btn.textContent = "অর্ডার করুন";
+    btn.onclick = () => openOrder(p);
+
+    const comments = document.createElement("div");
+    comments.className = "comment-area";
+
+    const heading = document.createElement("strong");
+    heading.textContent = "💬 ক্রেতাদের কমেন্ট";
+    comments.appendChild(heading);
+
+    const comment = document.createElement("textarea");
+    comment.placeholder = "আপনার মতামত লিখুন...";
+    comment.maxLength = 1000;
+
+    const send = document.createElement("button");
+    send.type = "button";
+    send.textContent = "কমেন্ট পাঠান";
+    send.onclick = () => addComment(p.id, comment, send);
+
+    const list = document.createElement("div");
+    list.className = "comment-list";
+    list.textContent = "কমেন্ট লোড হচ্ছে...";
+
+    comments.append(comment, send, list);
+    card.append(img, title, desc, price, btn, comments);
+    productsBox.appendChild(card);
+
+    loadComments(p.id, list);
+  });
 }
 
-async function loadComments(productId,list){
- const {data,error}=await db.from("product_comments")
- .select("id,product_id,customer_name,comment,created_at")
- .eq("product_id",String(productId))
- .order("created_at",{ascending:false});
+async function loadComments(productId, list) {
+  const { data, error } = await db.from("product_comments")
+    .select("id,product_id,customer_name,comment,created_at")
+    .eq("product_id", String(productId))
+    .order("created_at", { ascending: false });
 
- list.innerHTML="";
- if(error){list.textContent="কমেন্ট লোড হয়নি: "+error.message;return;}
- if(!data||!data.length){list.textContent="এখনো কোনো কমেন্ট নেই।";return;}
+  list.innerHTML = "";
 
- data.forEach(c=>{
-  const item=document.createElement("div");
-  item.className="comment-item";
-
-  const author=document.createElement("strong");
-  author.textContent=c.customer_name;
-
-  const text=document.createElement("p");
-  text.textContent=c.comment;
-
-  item.append(author,text);
-
-  if(isAdmin){
-   const del=document.createElement("button");
-   del.className="delete-comment";
-   del.textContent="কমেন্ট মুছুন";
-   del.onclick=()=>deleteComment(c.id,productId,list);
-   item.appendChild(del);
+  if (error) {
+    list.textContent = "কমেন্ট লোড হয়নি: " + error.message;
+    return;
   }
-  list.appendChild(item);
- });
+
+  if (!data || !data.length) {
+    list.textContent = "এখনো কোনো কমেন্ট নেই।";
+    return;
+  }
+
+  data.forEach(c => {
+    const item = document.createElement("div");
+    item.className = "comment-item";
+
+    const author = document.createElement("strong");
+    author.textContent = "ক্রেতা";
+
+    const text = document.createElement("p");
+    text.textContent = c.comment;
+
+    item.append(author, text);
+
+    if (isAdmin) {
+      const del = document.createElement("button");
+      del.className = "delete-comment";
+      del.textContent = "কমেন্ট মুছুন";
+      del.onclick = () => deleteComment(c.id, productId, list);
+      item.appendChild(del);
+    }
+
+    list.appendChild(item);
+  });
 }
 
-async function addComment(productId,nameInput,commentInput,button){
- const name=nameInput.value.trim();
- const comment=commentInput.value.trim();
+async function addComment(productId, commentInput, button) {
+  const comment = commentInput.value.trim();
 
- if(name.length<2){alert("আপনার নাম লিখুন।");return;}
- if(comment.length<2){alert("কমেন্ট লিখুন।");return;}
+  if (comment.length < 2) {
+    alert("কমেন্ট লিখুন।");
+    return;
+  }
 
- button.disabled=true;
- button.textContent="পাঠানো হচ্ছে...";
+  button.disabled = true;
+  button.textContent = "পাঠানো হচ্ছে...";
 
- const {error}=await db.from("product_comments").insert({
-  product_id:String(productId),
-  customer_name:name,
-  comment:comment
- });
+  const { error } = await db.from("product_comments").insert({
+    product_id: String(productId),
+    customer_name: "Guest",
+    comment
+  });
 
- button.disabled=false;
- button.textContent="কমেন্ট পাঠান";
+  button.disabled = false;
+  button.textContent = "কমেন্ট পাঠান";
 
- if(error){alert("কমেন্ট জমা হয়নি: "+error.message);return;}
+  if (error) {
+    alert("কমেন্ট জমা হয়নি: " + error.message);
+    return;
+  }
 
- commentInput.value="";
- const list=button.parentElement.querySelector(".comment-list");
- await loadComments(productId,list);
- alert("আপনার কমেন্ট জমা হয়েছে।");
+  commentInput.value = "";
+  const list = button.parentElement.querySelector(".comment-list");
+  await loadComments(productId, list);
+  alert("আপনার কমেন্ট জমা হয়েছে।");
 }
 
-async function deleteComment(id,productId,list){
- if(!isAdmin){alert("শুধু অ্যাডমিন কমেন্ট মুছতে পারবেন।");return;}
- if(!confirm("এই কমেন্টটি মুছে ফেলবেন?"))return;
+async function deleteComment(id, productId, list) {
+  if (!isAdmin) {
+    alert("শুধু অ্যাডমিন কমেন্ট মুছতে পারবেন।");
+    return;
+  }
 
- const {error}=await db.from("product_comments").delete().eq("id",id);
- if(error){alert("মুছতে সমস্যা হয়েছে: "+error.message);return;}
- await loadComments(productId,list);
+  if (!confirm("এই কমেন্টটি মুছে ফেলবেন?")) return;
+
+  const { error } = await db.from("product_comments")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert("মুছতে সমস্যা হয়েছে: " + error.message);
+    return;
+  }
+
+  await loadComments(productId, list);
 }
 
-function openOrder(p){
- selected=p;
- document.getElementById("selectedProduct").textContent="প্রোডাক্ট: "+p.title;
- document.getElementById("quantity").value=1;
- document.getElementById("orderMessage").textContent="";
- document.getElementById("submitOrder").disabled=false;
- document.getElementById("submitOrder").textContent="অর্ডার নিশ্চিত করুন";
- orderBox.classList.remove("hidden");
- updateTotal();
- orderBox.scrollIntoView({behavior:"smooth"});
+function openImage(url) {
+  if (!url) return;
+  $("largeProductImage").src = url;
+  $("imageViewer").style.display = "flex";
 }
 
-document.getElementById("search").addEventListener("input",e=>{
- const q=e.target.value.toLowerCase();
- showProducts(allProducts.filter(p=>
-  (p.title||"").toLowerCase().includes(q)||
-  (p.description||"").toLowerCase().includes(q)
- ));
+function closeImage() {
+  $("imageViewer").style.display = "none";
+  $("largeProductImage").src = "";
+}
+
+$("closeImageBtn").addEventListener("click", closeImage);
+$("imageViewer").addEventListener("click", e => {
+  if (e.target.id === "imageViewer") closeImage();
 });
 
-function changeQty(amount){
- const input=document.getElementById("quantity");
- let qty=Number(input.value||1);
- qty=Math.max(1,Math.min(99,qty+amount));
- input.value=qty;
- updateTotal();
+function openOrder(p) {
+  selected = p;
+  $("selectedProduct").textContent = "প্রোডাক্ট: " + p.title;
+  $("quantity").value = 1;
+  $("orderMessage").textContent = "";
+  $("submitOrder").disabled = false;
+  $("submitOrder").textContent = "অর্ডার নিশ্চিত করুন";
+  orderBox.classList.remove("hidden");
+  updateTotal();
+  orderBox.scrollIntoView({ behavior: "smooth" });
 }
 
-document.getElementById("quantity").addEventListener("input",()=>{
- const input=document.getElementById("quantity");
- let qty=Number(input.value||1);
- if(qty>99)input.value=99;
- if(qty<1)input.value=1;
- updateTotal();
+$("search").addEventListener("input", e => {
+  const q = e.target.value.toLowerCase().trim();
+  showProducts(allProducts.filter(p =>
+    (p.title || "").toLowerCase().includes(q) ||
+    (p.description || "").toLowerCase().includes(q)
+  ));
 });
 
-function getDeliveryCharge(){
- const district=document.getElementById("district").value.trim().toLowerCase();
- if(["চট্টগ্রাম","chittagong","chattogram","চট্টগ্রাম জেলা"].includes(district))return 70;
- return 140;
+function changeQty(amount) {
+  const input = $("quantity");
+  let qty = Number(input.value || 1);
+  qty = Math.max(1, Math.min(99, qty + amount));
+  input.value = qty;
+  updateTotal();
 }
 
-function updateTotal(){
- const qty=Math.max(1,Math.min(99,Number(document.getElementById("quantity").value)||1));
- const unit=selected?finalPrice(selected):0;
- const productTotal=unit*qty;
- const delivery=getDeliveryCharge();
- const discount=selected?Number(selected.discount_percent||0):0;
+$("minusQty").addEventListener("click", () => changeQty(-1));
+$("plusQty").addEventListener("click", () => changeQty(1));
 
- document.getElementById("unitPrice").textContent=unit;
- document.getElementById("showQty").textContent=qty;
- document.getElementById("productPrice").textContent=productTotal;
- document.getElementById("deliveryPrice").textContent=delivery;
- document.getElementById("totalPrice").textContent=productTotal+delivery;
-
- document.getElementById("discountLine").classList.toggle("hidden",discount<=0);
- document.getElementById("discountPercent").textContent=discount;
-}
-document.getElementById("district").addEventListener("input",updateTotal);
-
-document.getElementById("payment").addEventListener("change",e=>{
- const needs=e.target.value==="bKash"||e.target.value==="Nagad";
- document.getElementById("transactionBox").classList.toggle("hidden",!needs);
- document.getElementById("transaction").required=needs;
+$("quantity").addEventListener("input", () => {
+  let qty = Number($("quantity").value || 1);
+  if (qty > 99) $("quantity").value = 99;
+  if (qty < 1) $("quantity").value = 1;
+  updateTotal();
 });
 
-document.getElementById("orderForm").addEventListener("submit",async e=>{
- e.preventDefault();
- if(!selected)return;
+function getDeliveryCharge() {
+  const district = $("district").value.trim().toLowerCase();
+  if (["চট্টগ্রাম", "chittagong", "chattogram", "চট্টগ্রাম জেলা"].includes(district)) {
+    return 70;
+  }
+  return 140;
+}
 
- const btn=document.getElementById("submitOrder");
- const msg=document.getElementById("orderMessage");
- btn.disabled=true;
- msg.textContent="অর্ডার জমা হচ্ছে...";
+function updateTotal() {
+  const qty = Math.max(1, Math.min(99, Number($("quantity").value) || 1));
+  const unit = selected ? finalPrice(selected) : 0;
+  const productTotal = Math.round(unit * qty * 100) / 100;
+  const delivery = getDeliveryCharge();
+  const discount = selected ? Number(selected.discount_percent || 0) : 0;
 
- const quantity=Math.max(1,Math.min(99,Number(document.getElementById("quantity").value)||1));
- const unitPrice=finalPrice(selected);
- const productTotal=unitPrice*quantity;
- const delivery=getDeliveryCharge();
- const payment=document.getElementById("payment").value;
+  $("unitPrice").textContent = unit;
+  $("showQty").textContent = qty;
+  $("productPrice").textContent = productTotal;
+  $("deliveryPrice").textContent = delivery;
+  $("totalPrice").textContent = productTotal + delivery;
 
- const order={
-  product_id:String(selected.id),
-  product_title:selected.title,
-  price:unitPrice,
-  quantity,
-  customer_name:document.getElementById("customerName").value.trim(),
-  customer_phone:document.getElementById("customerPhone").value.trim(),
-  division:document.getElementById("division").value,
-  district:document.getElementById("district").value.trim(),
-  upazila:document.getElementById("upazila").value.trim(),
-  delivery_address:document.getElementById("address").value.trim(),
-  delivery_charge:delivery,
-  total_amount:productTotal+delivery,
-  payment_method:payment,
-  transaction_id:document.getElementById("transaction").value.trim()||null,
-  status:"pending"
- };
+  $("discountLine").classList.toggle("hidden", discount <= 0);
+  $("discountPercent").textContent = discount;
+}
 
- const {error}=await db.from("orders").insert(order);
- if(error){
-  msg.textContent="অর্ডার জমা হয়নি: "+error.message;
-  btn.disabled=false;
-  return;
- }
+$("district").addEventListener("input", updateTotal);
 
- msg.textContent="অভিনন্দন! আপনার অর্ডার সফলভাবে জমা হয়েছে।";
+$("payment").addEventListener("change", e => {
+  const needs = e.target.value === "bKash" || e.target.value === "Nagad";
+  $("transactionBox").classList.toggle("hidden", !needs);
+  $("transaction").required = needs;
+});
 
- const whatsappText=
+function copyPaymentNumber() {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText("01854673321")
+      .then(() => alert("পেমেন্ট নম্বর কপি হয়েছে"))
+      .catch(() => alert("পেমেন্ট নম্বর: 01854673321"));
+  } else {
+    alert("পেমেন্ট নম্বর: 01854673321");
+  }
+}
+$("copyPayment").addEventListener("click", copyPaymentNumber);
+
+$("orderForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!selected) return;
+
+  const btn = $("submitOrder");
+  const msg = $("orderMessage");
+  btn.disabled = true;
+  msg.textContent = "অর্ডার জমা হচ্ছে...";
+
+  const quantity = Math.max(1, Math.min(99, Number($("quantity").value) || 1));
+  const unitPrice = finalPrice(selected);
+  const productTotal = Math.round(unitPrice * quantity * 100) / 100;
+  const delivery = getDeliveryCharge();
+  const payment = $("payment").value;
+
+  const order = {
+    product_id: String(selected.id),
+    product_title: selected.title,
+    price: unitPrice,
+    quantity,
+    customer_name: $("customerName").value.trim(),
+    phone: $("customerPhone").value.trim(),
+    division: $("division").value,
+    district: $("district").value.trim(),
+    upazila: $("upazila").value.trim(),
+    delivery_address: $("address").value.trim(),
+    delivery_charge: delivery,
+    total_amount: productTotal + delivery,
+    payment_method: payment,
+    transaction_id: $("transaction").value.trim() || null
+  };
+
+  try {
+    const { error } = await db.from("orders").insert(order);
+    if (error) throw error;
+
+    msg.textContent = "অভিনন্দন! আপনার অর্ডার সফলভাবে জমা হয়েছে।";
+
+    const whatsappText =
 `নতুন অর্ডার - Smart Gear
 
 প্রোডাক্ট: ${order.product_title}
@@ -553,29 +600,35 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
 সর্বমোট: ৳${order.total_amount}
 
 গ্রাহকের নাম: ${order.customer_name}
-মোবাইল: ${order.customer_phone}
+মোবাইল: ${order.phone}
 বিভাগ: ${order.division}
 জেলা: ${order.district}
 উপজেলা: ${order.upazila}
 ঠিকানা: ${order.delivery_address}
 
 পেমেন্ট: ${order.payment_method}
-Transaction ID: ${order.transaction_id||"COD"}`;
+Transaction ID: ${order.transaction_id || "COD"}`;
 
- const waLink=document.createElement("a");
- waLink.href="https://wa.me/8801854673321?text="+encodeURIComponent(whatsappText);
- waLink.target="_blank";
- waLink.rel="noopener";
- waLink.className="whatsapp-btn";
- waLink.textContent="🟢 WhatsApp-এ অর্ডারের তথ্য পাঠান";
- msg.appendChild(document.createElement("br"));
- msg.appendChild(waLink);
- btn.textContent="অর্ডার জমা হয়েছে";
+    const waLink = document.createElement("a");
+    waLink.href = "https://wa.me/8801854673321?text=" + encodeURIComponent(whatsappText);
+    waLink.target = "_blank";
+    waLink.rel = "noopener";
+    waLink.className = "whatsapp-btn";
+    waLink.textContent = "🟢 WhatsApp-এ অর্ডারের তথ্য পাঠান";
+
+    msg.appendChild(document.createElement("br"));
+    msg.appendChild(waLink);
+
+    btn.textContent = "অর্ডার জমা হয়েছে";
+
+  } catch (error) {
+    console.error("Order error:", error);
+    msg.textContent = "অর্ডার জমা হয়নি: " + error.message;
+    btn.disabled = false;
+  }
 });
 
-/* FAQ chatbot: predefined replies, not AI */
-const chatPanel=document.getElementById("chatPanel");
-const chatMess
+/* Gemini AI */
 async function askSmartGearAI(question) {
   const response = await fetch(
     "https://ioneandybnnficnbehng.supabase.co/functions/v1/smart-gear-ai",
@@ -586,10 +639,10 @@ async function askSmartGearAI(question) {
         "apikey": window.SUPABASE_ANON_KEY
       },
       body: JSON.stringify({
-        question: question,
-        products: (allProducts || []).map(p => ({
+        question,
+        products: allProducts.map(p => ({
           title: p.title,
-          price: p.price,
+          price: finalPrice(p),
           discount_percent: p.discount_percent || 0
         }))
       })
@@ -603,4 +656,87 @@ async function askSmartGearAI(question) {
   }
 
   return data.answer;
- }
+}
+
+/* FAQ fallback */
+function faqReply(question) {
+  const q = question.toLowerCase();
+
+  if (q.includes("ডেলিভারি") || q.includes("চার্জ")) {
+    return "চট্টগ্রাম জেলায় ডেলিভারি চার্জ ৭০ টাকা এবং চট্টগ্রামের বাইরে ১৪০ টাকা।";
+  }
+  if (q.includes("বিকাশ") || q.includes("নগদ") || q.includes("পেমেন্ট")) {
+    return "আপনি বিকাশ, নগদ অথবা Cash on Delivery-তে পেমেন্ট করতে পারবেন। পেমেন্ট নম্বর: 01854673321";
+  }
+  if (q.includes("ডিসকাউন্ট") || q.includes("ছাড়")) {
+    return "যেসব প্রোডাক্টে ডিসকাউন্ট আছে, সেগুলোর পাশে ছাড়ের পরিমাণ ও নতুন দাম দেখানো হবে।";
+  }
+  if (q.includes("অর্ডার")) {
+    return "প্রোডাক্টের নিচে অর্ডার করুন বাটনে চাপ দিয়ে ফর্ম পূরণ করুন।";
+  }
+  if (q.includes("যোগাযোগ") || q.includes("হোয়াটসঅ্যাপ") || q.includes("whatsapp")) {
+    return "আমাদের WhatsApp: https://wa.me/8801854673321";
+  }
+  if (q.includes("হ্যালো") || q.includes("আসসালামু")) {
+    return "ওয়ালাইকুম আসসালাম! Smart Gear-এ আপনাকে স্বাগতম। কী জানতে চান?";
+  }
+
+  return "দুঃখিত, AI এখন উত্তর দিতে পারছে না। বিস্তারিত জানতে WhatsApp-এ যোগাযোগ করুন: 01854673321";
+}
+
+function addChatMessage(message, type) {
+  const div = document.createElement("div");
+  div.className = "chat-message " + type;
+  div.textContent = message;
+  $("chatMessages").appendChild(div);
+  $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
+}
+
+async function sendChat() {
+  const input = $("chatInput");
+  const button = $("chatSend");
+  const question = input.value.trim();
+
+  if (!question) return;
+
+  addChatMessage(question, "user-message");
+  input.value = "";
+  button.disabled = true;
+  button.textContent = "...";
+
+  try {
+    const answer = await askSmartGearAI(question);
+    addChatMessage(answer, "bot-message");
+  } catch (error) {
+    console.log("AI fallback:", error);
+    addChatMessage(faqReply(question), "bot-message");
+  }
+
+  button.disabled = false;
+  button.textContent = "পাঠান";
+}
+
+$("chatLaunch").addEventListener("click", () => {
+  $("chatPanel").style.display = "flex";
+  $("chatInput").focus();
+});
+
+$("chatClose").addEventListener("click", () => {
+  $("chatPanel").style.display = "none";
+});
+
+$("chatSend").addEventListener("click", sendChat);
+
+$("chatInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") sendChat();
+});
+
+/* Start website */
+async function startWebsite() {
+  await checkAdmin();
+  await loadProducts();
+}
+startWebsite();
+</script>
+</body>
+</html>
