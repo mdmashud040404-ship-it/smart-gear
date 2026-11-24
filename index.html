@@ -576,3 +576,31 @@ Transaction ID: ${order.transaction_id||"COD"}`;
 /* FAQ chatbot: predefined replies, not AI */
 const chatPanel=document.getElementById("chatPanel");
 const chatMess
+async function askSmartGearAI(question) {
+  const response = await fetch(
+    "https://ioneandybnnficnbehng.supabase.co/functions/v1/smart-gear-ai",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": window.SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify({
+        question: question,
+        products: (allProducts || []).map(p => ({
+          title: p.title,
+          price: p.price,
+          discount_percent: p.discount_percent || 0
+        }))
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok || !data.answer) {
+    throw new Error(data.error || "AI উত্তর দিতে পারছে না");
+  }
+
+  return data.answer;
+ }
