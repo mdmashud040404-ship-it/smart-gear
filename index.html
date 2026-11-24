@@ -6,32 +6,90 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111713">
 <title>Smart Gear — Digital Store</title>
+
 <style>
-:root{--bg:#111713;--panel:#1b241e;--cream:#f2ead8;--muted:#b9b39f;--gold:#c5a45b;--line:#344238}
+:root{
+ --bg:#111713;
+ --panel:#1b241e;
+ --cream:#f2ead8;
+ --muted:#b9b39f;
+ --gold:#c5a45b;
+ --line:#344238;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--cream);font-family:Arial,sans-serif}
-header{padding:18px 15px;text-align:center;background:#1b241e;border-bottom:1px solid var(--line)}
-.logo{width:75px;height:75px;border-radius:50%;object-fit:cover}
-h1{color:var(--gold);margin:8px 0 4px}
-header p{color:var(--muted);margin:0}
-main{max-width:850px;margin:auto;padding:16px}
-input,select,textarea{width:100%;padding:12px;margin:7px 0 13px;border:1px solid var(--line);border-radius:8px;background:#111713;color:var(--cream);font-size:16px}
-button{border:0;border-radius:8px;padding:12px 17px;background:var(--gold);color:#171810;font-weight:bold;font-size:15px;cursor:pointer}
+body{
+ margin:0;background:var(--bg);color:var(--cream);
+ font-family:Arial,sans-serif;
+}
+header{
+ text-align:center;padding:18px;background:var(--panel);
+ border-bottom:1px solid var(--line);
+}
+.logo{width:80px;height:80px;object-fit:cover;border-radius:50%}
+h1{color:var(--gold);margin:8px}
+main{max-width:900px;margin:auto;padding:16px}
+input,select,textarea{
+ width:100%;padding:12px;margin:7px 0 13px;
+ border:1px solid var(--line);border-radius:8px;
+ background:var(--bg);color:var(--cream);font-size:16px;
+}
+button{
+ border:0;border-radius:8px;padding:12px 17px;
+ background:var(--gold);color:#171810;
+ font-weight:bold;cursor:pointer;font-size:15px;
+}
 button:disabled{opacity:.5}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px}
-.product{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
-.product img{width:100%;height:145px;object-fit:cover;border-radius:8px;background:#27332b}
+.products{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));
+ gap:13px;
+}
+.product{
+ background:var(--panel);border:1px solid var(--line);
+ border-radius:12px;padding:12px;
+}
+.product img{
+ width:100%;height:220px;object-fit:contain;
+ background:#fff;border-radius:9px;cursor:zoom-in;
+}
 .product h3{margin:10px 0 5px}
-.price{color:var(--gold);font-weight:bold;margin:8px 0}
+.price,.total{color:var(--gold);font-weight:bold}
+.panel{
+ background:var(--panel);border:1px solid var(--line);
+ border-radius:12px;padding:16px;margin:18px 0;
+}
 .muted{color:var(--muted);font-size:14px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:18px 0}
 .hidden{display:none!important}
-.total{font-size:19px;color:var(--gold);font-weight:bold}
+a{color:var(--gold);text-decoration:none}
 footer{text-align:center;color:var(--muted);padding:25px}
-a{color:var(--gold)}
+.image-viewer{
+ display:none;position:fixed;inset:0;z-index:9999;
+ background:rgba(0,0,0,.96);align-items:center;
+ justify-content:center;padding:15px;
+}
+.image-viewer img{
+ max-width:100%;max-height:85vh;object-fit:contain;
+}
+.image-viewer button{position:absolute;top:15px;right:15px}
+.contact-links a{
+ display:block;padding:13px;margin:8px 0;
+ background:var(--bg);border-radius:8px;
+}
+.qty-control{
+ display:flex;align-items:center;gap:12px;margin:10px 0 18px;
+}
+.qty-control input{
+ width:75px;text-align:center;margin:0;
+}
+.whatsapp-btn{
+ display:block;background:#25D366;color:white;
+ padding:14px;margin-top:12px;text-align:center;
+ border-radius:8px;font-weight:bold;
+}
 </style>
 </head>
+
 <body>
+
 <header>
 <img class="logo" src="profile.jpg" alt="Smart Gear Logo">
 <h1>Smart Gear</h1>
@@ -39,14 +97,27 @@ a{color:var(--gold)}
 </header>
 
 <main>
+
 <h2>আমাদের প্রোডাক্ট</h2>
 <input id="search" placeholder="প্রোডাক্ট খুঁজুন...">
-<div id="products" class="products">প্রোডাক্ট লোড হচ্ছে...</div>
+
+<div id="products" class="products">
+প্রোডাক্ট লোড হচ্ছে...
+</div>
 
 <section id="orderBox" class="panel hidden">
 <h2>অর্ডার ফর্ম</h2>
 <p id="selectedProduct"></p>
+
 <form id="orderForm">
+
+<label>কতটি কিনবেন?</label>
+<div class="qty-control">
+<button type="button" onclick="changeQty(-1)">−</button>
+<input id="quantity" type="number" min="1" max="99" value="1" required>
+<button type="button" onclick="changeQty(1)">+</button>
+</div>
+
 <label>আপনার নাম</label>
 <input id="customerName" required placeholder="সম্পূর্ণ নাম">
 
@@ -56,9 +127,14 @@ a{color:var(--gold)}
 <label>বিভাগ</label>
 <select id="division" required>
 <option value="">বিভাগ নির্বাচন করুন</option>
-<option>চট্টগ্রাম</option><option>ঢাকা</option><option>রাজশাহী</option>
-<option>খুলনা</option><option>বরিশাল</option><option>সিলেট</option>
-<option>রংপুর</option><option>ময়মনসিংহ</option>
+<option>চট্টগ্রাম</option>
+<option>ঢাকা</option>
+<option>রাজশাহী</option>
+<option>খুলনা</option>
+<option>বরিশাল</option>
+<option>সিলেট</option>
+<option>রংপুর</option>
+<option>ময়মনসিংহ</option>
 </select>
 
 <label>জেলা</label>
@@ -68,7 +144,7 @@ a{color:var(--gold)}
 <input id="upazila" required placeholder="উপজেলা বা থানার নাম">
 
 <label>গ্রাম / এলাকা / বাসা ও রাস্তার ঠিকানা</label>
-<textarea id="address" required rows="3" placeholder="সম্পূর্ণ ডেলিভারি ঠিকানা"></textarea>
+<textarea id="address" required rows="3" placeholder="সম্পূর্ণ ঠিকানা"></textarea>
 
 <label>পেমেন্ট পদ্ধতি</label>
 <select id="payment" required>
@@ -79,35 +155,56 @@ a{color:var(--gold)}
 </select>
 
 <div id="transactionBox" class="hidden">
-<label>Transaction ID</label>
-<input id="transaction" placeholder="পেমেন্টের Transaction ID">
-<p class="muted">বিকাশ/নগদে পেমেন্ট করার পর Transaction ID লিখুন।</p>
+<p>পেমেন্ট নম্বর:</p>
+<h3 style="color:#c5a45b">01854673321</h3>
+<button type="button" onclick="copyPaymentNumber()">নম্বর কপি করুন</button>
+
+<label>আপনার Transaction ID</label>
+<input id="transaction" placeholder="Transaction ID লিখুন">
 </div>
 
 <div class="panel">
-<p>প্রোডাক্ট মূল্য: ৳<span id="productPrice">0</span></p>
+<p>প্রতি পণ্যের মূল্য: ৳<span id="unitPrice">0</span></p>
+<p>পরিমাণ: <span id="showQty">1</span> টি</p>
+<p>প্রোডাক্টের মোট মূল্য: ৳<span id="productPrice">0</span></p>
 <p>ডেলিভারি চার্জ: ৳<span id="deliveryPrice">0</span></p>
 <p class="total">সর্বমোট: ৳<span id="totalPrice">0</span></p>
 </div>
 
 <button id="submitOrder" type="submit">অর্ডার নিশ্চিত করুন</button>
+
 <p id="orderMessage" class="muted"></p>
+
 </form>
 </section>
+
+<section class="panel contact-links" id="contact">
+<h2>আমাদের সাথে যোগাযোগ</h2>
+<p>মোবাইল: 01854673321</p>
+<a href="tel:+8801854673321">📞 সরাসরি কল করুন</a>
+<a href="https://wa.me/8801854673321" target="_blank" rel="noopener">🟢 WhatsApp-এ যোগাযোগ</a>
+<a href="https://imo.im/" target="_blank" rel="noopener">💬 IMO — 01854673321</a>
+</section>
+
 </main>
+
+<div class="image-viewer" id="imageViewer" onclick="closeImage()">
+<button type="button">বন্ধ করুন ✕</button>
+<img id="largeProductImage" src="" alt="Product Image">
+</div>
 
 <footer>
 <p>Smart Gear — Digital Store</p>
-<p>যোগাযোগ: 01854673321</p>
-<a href="https://wa.me/8801854673321">WhatsApp যোগাযোগ</a>
+<p>Contact: 01854673321</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
+
 <script>
 const db = window.supabase.createClient(
-  window.SUPABASE_URL,
-  window.SUPABASE_ANON_KEY
+ window.SUPABASE_URL,
+ window.SUPABASE_ANON_KEY
 );
 
 let allProducts = [];
@@ -116,143 +213,234 @@ let selected = null;
 const productsBox = document.getElementById("products");
 const orderBox = document.getElementById("orderBox");
 
-async function loadProducts(){
-  productsBox.textContent = "প্রোডাক্ট লোড হচ্ছে...";
-  const {data,error} = await db.from("products")
-    .select("id,title,description,price,image_url,is_active,created_at")
-    .eq("is_active",true)
-    .order("created_at",{ascending:false});
+function copyPaymentNumber(){
+ navigator.clipboard.writeText("01854673321")
+ .then(()=>alert("পেমেন্ট নম্বর কপি হয়েছে"))
+ .catch(()=>alert("পেমেন্ট নম্বর: 01854673321"));
+}
 
-  if(error){
-    productsBox.textContent = "প্রোডাক্ট লোড হয়নি: " + error.message;
-    return;
-  }
-  allProducts = data || [];
-  showProducts(allProducts);
+function openImage(url){
+ if(!url)return;
+ document.getElementById("largeProductImage").src=url;
+ document.getElementById("imageViewer").style.display="flex";
+}
+
+function closeImage(){
+ document.getElementById("imageViewer").style.display="none";
+ document.getElementById("largeProductImage").src="";
+}
+
+async function loadProducts(){
+ productsBox.textContent="প্রোডাক্ট লোড হচ্ছে...";
+
+ const {data,error}=await db.from("products")
+ .select("id,title,description,price,image_url,is_active,created_at")
+ .eq("is_active",true)
+ .order("created_at",{ascending:false});
+
+ if(error){
+  productsBox.textContent="প্রোডাক্ট লোড হয়নি: "+error.message;
+  return;
+ }
+
+ allProducts=data||[];
+ showProducts(allProducts);
 }
 
 function showProducts(items){
-  productsBox.innerHTML = "";
-  if(!items.length){
-    productsBox.textContent = "এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
-    return;
-  }
+ productsBox.innerHTML="";
 
-  items.forEach(p=>{
-    const card = document.createElement("div");
-    card.className = "product";
+ if(!items.length){
+  productsBox.textContent="এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
+  return;
+ }
 
-    const img = document.createElement("img");
-    img.src = p.image_url || "";
-    img.alt = p.title || "Product";
+ items.forEach(p=>{
+  const card=document.createElement("div");
+  card.className="product";
 
-    const title = document.createElement("h3");
-    title.textContent = p.title || "";
+  const img=document.createElement("img");
+  img.src=p.image_url||"";
+  img.alt=p.title||"Product";
+  img.loading="lazy";
+  img.onclick=()=>openImage(p.image_url);
 
-    const desc = document.createElement("p");
-    desc.className = "muted";
-    desc.textContent = p.description || "";
+  const title=document.createElement("h3");
+  title.textContent=p.title||"";
 
-    const price = document.createElement("p");
-    price.className = "price";
-    price.textContent = "৳" + Number(p.price || 0);
+  const desc=document.createElement("p");
+  desc.className="muted";
+  desc.textContent=p.description||"";
 
-    const btn = document.createElement("button");
-    btn.textContent = "অর্ডার করুন";
-    btn.onclick = ()=>openOrder(p);
+  const price=document.createElement("p");
+  price.className="price";
+  price.textContent="৳"+Number(p.price||0);
 
-    card.append(img,title,desc,price,btn);
-    productsBox.appendChild(card);
-  });
+  const btn=document.createElement("button");
+  btn.textContent="অর্ডার করুন";
+  btn.onclick=()=>openOrder(p);
+
+  card.append(img,title,desc,price,btn);
+  productsBox.appendChild(card);
+ });
 }
 
 function openOrder(p){
-  selected = p;
-  document.getElementById("selectedProduct").textContent =
-    "প্রোডাক্ট: " + p.title;
-  document.getElementById("productPrice").textContent =
-    Number(p.price || 0);
-  orderBox.classList.remove("hidden");
-  updateTotal();
-  orderBox.scrollIntoView({behavior:"smooth"});
+ selected=p;
+ document.getElementById("selectedProduct").textContent="প্রোডাক্ট: "+p.title;
+ document.getElementById("quantity").value=1;
+ document.getElementById("unitPrice").textContent=Number(p.price||0);
+ document.getElementById("productPrice").textContent=Number(p.price||0);
+
+ document.getElementById("orderMessage").textContent="";
+ document.getElementById("submitOrder").disabled=false;
+
+ orderBox.classList.remove("hidden");
+ updateTotal();
+ orderBox.scrollIntoView({behavior:"smooth"});
 }
 
 document.getElementById("search").addEventListener("input",e=>{
-  const q = e.target.value.toLowerCase();
-  showProducts(allProducts.filter(p=>
-    (p.title || "").toLowerCase().includes(q) ||
-    (p.description || "").toLowerCase().includes(q)
-  ));
+ const q=e.target.value.toLowerCase();
+
+ showProducts(allProducts.filter(p=>
+  (p.title||"").toLowerCase().includes(q)||
+  (p.description||"").toLowerCase().includes(q)
+ ));
+});
+
+function changeQty(amount){
+ const input=document.getElementById("quantity");
+ let qty=Number(input.value||1);
+ qty=Math.max(1,Math.min(99,qty+amount));
+ input.value=qty;
+ updateTotal();
+}
+
+document.getElementById("quantity").addEventListener("input",()=>{
+ const input=document.getElementById("quantity");
+ let qty=Number(input.value||1);
+ if(qty>99)input.value=99;
+ if(qty<1)input.value=1;
+ updateTotal();
 });
 
 function getDeliveryCharge(){
-  const district = document.getElementById("district").value.trim().toLowerCase();
-  return district === "চট্টগ্রাম" || district === "chittagong" ||
-         district === "চট্টগ্রাম জেলা" ? 70 : 140;
+ const district=document.getElementById("district").value.trim().toLowerCase();
+
+ if(["চট্টগ্রাম","chittagong","chattogram","চট্টগ্রাম জেলা"].includes(district)){
+  return 70;
+ }
+ return 140;
 }
 
 function updateTotal(){
-  const price = Number(selected?.price || 0);
-  const delivery = getDeliveryCharge();
-  document.getElementById("deliveryPrice").textContent = delivery;
-  document.getElementById("totalPrice").textContent = price + delivery;
+ const qty=Math.max(1,Math.min(99,
+  Number(document.getElementById("quantity").value)||1
+ ));
+
+ const unit=Number(selected?.price||0);
+ const productTotal=unit*qty;
+ const delivery=getDeliveryCharge();
+
+ document.getElementById("unitPrice").textContent=unit;
+ document.getElementById("showQty").textContent=qty;
+ document.getElementById("productPrice").textContent=productTotal;
+ document.getElementById("deliveryPrice").textContent=delivery;
+ document.getElementById("totalPrice").textContent=productTotal+delivery;
 }
 
 document.getElementById("district").addEventListener("input",updateTotal);
 
 document.getElementById("payment").addEventListener("change",e=>{
-  const needsTransaction = e.target.value === "bKash" || e.target.value === "Nagad";
-  document.getElementById("transactionBox").classList.toggle("hidden",!needsTransaction);
-  document.getElementById("transaction").required = needsTransaction;
+ const needs=e.target.value==="bKash"||e.target.value==="Nagad";
+
+ document.getElementById("transactionBox").classList.toggle("hidden",!needs);
+ document.getElementById("transaction").required=needs;
 });
 
 document.getElementById("orderForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  if(!selected) return;
+ e.preventDefault();
+ if(!selected)return;
 
-  const btn = document.getElementById("submitOrder");
-  const msg = document.getElementById("orderMessage");
-  btn.disabled = true;
-  msg.textContent = "অর্ডার জমা হচ্ছে...";
+ const btn=document.getElementById("submitOrder");
+ const msg=document.getElementById("orderMessage");
 
-  const delivery = getDeliveryCharge();
-  const price = Number(selected.price || 0);
-  const payment = document.getElementById("payment").value;
+ btn.disabled=true;
+ msg.textContent="অর্ডার জমা হচ্ছে...";
 
-  const order = {
-    product_id: String(selected.id),
-    product_title: selected.title,
-    price: price,
-    customer_name: document.getElementById("customerName").value.trim(),
-    customer_phone: document.getElementById("customerPhone").value.trim(),
-    division: document.getElementById("division").value,
-    district: document.getElementById("district").value.trim(),
-    upazila: document.getElementById("upazila").value.trim(),
-    delivery_address: document.getElementById("address").value.trim(),
-    delivery_charge: delivery,
-    total_amount: price + delivery,
-    payment_method: payment,
-    transaction_id: document.getElementById("transaction").value.trim() || null,
-    status: "pending"
-  };
+ const quantity=Math.max(1,Math.min(99,
+  Number(document.getElementById("quantity").value)||1
+ ));
 
-  const {error} = await db.from("orders").insert(order);
+ const unitPrice=Number(selected.price||0);
+ const productTotal=unitPrice*quantity;
+ const delivery=getDeliveryCharge();
+ const payment=document.getElementById("payment").value;
 
-  if(error){
-    msg.textContent = "অর্ডার জমা হয়নি: " + error.message;
-    btn.disabled = false;
-    return;
-  }
+ const order={
+  product_id:String(selected.id),
+  product_title:selected.title,
+  price:unitPrice,
+  quantity:quantity,
+  customer_name:document.getElementById("customerName").value.trim(),
+  customer_phone:document.getElementById("customerPhone").value.trim(),
+  division:document.getElementById("division").value,
+  district:document.getElementById("district").value.trim(),
+  upazila:document.getElementById("upazila").value.trim(),
+  delivery_address:document.getElementById("address").value.trim(),
+  delivery_charge:delivery,
+  total_amount:productTotal+delivery,
+  payment_method:payment,
+  transaction_id:document.getElementById("transaction").value.trim()||null,
+  status:"pending"
+ };
 
-  msg.textContent = "অভিনন্দন! আপনার অর্ডার সফলভাবে জমা হয়েছে।";
-  document.getElementById("orderForm").reset();
-  document.getElementById("transactionBox").classList.add("hidden");
-  orderBox.classList.add("hidden");
-  selected = null;
-  btn.disabled = false;
+ const {error}=await db.from("orders").insert(order);
+
+ if(error){
+  msg.textContent="অর্ডার জমা হয়নি: "+error.message;
+  btn.disabled=false;
+  return;
+ }
+
+ msg.textContent="অভিনন্দন! আপনার অর্ডার সফলভাবে জমা হয়েছে।";
+
+ const whatsappText=
+`নতুন অর্ডার - Smart Gear
+
+প্রোডাক্ট: ${order.product_title}
+প্রতি পণ্যের মূল্য: ৳${order.price}
+পরিমাণ: ${order.quantity} টি
+প্রোডাক্টের মোট মূল্য: ৳${productTotal}
+ডেলিভারি চার্জ: ৳${order.delivery_charge}
+সর্বমোট: ৳${order.total_amount}
+
+গ্রাহকের নাম: ${order.customer_name}
+মোবাইল: ${order.customer_phone}
+বিভাগ: ${order.division}
+জেলা: ${order.district}
+উপজেলা: ${order.upazila}
+ঠিকানা: ${order.delivery_address}
+
+পেমেন্ট: ${order.payment_method}
+Transaction ID: ${order.transaction_id||"COD"}`;
+
+ const waLink=document.createElement("a");
+ waLink.href="https://wa.me/8801854673321?text="+encodeURIComponent(whatsappText);
+ waLink.target="_blank";
+ waLink.rel="noopener";
+ waLink.className="whatsapp-btn";
+ waLink.textContent="🟢 WhatsApp-এ অর্ডারের তথ্য পাঠান";
+
+ msg.appendChild(document.createElement("br"));
+ msg.appendChild(waLink);
+
+ btn.textContent="অর্ডার জমা হয়েছে";
 });
 
 loadProducts();
 </script>
+
 </body>
 </html>
