@@ -12,139 +12,78 @@
 
 <style>
 :root{
---bg:#f5f7f3;
---card:#ffffff;
---green:#123b2b;
---green2:#1e6045;
---gold:#d9ad54;
---text:#17251d;
---muted:#718077;
---border:#e5ebe5;
+ --green:#123b2b;--green2:#246b49;--gold:#e0b75e;
+ --bg:#f4f7f3;--white:#fff;--text:#19251e;
+ --muted:#77847a;--line:#e5ebe5;
 }
 *{box-sizing:border-box}
-body{
-margin:0;background:var(--bg);color:var(--text);
-font-family:Arial,"Noto Sans Bengali",sans-serif;
-}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans Bengali",sans-serif}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 header{
-background:linear-gradient(120deg,#102d22,#1d6044);
-color:white;padding:17px 14px;position:sticky;top:0;z-index:10;
-box-shadow:0 4px 18px #102d2225;
+ position:sticky;top:0;z-index:10;color:white;
+ background:linear-gradient(120deg,#102d22,#236747);
+ padding:15px;box-shadow:0 4px 18px #102d2225
 }
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.top{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between}
 .brand{font-size:23px;font-weight:900;color:#f2d28a}
 .brand small{display:block;font-size:10px;letter-spacing:3px;color:white}
-.cartbtn{
-border:1px solid #ffffff50;background:#ffffff18;
-color:white;border-radius:30px;padding:9px 13px;
-}
+.header-actions{display:flex;gap:7px}
+.header-actions button{border:1px solid #ffffff55;background:#ffffff18;color:white;padding:9px 12px;border-radius:25px}
 .container{max-width:1100px;margin:auto;padding:15px}
-.search{
-width:100%;padding:13px 16px;border:1px solid var(--border);
-border-radius:14px;background:white;outline:none;margin:12px 0;
-}
-.categories{display:flex;gap:8px;overflow:auto;padding-bottom:10px}
-.categories button{
-white-space:nowrap;border:1px solid var(--border);
-background:white;padding:9px 15px;border-radius:30px;
-}
+.search{width:100%;padding:14px;border:1px solid var(--line);border-radius:14px;background:white;outline:none;margin:12px 0}
+.categories{display:flex;gap:8px;overflow:auto;padding:3px 0 12px}
+.categories button{white-space:nowrap;border:1px solid var(--line);background:white;padding:9px 15px;border-radius:30px}
 .categories button.active{background:var(--green);color:white}
-.hero{
-background:linear-gradient(120deg,#123b2b,#24734e);
-color:white;padding:25px;border-radius:20px;margin:12px 0 20px;
-}
-.hero h2{margin:0 0 8px;color:#f5d48c}
-.hero p{margin:0;color:#e5eee8}
-.grid{
-display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
-}
-.product{
-background:white;border:1px solid var(--border);
-border-radius:16px;overflow:hidden;position:relative;
-box-shadow:0 4px 15px #17251d08;
-animation:appear .4s ease;
-}
-@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.product img{
-width:100%;height:155px;object-fit:cover;background:#edf1ec;
-}
+.hero{background:linear-gradient(120deg,#123b2b,#28774e);color:white;padding:25px;border-radius:20px;margin:12px 0 20px}
+.hero h2{color:#f5d58e;margin:0 0 9px}
+.hero p{margin:0;color:#e3eee5;line-height:1.7}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.section-head button{border:0;background:#e5eee6;color:var(--green);padding:8px 12px;border-radius:20px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;box-shadow:0 4px 15px #17251d08;animation:appear .35s ease}
+@keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.product-img{width:100%;height:155px;object-fit:cover;background:#edf1ec;display:block}
 .product-info{padding:11px}
 .product h3{font-size:14px;margin:0 0 8px;line-height:1.5}
 .price{font-weight:900;color:var(--green2);font-size:17px}
-.old{font-size:12px;color:#999;text-decoration:line-through}
+.reactions{position:absolute;right:6px;top:7px;display:flex;flex-direction:column;gap:5px}
+.reactions button{border:0;background:#ffffffed;border-radius:30px;width:32px;height:32px;font-size:17px;box-shadow:0 2px 7px #0002}
 .product-actions{display:flex;gap:6px;margin-top:10px}
-.product-actions button{
-flex:1;padding:9px 5px;border:0;border-radius:9px;
-background:var(--green);color:white;font-size:12px;
-}
+.product-actions button{flex:1;padding:9px 4px;border:0;border-radius:9px;background:var(--green);color:white;font-size:12px}
 .product-actions .secondary{background:#edf3ee;color:var(--green)}
-.reactions{
-position:absolute;right:7px;top:8px;display:flex;
-flex-direction:column;gap:5px;
-}
-.reactions button{
-border:0;background:#ffffffed;border-radius:30px;
-width:32px;height:32px;font-size:17px;
-box-shadow:0 2px 7px #0002;
-}
-.floating{
-position:fixed;right:12px;bottom:20px;z-index:20;
-display:flex;flex-direction:column;gap:10px;
-}
-.floating a{
-width:48px;height:48px;border-radius:50%;
-display:grid;place-items:center;text-decoration:none;
-color:white;font-weight:bold;font-size:20px;
-box-shadow:0 4px 14px #0003;
-}
-.wa{background:#20bd67}.imo{background:#2788df}.call{background:#174f37}
-.modal{
-display:none;position:fixed;inset:0;background:#0008;
-z-index:30;align-items:center;justify-content:center;padding:12px;
-}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:30;align-items:center;justify-content:center;padding:12px}
 .modal.show{display:flex}
-.modal-box{
-background:white;width:100%;max-width:520px;max-height:90vh;
-overflow:auto;border-radius:19px;padding:18px;
-}
-.modal-box h2{margin-top:0;color:var(--green)}
-.close{
-float:right;border:0;background:#edf1ec;border-radius:50%;
-width:32px;height:32px;font-size:19px;
-}
-.field{
-width:100%;padding:12px;border:1px solid var(--border);
-border-radius:10px;margin:7px 0;background:white;
-}
-.primary{
-width:100%;border:0;border-radius:11px;padding:13px;
-background:var(--green);color:white;font-weight:bold;margin-top:9px;
-}
-.comment{background:#f2f5f1;padding:10px;border-radius:10px;margin:7px 0}
-.chat{
-height:310px;overflow:auto;background:#f4f7f3;
-padding:12px;border-radius:12px;margin:10px 0;
-}
-.msg{padding:10px 12px;border-radius:13px;margin:7px 0;max-width:90%;white-space:pre-wrap;line-height:1.5}
-.user{background:#dcefe1;margin-left:auto}
-.bot{background:white;border:1px solid #e5ebe5}
-.ai-launch{
-position:fixed;left:14px;bottom:20px;width:58px;height:58px;
-border-radius:50%;border:3px solid #f6d68e;
-background:linear-gradient(140deg,#174e36,#0b251b);
-color:#ffdf91;font-size:25px;z-index:21;
-box-shadow:0 0 12px #d9ad54,0 0 28px #1e6045;
-}
+.modal-box{background:white;width:100%;max-width:520px;max-height:91vh;overflow:auto;border-radius:19px;padding:18px}
+.close{float:right;border:0;background:#edf1ec;border-radius:50%;width:32px;height:32px;font-size:20px}
+.field{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin:7px 0;background:white;outline-color:#246b49}
+.primary{width:100%;border:0;border-radius:11px;padding:13px;background:var(--green);color:white;font-weight:bold;margin-top:9px}
+.comment{background:#f2f5f1;padding:10px;border-radius:10px;margin:7px 0;overflow-wrap:anywhere}
+.floating{position:fixed;right:12px;bottom:18px;z-index:20;display:flex;flex-direction:column;gap:9px}
+.floating a{width:47px;height:47px;border-radius:50%;display:grid;place-items:center;text-decoration:none;color:white;font-weight:bold;font-size:20px;box-shadow:0 4px 14px #0003}
+.wa{background:#20bd67}.imo{background:#2788df}.call{background:#174f37}
+.ai-launch{position:fixed;left:13px;bottom:18px;width:61px;height:61px;border-radius:50%;border:3px solid #f6d68e;background:linear-gradient(140deg,#174e36,#0b251b);color:#ffdf91;font-size:29px;z-index:21;box-shadow:0 0 12px #d9ad54,0 0 28px #1e6045;animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 22px #e4bd65,0 0 38px #1e6045}}
 footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
-@media(min-width:650px){
-.grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.product img{height:210px}
-}
-@media(min-width:900px){
-.grid{grid-template-columns:repeat(4,minmax(0,1fr))}
-}
+
+/* PREMIUM AI */
+#aiModal .modal-box{max-width:480px;padding:0;overflow:hidden;border-radius:24px;background:#f5f8f4;box-shadow:0 15px 60px #0005}
+.ai-header{background:linear-gradient(135deg,#102f22,#26734c);color:white;padding:19px;position:relative}
+.ai-headrow{display:flex;align-items:center;gap:12px}
+.ai-logo{width:49px;height:49px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#ffe6a0,#d5a943);color:#123b2b;font-size:27px;box-shadow:0 0 18px #f1cb6b}
+.ai-header h2{color:#f5d58e;margin:0;font-size:21px}
+.ai-header p{color:#e1eee5;margin:5px 0;font-size:12px}
+.ai-header .close{position:absolute;right:13px;top:13px;background:#ffffff25;color:white}
+.ai-chat{height:340px;overflow:auto;padding:14px;background:linear-gradient(180deg,#eef5ed,#f8faf7)}
+.msg{padding:12px 14px;border-radius:17px;margin:8px 0;max-width:90%;font-size:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 3px 12px #183c2410}
+.msg.bot{background:white;border:1px solid #e2eae1;border-bottom-left-radius:5px}
+.msg.user{background:linear-gradient(135deg,#d8f0df,#c3e7cf);margin-left:auto;border-bottom-right-radius:5px}
+.ai-input-area{padding:12px;background:white;border-top:1px solid #e7eee7}
+.ai-input-area textarea{resize:vertical;border-radius:14px}
+.ai-send{background:linear-gradient(120deg,#123b2b,#26734c);color:white;border:0;border-radius:13px;padding:13px;width:100%;font-weight:bold}
+.ai-hint{text-align:center;color:#849087;font-size:11px;padding:8px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.product-img{height:205px}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
 
@@ -152,39 +91,42 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 <header>
  <div class="top">
   <div class="brand">SMART GEAR<small>DIGITAL STORE</small></div>
-  <button class="cartbtn" onclick="openCart()">🛒 কার্ট <span id="cartCount">0</span></button>
+  <div class="header-actions">
+   <button onclick="showSaved()">♡ Saved</button>
+   <button onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+  </div>
  </div>
 </header>
 
 <main class="container">
  <input class="search" id="search" placeholder="🔍 পণ্য খুঁজুন..." oninput="renderProducts()">
-
  <div class="categories" id="categories">
   <button class="active" onclick="setCategory('সব',this)">সব পণ্য</button>
  </div>
 
  <section class="hero">
-  <h2>Welcome to Smart Gear</h2>
-  <p>আপনার প্রয়োজনীয় ডিজিটাল পণ্য কিনুন সহজেই।</p>
+  <h2>Welcome to Smart Gear ✨</h2>
+  <p>আপনার প্রয়োজনীয় ডিজিটাল পণ্য কিনুন সহজেই। পণ্য সম্পর্কে জানতে আমাদের AI সহকারীর সাহায্য নিন।</p>
  </section>
 
- <h3>✨ আমাদের পণ্য</h3>
- <div class="grid" id="products">
-  <p>পণ্য লোড হচ্ছে...</p>
+ <div class="section-head">
+  <h3 id="listTitle">✨ আমাদের পণ্য</h3>
+  <button onclick="loadProducts()">↻ Refresh</button>
  </div>
+ <div class="grid" id="products"><p>পণ্য লোড হচ্ছে...</p></div>
 </main>
 
 <footer>© Smart Gear — Digital Store</footer>
 
-<button class="ai-launch" onclick="openAI()">✦</button>
+<button class="ai-launch" onclick="openAI()" aria-label="Smart Gear AI">✦</button>
 
 <div class="floating">
- <a class="wa" href="https://wa.me/8801854673321" target="_blank">◉</a>
- <a class="imo" href="https://imo.im/" target="_blank">i</a>
- <a class="call" href="tel:01854673321">☎</a>
+ <a class="wa" href="https://wa.me/8801854673321" target="_blank" aria-label="WhatsApp">◉</a>
+ <a class="imo" href="https://imo.im/" target="_blank" aria-label="IMO">i</a>
+ <a class="call" href="tel:01854673321" aria-label="Call">☎</a>
 </div>
 
-<!-- Product details -->
+<!-- PRODUCT DETAILS -->
 <div class="modal" id="productModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('productModal')">×</button>
@@ -192,7 +134,7 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </div>
 </div>
 
-<!-- Cart -->
+<!-- CART -->
 <div class="modal" id="cartModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('cartModal')">×</button>
@@ -203,52 +145,61 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </div>
 </div>
 
-<!-- Checkout -->
+<!-- CHECKOUT -->
 <div class="modal" id="checkoutModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('checkoutModal')">×</button>
   <h2>📦 অর্ডার তথ্য</h2>
   <input class="field" id="customerName" placeholder="আপনার নাম">
   <input class="field" id="customerPhone" placeholder="মোবাইল নম্বর" inputmode="tel">
-
   <select class="field" id="division">
    <option value="">বিভাগ নির্বাচন করুন</option>
-   <option>চট্টগ্রাম</option><option>ঢাকা</option><option>রাজশাহী</option>
-   <option>খুলনা</option><option>বরিশাল</option><option>সিলেট</option>
-   <option>রংপুর</option><option>ময়মনসিংহ</option>
+   <option>চট্টগ্রাম</option><option>ঢাকা</option><option>রাজশাহী</option><option>খুলনা</option><option>বরিশাল</option><option>সিলেট</option><option>রংপুর</option><option>ময়মনসিংহ</option>
   </select>
-
   <input class="field" id="district" placeholder="জেলা">
   <input class="field" id="upazila" placeholder="উপজেলা">
   <textarea class="field" id="address" placeholder="সম্পূর্ণ ডেলিভারি ঠিকানা"></textarea>
-
   <select class="field" id="payment">
-   <option value="">পেমেন্ট পদ্ধতি</option>
+   <option value="">পেমেন্ট পদ্ধতি নির্বাচন করুন</option>
    <option value="Cash on Delivery">Cash on Delivery</option>
    <option value="bKash">bKash</option>
    <option value="Nagad">Nagad</option>
   </select>
-
   <p>বিকাশ/নগদ নম্বর: <b>01854673321</b></p>
-  <input class="field" id="transaction" placeholder="বিকাশ/নগদ Transaction ID (প্রযোজ্য হলে)">
-
-  <h3 id="checkoutTotal"></h3>
+  <input class="field" id="transaction" placeholder="Transaction ID (বিকাশ/নগদ হলে)">
+  <p id="checkoutTotal"></p>
   <button class="primary" onclick="submitOrder()">অর্ডার নিশ্চিত করুন</button>
  </div>
 </div>
 
-<!-- AI -->
+<!-- AI CHAT -->
 <div class="modal" id="aiModal">
  <div class="modal-box">
-  <button class="close" onclick="closeModal('aiModal')">×</button>
-  <h2>✦ Smart Gear AI</h2>
-  <p style="color:#718077;font-size:13px">পণ্য, দাম, মান, তুলনা অথবা ছবি সম্পর্কে প্রশ্ন করুন।</p>
-  <div class="chat" id="chat">
-   <div class="msg bot">আসসালামু আলাইকুম! Smart Gear AI-তে স্বাগতম। কী জানতে চান?</div>
+  <div class="ai-header">
+   <button class="close" onclick="closeModal('aiModal')">×</button>
+   <div class="ai-headrow">
+    <div class="ai-logo">✦</div>
+    <div>
+     <h2>Smart Gear AI</h2>
+     <p>আপনার স্মার্ট শপিং সহকারী</p>
+     <small style="color:#a8e6bd">● Online Assistant</small>
+    </div>
+   </div>
   </div>
-  <input type="file" id="aiImage" accept="image/*" class="field">
-  <textarea id="aiQuestion" class="field" placeholder="আপনার প্রশ্ন লিখুন..." rows="2"></textarea>
-  <button class="primary" onclick="sendAI()">প্রশ্ন পাঠান ➤</button>
+  <div class="ai-chat" id="chat">
+   <div class="msg bot">আসসালামু আলাইকুম! 👋
+
+Smart Gear AI-তে স্বাগতম।
+
+পণ্যের দাম, মান, ভালো-মন্দ, ব্যবহার অথবা কেনার পরামর্শ জানতে প্রশ্ন করুন। ❤️</div>
+  </div>
+  <div class="ai-input-area">
+   <label style="font-size:12px;color:#52675a">📷 ছবি যুক্ত করুন</label>
+   <input type="file" id="aiImage" accept="image/*" class="field">
+   <textarea id="aiQuestion" class="field" placeholder="আপনার প্রশ্ন লিখুন..." rows="2"></textarea>
+   <button class="ai-send" onclick="sendAI()">✦ AI-কে প্রশ্ন করুন ➤</button>
+   <div class="ai-hint">Smart Gear AI • আপনার কেনাকাটার সহকারী</div>
+  </div>
  </div>
 </div>
 
@@ -262,44 +213,45 @@ let db = null;
 let products = [];
 let cart = [];
 let selectedCategory = "সব";
-let currentProduct = null;
+let savedIds = JSON.parse(localStorage.getItem("sg_saved") || "[]");
 let aiHistory = [];
-let aiImageData = null;
-let aiImageMime = null;
 
-if (window.supabase && SUPABASE_URL && SUPABASE_KEY) {
- db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+if(window.supabase && SUPABASE_URL && SUPABASE_KEY){
+ db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 }
 
-function idOf(p){return p.id}
-function nameOf(p){return p.name || p.title || p.product_name || "পণ্য"}
-function priceOf(p){return Number(p.price || 0)}
-function descOf(p){return p.description || p.details || "বিস্তারিত তথ্য পাওয়া যায়নি।"}
-function categoryOf(p){return p.category || "অন্যান্য"}
-function imageOf(p){return p.image_url || p.image || p.photo || "https://placehold.co/500x350?text=Smart+Gear"}
+function nameOf(p){return p.name||p.title||p.product_name||"পণ্য"}
+function priceOf(p){return Number(p.price||0)}
+function descOf(p){return p.description||p.details||"বিস্তারিত তথ্য পাওয়া যায়নি।"}
+function categoryOf(p){return p.category||"অন্যান্য"}
+function imageOf(p){return p.image_url||p.image||p.photo||"https://placehold.co/500x350?text=Smart+Gear"}
 function money(n){return "৳"+Number(n||0).toLocaleString("en-US")}
+function esc(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function escAttr(s){return esc(s).replace(/`/g,"&#96;")}
 
 async function loadProducts(){
  const box=document.getElementById("products");
  if(!db){box.innerHTML="<p>Supabase config.js পাওয়া যায়নি।</p>";return}
+ box.innerHTML="<p>পণ্য লোড হচ্ছে...</p>";
  try{
   const {data,error}=await db.from("products").select("*").order("created_at",{ascending:false});
   if(error)throw error;
-  products=data||[];
+  products=(data||[]).filter(p=>p.is_active!==false);
   buildCategories();
   renderProducts();
  }catch(e){
-  box.innerHTML="<p>পণ্য লোড হয়নি: "+escapeHTML(e.message)+"</p>";
+  box.innerHTML="<p>পণ্য লোড হয়নি: "+esc(e.message)+"</p>";
  }
 }
 
 function buildCategories(){
- const list=["সব",...new Set(products.map(categoryOf))];
- document.getElementById("categories").innerHTML=list.map((c,i)=>
- `<button class="${i===0?"active":""}" onclick="setCategory('${escapeAttr(c)}',this)">${escapeHTML(c==="সব"?"সব পণ্য":c)}</button>`
+ const cats=["সব",...new Set(products.map(categoryOf))];
+ document.getElementById("categories").innerHTML=cats.map((c,i)=>
+ `<button class="${i===0?"active":""}" onclick="setCategory('${escAttr(c)}',this)">${esc(c==="সব"?"সব পণ্য":c)}</button>`
  ).join("");
 }
-
 function setCategory(c,el){
  selectedCategory=c;
  document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
@@ -308,44 +260,50 @@ function setCategory(c,el){
 }
 
 function renderProducts(){
+ document.getElementById("listTitle").textContent="✨ আমাদের পণ্য";
  const q=document.getElementById("search").value.toLowerCase();
  const list=products.filter(p=>
  (selectedCategory==="সব"||categoryOf(p)===selectedCategory)&&
  (nameOf(p).toLowerCase().includes(q)||descOf(p).toLowerCase().includes(q))
  );
- document.getElementById("products").innerHTML=list.length?list.map(p=>`
- <article class="product">
-  <img src="${escapeAttr(imageOf(p))}" alt="${escapeAttr(nameOf(p))}" onclick="showProduct('${escapeAttr(idOf(p))}')">
+ document.getElementById("products").innerHTML=list.length?list.map(p=>{
+ const id=String(p.id);
+ return `<article class="product">
+  <img class="product-img" src="${escAttr(imageOf(p))}" alt="${escAttr(nameOf(p))}" onclick="showProduct('${escAttr(id)}')">
   <div class="reactions">
-   ${["👍","❤️","😂","😮","😢","🔥"].map(r=>`<button onclick="reactProduct('${escapeAttr(idOf(p))}','${r}')">${r}</button>`).join("")}
+   ${["👍","❤️","😂","😮","😢","🔥"].map(r=>`<button onclick="reactProduct('${escAttr(id)}','${r}')" aria-label="React ${r}">${r}</button>`).join("")}
   </div>
   <div class="product-info">
-   <h3>${escapeHTML(nameOf(p))}</h3>
+   <h3>${esc(nameOf(p))}</h3>
    <div class="price">${money(priceOf(p))}</div>
    <div class="product-actions">
-    <button onclick="showProduct('${escapeAttr(idOf(p))}')">বিস্তারিত</button>
-    <button class="secondary" onclick="addCart('${escapeAttr(idOf(p))}')">কার্টে নিন</button>
+    <button onclick="showProduct('${escAttr(id)}')">বিস্তারিত</button>
+    <button class="secondary" onclick="addCart('${escAttr(id)}')">কার্টে নিন</button>
+   </div>
+   <div class="product-actions">
+    <button class="secondary" onclick="toggleSaved('${escAttr(id)}')">${savedIds.includes(id)?"♥ Saved":"♡ Save"}</button>
+    <button class="secondary" onclick="shareProduct('${escAttr(id)}')">↗ Share</button>
    </div>
   </div>
- </article>`).join(""):"<p>কোনো পণ্য পাওয়া যায়নি।</p>";
+ </article>`;
+ }).join(""):"<p>কোনো পণ্য পাওয়া যায়নি।</p>";
 }
 
 function showProduct(id){
- const p=products.find(x=>String(idOf(x))===String(id));
+ const p=products.find(x=>String(x.id)===String(id));
  if(!p)return;
- currentProduct=p;
  document.getElementById("productDetails").innerHTML=`
- <img src="${escapeAttr(imageOf(p))}" style="width:100%;max-height:270px;object-fit:contain;border-radius:12px">
- <h2>${escapeHTML(nameOf(p))}</h2>
+ <img src="${escAttr(imageOf(p))}" style="width:100%;max-height:270px;object-fit:contain;border-radius:12px">
+ <h2>${esc(nameOf(p))}</h2>
  <h3 class="price">${money(priceOf(p))}</h3>
- <p>${escapeHTML(descOf(p))}</p>
- <p>ক্যাটাগরি: ${escapeHTML(categoryOf(p))}</p>
- <button class="primary" onclick="addCart('${escapeAttr(id)}');closeModal('productModal')">কার্টে নিন</button>
- <hr>
- <h3>মন্তব্য</h3>
+ <p>${esc(descOf(p))}</p>
+ <p>ক্যাটাগরি: ${esc(categoryOf(p))}</p>
+ <button class="primary" onclick="addCart('${escAttr(id)}');closeModal('productModal')">কার্টে নিন</button>
+ <button class="primary" style="background:#246b49" onclick="shareProduct('${escAttr(id)}')">পণ্য শেয়ার করুন</button>
+ <hr><h3>মন্তব্য</h3>
  <input id="commentName" class="field" placeholder="আপনার নাম">
  <textarea id="commentText" class="field" placeholder="আপনার মন্তব্য"></textarea>
- <button class="primary" onclick="addComment('${escapeAttr(id)}')">মন্তব্য পাঠান</button>
+ <button class="primary" onclick="addComment('${escAttr(id)}')">মন্তব্য পাঠান</button>
  <div id="comments">মন্তব্য লোড হচ্ছে...</div>`;
  openModal("productModal");
  loadComments(id);
@@ -356,7 +314,7 @@ async function loadComments(id){
  if(!db)return;
  const {data,error}=await db.from("product_comments").select("*").eq("product_id",id).order("created_at",{ascending:false}).limit(30);
  if(error){box.textContent="মন্তব্য লোড হয়নি";return}
- box.innerHTML=(data||[]).map(c=>`<div class="comment"><b>${escapeHTML(c.name||"গ্রাহক")}</b><p>${escapeHTML(c.comment||"")}</p></div>`).join("")||"এখনো কোনো মন্তব্য নেই।";
+ box.innerHTML=(data||[]).map(c=>`<div class="comment"><b>${esc(c.name||"গ্রাহক")}</b><p>${esc(c.comment||"")}</p></div>`).join("")||"এখনো কোনো মন্তব্য নেই।";
 }
 
 async function addComment(id){
@@ -375,48 +333,65 @@ async function reactProduct(id,reaction){
  else alert("আপনার রিঅ্যাকশন যোগ হয়েছে "+reaction);
 }
 
-function addCart(id){
- const p=products.find(x=>String(idOf(x))===String(id));
+function toggleSaved(id){
+ if(savedIds.includes(id))savedIds=savedIds.filter(x=>x!==id);
+ else savedIds.push(id);
+ localStorage.setItem("sg_saved",JSON.stringify(savedIds));
+ renderProducts();
+}
+function showSaved(){
+ document.getElementById("listTitle").textContent="♡ সংরক্ষিত পণ্য";
+ const list=products.filter(p=>savedIds.includes(String(p.id)));
+ document.getElementById("products").innerHTML=list.length?list.map(p=>`
+ <article class="product">
+ <img class="product-img" src="${escAttr(imageOf(p))}" onclick="showProduct('${escAttr(p.id)}')">
+ <div class="product-info"><h3>${esc(nameOf(p))}</h3><div class="price">${money(priceOf(p))}</div>
+ <div class="product-actions"><button onclick="showProduct('${escAttr(p.id)}')">বিস্তারিত</button><button class="secondary" onclick="toggleSaved('${escAttr(p.id)}')">Remove</button></div></div></article>`).join(""):"<p>এখনো কোনো পণ্য সংরক্ষণ করেননি।</p>";
+}
+async function shareProduct(id){
+ const p=products.find(x=>String(x.id)===String(id));
  if(!p)return;
- const item=cart.find(x=>String(idOf(x.p))===String(id));
+ const url=location.href.split("#")[0]+"#product-"+encodeURIComponent(id);
+ const text=nameOf(p)+" — "+money(priceOf(p))+"\n"+url;
+ if(navigator.share){
+  try{await navigator.share({title:nameOf(p),text,url})}catch(e){}
+ }else{
+  try{await navigator.clipboard.writeText(text);alert("পণ্যের লিংক কপি হয়েছে")}
+  catch(e){prompt("লিংক কপি করুন",text)}
+ }
+}
+
+function addCart(id){
+ const p=products.find(x=>String(x.id)===String(id));
+ if(!p)return;
+ const item=cart.find(x=>String(x.p.id)===String(id));
  if(item)item.qty++;
  else cart.push({p,qty:1});
  updateCart();
  alert("কার্টে যোগ হয়েছে");
 }
-
 function updateCart(){
  document.getElementById("cartCount").textContent=cart.reduce((a,x)=>a+x.qty,0);
 }
-
 function subtotal(){return cart.reduce((a,x)=>a+priceOf(x.p)*x.qty,0)}
-function delivery(){
- return document.getElementById("district").value.trim()==="চট্টগ্রাম"?70:140;
-}
+function delivery(){return document.getElementById("district").value.trim()==="চট্টগ্রাম"?70:140}
 
 function openCart(){
  document.getElementById("cartItems").innerHTML=cart.map((x,i)=>`
- <div class="comment">
- <b>${escapeHTML(nameOf(x.p))}</b><br>
- ${money(priceOf(x.p))} × ${x.qty}
+ <div class="comment"><b>${esc(nameOf(x.p))}</b><br>${money(priceOf(x.p))} × ${x.qty}
  <button onclick="changeQty(${i},-1)">−</button>
- <button onclick="changeQty(${i},1)">+</button>
- </div>`).join("")||"আপনার কার্ট খালি।";
+ <button onclick="changeQty(${i},1)">+</button></div>`).join("")||"আপনার কার্ট খালি।";
  document.getElementById("cartTotal").textContent="পণ্যের মূল্য: "+money(subtotal());
  openModal("cartModal");
 }
-
 function changeQty(i,n){
  cart[i].qty+=n;
  if(cart[i].qty<=0)cart.splice(i,1);
  updateCart();openCart();
 }
-
 function openCheckout(){
  if(!cart.length)return alert("কার্ট খালি");
- closeModal("cartModal");
- updateCheckoutTotal();
- openModal("checkoutModal");
+ closeModal("cartModal");updateCheckoutTotal();openModal("checkoutModal");
 }
 function updateCheckoutTotal(){
  const charge=delivery();
@@ -442,37 +417,36 @@ async function submitOrder(){
   return alert("Transaction ID লিখুন");
 
  const charge=delivery();
- const total=subtotal()+charge;
- const rows=cart.map(x=>({
-  product_id:idOf(x.p),
-  product_title:nameOf(x.p),
-  price:priceOf(x.p),
-  quantity:x.qty,
-  customer_name:name,
-  customer_phone:phone,
-  division,district,upazila,
-  delivery_address:address,
-  delivery_charge:charge,
-  total_amount:total,
-  payment_method:payment,
-  transaction_id:transaction||null
- }));
+ const sub=subtotal();
+ const rows=cart.map(x=>{
+  const line=priceOf(x.p)*x.qty;
+  const allocated=sub>0?Math.round(charge*line/sub):0;
+  return {
+   product_id:x.p.id,product_title:nameOf(x.p),price:priceOf(x.p),
+   quantity:x.qty,customer_name:name,customer_phone:phone,
+   division,district,upazila,delivery_address:address,
+   delivery_charge:allocated,total_amount:line+allocated,
+   payment_method:payment,transaction_id:transaction||null
+  };
+ });
+ if(rows.length)rows[rows.length-1].delivery_charge+=charge-rows.reduce((a,r)=>a+r.delivery_charge,0);
+ if(rows.length)rows[rows.length-1].total_amount+=charge-rows.reduce((a,r)=>a+r.delivery_charge,0)+rows[rows.length-1].delivery_charge-rows[rows.length-1].delivery_charge;
 
  const {error}=await db.from("orders").insert(rows);
  if(error)return alert("অর্ডার ব্যর্থ: "+error.message);
 
  const orderText=cart.map(x=>`${nameOf(x.p)} × ${x.qty} = ${money(priceOf(x.p)*x.qty)}`).join("\n");
- const text=`নতুন অর্ডার - Smart Gear\n${orderText}\nমোট: ${money(total)}\nনাম: ${name}\nফোন: ${phone}\nঠিকানা: ${division}, ${district}, ${upazila}, ${address}\nপেমেন্ট: ${payment}\nTransaction ID: ${transaction||"প্রযোজ্য নয়"}`;
+ const total=sub+charge;
+ const msg=`নতুন অর্ডার - Smart Gear\n${orderText}\nপণ্য: ${money(sub)}\nডেলিভারি: ${money(charge)}\nমোট: ${money(total)}\nনাম: ${name}\nফোন: ${phone}\nঠিকানা: ${division}, ${district}, ${upazila}, ${address}\nপেমেন্ট: ${payment}\nTransaction ID: ${transaction||"প্রযোজ্য নয়"}`;
  cart=[];updateCart();closeModal("checkoutModal");
- window.open("https://wa.me/8801854673321?text="+encodeURIComponent(text),"_blank");
+ window.open("https://wa.me/8801854673321?text="+encodeURIComponent(msg),"_blank");
  alert("অর্ডার সফলভাবে জমা হয়েছে।");
 }
 
 function openAI(){openModal("aiModal")}
 function addMessage(text,who){
  const div=document.createElement("div");
- div.className="msg "+who;
- div.textContent=text;
+ div.className="msg "+who;div.textContent=text;
  const chat=document.getElementById("chat");
  chat.appendChild(div);chat.scrollTop=chat.scrollHeight;
 }
@@ -493,60 +467,53 @@ async function sendAI(){
   if(file){
    image=await new Promise((resolve,reject)=>{
     const reader=new FileReader();
-    reader.onload=()=>resolve({data:reader.result,mimeType:file.type});
+    reader.onload=()=>resolve({data:reader.result,mimeType:file.type||"image/jpeg"});
     reader.onerror=reject;
     reader.readAsDataURL(file);
    });
   }
-
   const response=await fetch(AI_URL,{
    method:"POST",
-   headers:{
-    "Content-Type":"application/json",
-    "apikey":SUPABASE_KEY
-   },
+   headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},
    body:JSON.stringify({
     message:message||"ছবিটি বিশ্লেষণ করে বুঝিয়ে বলুন।",
     products:products.map(p=>({
-     id:idOf(p),name:nameOf(p),price:priceOf(p),
-     category:categoryOf(p),description:descOf(p),
-     stock:p.stock??null
+     id:p.id,name:nameOf(p),price:priceOf(p),
+     category:categoryOf(p),description:descOf(p),stock:p.stock??null
     })),
     history:aiHistory,
     image,
     store:{
-     name:"Smart Gear",
-     phone:PHONE,
+     name:"Smart Gear",phone:PHONE,
      delivery:{Chattogram:70,otherDistricts:140},
      paymentNumber:PHONE
     }
    })
   });
-
   const data=await response.json();
   if(!response.ok)throw new Error(data.error||"AI সার্ভার সমস্যা");
   const answer=data.answer||data.text||data.reply;
   if(!answer)throw new Error("AI উত্তর পাওয়া যায়নি");
-
   loading.textContent=answer;
-  aiHistory.push({role:"user",content:message});
+  aiHistory.push({role:"user",content:message||"ছবি বিশ্লেষণ করুন"});
   aiHistory.push({role:"assistant",content:answer});
   if(aiHistory.length>16)aiHistory=aiHistory.slice(-16);
-
  }catch(e){
-  loading.textContent="দুঃখিত, AI উত্তর দিতে পারেনি। সমস্যা: "+e.message;
+  loading.textContent="দুঃখিত, AI উত্তর দিতে পারেনি। সমস্যা: "+e.message+
+  "\n\nআপনি চাইলে WhatsApp-এ আমাদের সঙ্গে যোগাযোগ করতে পারেন।";
  }
  document.getElementById("aiImage").value="";
 }
 
 function openModal(id){document.getElementById(id).classList.add("show")}
 function closeModal(id){document.getElementById(id).classList.remove("show")}
-function escapeHTML(s){
- return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function escapeAttr(s){return escapeHTML(s).replace(/`/g,"&#96;")}
+
+document.getElementById("aiQuestion").addEventListener("keydown",e=>{
+ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendAI()}
+});
 
 loadProducts();
+updateCart();
 </script>
 </body>
 </html>
