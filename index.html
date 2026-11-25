@@ -10,14 +10,14 @@
 <style>
 :root{
  --green:#123c2b;
- --green2:#24583d;
+ --green2:#286345;
  --gold:#c5a45b;
  --bg:#f4f7f3;
  --white:#fff;
  --text:#26382d;
  --muted:#748078;
  --border:#dfe7df;
- --red:#d52e50;
+ --red:#e53955;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -35,13 +35,15 @@ header{
  text-align:center;color:white;padding:22px 12px;
  background:linear-gradient(120deg,#10291e,#286345,#10291e);
  background-size:200% 200%;
- animation:gradientMove 8s ease infinite;
+ animation:gradientMove 7s ease infinite;
  border-bottom:4px solid var(--gold);
 }
 .logo{
- width:78px;height:78px;object-fit:cover;border-radius:50%;
- background:white;border:3px solid var(--gold);
+ width:78px;height:78px;object-fit:cover;
+ border-radius:50%;background:white;
+ border:3px solid var(--gold);
  box-shadow:0 0 20px #c5a45b66;
+ animation:logoPulse 3s infinite;
 }
 header h1{margin:9px 0;color:#f0d58e}
 header p{margin:5px;color:#e5eee7}
@@ -52,7 +54,7 @@ header p{margin:5px;color:#e5eee7}
  border-radius:17px;color:white;
  background:linear-gradient(120deg,#123c2b,#286345,#123c2b);
  background-size:200% 200%;
- animation:gradientMove 8s infinite,fadeUp .8s both;
+ animation:gradientMove 7s infinite,fadeUp .8s both;
  position:relative;overflow:hidden;
  box-shadow:0 8px 25px #123c2b20;
 }
@@ -61,27 +63,54 @@ header p{margin:5px;color:#e5eee7}
 .hero button{
  background:var(--gold);color:#17281e;
  padding:12px 23px;border-radius:25px;
+ transition:.3s;
 }
+.hero button:hover{transform:scale(1.07);box-shadow:0 5px 20px #c5a45b77}
 .hero:after{
  content:"✦";position:absolute;right:20px;top:0;
- font-size:110px;color:#ffffff15;animation:float 4s infinite;
+ font-size:110px;color:#ffffff15;
+ animation:float 4s infinite;
 }
 main{max-width:1050px;margin:auto;padding:12px}
 .section-title{color:var(--green);font-size:21px;margin:23px 0 13px}
 
-/* INPUTS */
+/* SEARCH */
 input,select,textarea{
  width:100%;padding:12px;margin:7px 0 12px;
  border:1px solid var(--border);border-radius:9px;
  background:white;font-size:15px;outline:none;
 }
 input:focus,select:focus,textarea:focus{
- border-color:var(--gold);box-shadow:0 0 0 3px #c5a45b22;
+ border-color:var(--gold);
+ box-shadow:0 0 0 3px #c5a45b22;
 }
+
+/* CATEGORY */
+.category-bar{
+ display:flex;gap:8px;overflow-x:auto;
+ padding:5px 1px 13px;
+ scrollbar-width:thin;
+}
+.category-btn{
+ flex:0 0 auto;padding:10px 15px;
+ color:var(--green);background:white;
+ border:1px solid var(--border);
+ transition:transform .25s,background .25s;
+}
+.category-btn:hover{transform:translateY(-3px)}
+.category-btn.active{
+ color:white;background:var(--green);
+ border-color:var(--green);
+ box-shadow:0 4px 13px #123c2b30;
+ animation:categoryPop .3s;
+}
+.category-btn.favorite-tab{color:#c52b48}
+.category-btn.favorite-tab.active{background:#c52b48;color:white}
 
 /* PRODUCTS */
 .products{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:11px;
 }
 .product{
  min-width:0;padding:9px;background:white;
@@ -89,7 +118,7 @@ input:focus,select:focus,textarea:focus{
  box-shadow:0 4px 14px #123c2b0b;
  animation:productEnter .65s both;
  transition:transform .35s,box-shadow .35s;
- cursor:pointer;
+ cursor:pointer;position:relative;
 }
 .product:hover{
  transform:translateY(-7px);
@@ -102,7 +131,8 @@ input:focus,select:focus,textarea:focus{
 }
 .product:hover>img{transform:scale(1.07)}
 .product h3{
- font-size:14px;color:var(--green);overflow-wrap:anywhere;
+ font-size:14px;color:var(--green);
+ overflow-wrap:anywhere;
 }
 .product p{font-size:12px}
 .description{
@@ -122,23 +152,39 @@ input:focus,select:focus,textarea:focus{
  border-radius:5px;font-size:10px;margin-left:4px;
 }
 .product-actions{display:grid;gap:6px}
-.product-actions button{padding:10px 5px;transition:transform .2s}
-.product-actions button:active{transform:scale(.94)}
+.product-actions button{
+ padding:10px 5px;transition:transform .2s;
+}
+.product-actions button:active{transform:scale(.93)}
 .order-btn{background:var(--green);color:white}
 .share-btn{background:#f0e4c4;color:#493a1c}
+
+/* FAVORITE */
+.favorite-btn{
+ position:absolute;top:14px;right:14px;z-index:3;
+ width:36px;height:36px;border-radius:50%;
+ background:#ffffffed;color:#9b9b9b;
+ font-size:21px;box-shadow:0 2px 10px #0002;
+ transition:transform .25s,color .25s;
+}
+.favorite-btn.active{
+ color:#e52d50;
+ animation:heartBeat .5s;
+}
+.favorite-btn:hover{transform:scale(1.15)}
 
 /* REACTIONS */
 .reaction-wrap{position:relative;margin-top:7px}
 .reaction-main{
- width:100%;padding:10px 5px;background:#eef5ef;
- color:var(--green);border:1px solid #d7e6d9;
- font-size:13px;transition:.25s;
+ width:100%;padding:10px 5px;
+ background:#eef5ef;color:var(--green);
+ border:1px solid #d7e6d9;font-size:13px;
+ transition:.25s;
 }
 .reaction-main.active{
  background:#fff0f3;color:var(--red);
  animation:reactionPop .4s;
 }
-.reaction-main:active{transform:scale(.95)}
 .reaction-picker{
  display:none;position:absolute;z-index:20;
  bottom:45px;left:0;right:0;padding:8px 4px;
@@ -244,8 +290,10 @@ input:focus,select:focus,textarea:focus{
 }
 .details-order{background:var(--green);color:white}
 .details-share{background:#f0e4c4;color:#493a1c}
-.image-viewer img{max-width:100%;max-height:85vh;object-fit:contain}
-.image-viewer .viewer-close{position:absolute;top:15px;right:15px}
+.details-favorite{
+ width:100%;padding:12px;margin-top:9px;
+ background:#fff0f3;color:#d52e50;
+}
 
 /* CONTACT */
 .contact-links a{
@@ -344,6 +392,15 @@ footer{
  0%,100%{background-position:0% 50%}
  50%{background-position:100% 50%}
 }
+@keyframes logoPulse{
+ 0%,100%{box-shadow:0 0 10px #c5a45b55}
+ 50%{box-shadow:0 0 25px #c5a45b}
+}
+@keyframes categoryPop{
+ 0%{transform:scale(.9)}
+ 60%{transform:scale(1.07)}
+ 100%{transform:scale(1)}
+}
 @media(min-width:600px){
  .products{grid-template-columns:repeat(3,minmax(0,1fr))}
  .product>img{height:155px}
@@ -380,6 +437,12 @@ footer{
  <section id="shop">
   <h2 class="section-title">✨ আমাদের প্রোডাক্ট</h2>
   <input id="search" placeholder="🔍 প্রোডাক্ট খুঁজুন...">
+
+  <div id="categories" class="category-bar">
+   <button class="category-btn active" data-category="সব">সব প্রোডাক্ট</button>
+   <button class="category-btn favorite-tab" data-category="__favorites">❤️ আমার Favorite</button>
+  </div>
+
   <div id="products" class="products">প্রোডাক্ট লোড হচ্ছে...</div>
  </section>
 
@@ -504,6 +567,7 @@ const db=window.supabase.createClient(
 let allProducts=[];
 let selected=null;
 let isAdmin=false;
+let currentCategory="সব";
 
 const visitorKey="smartgear_visitor_id";
 let visitorId=localStorage.getItem(visitorKey);
@@ -513,6 +577,31 @@ if(!visitorId){
   ?crypto.randomUUID()
   :"visitor-"+Date.now()+"-"+Math.random().toString(36).slice(2);
  localStorage.setItem(visitorKey,visitorId);
+}
+
+/* FAVORITES: saved in this browser */
+const favoriteKey="smartgear_favorites";
+let favorites=new Set();
+
+try{
+ const saved=JSON.parse(localStorage.getItem(favoriteKey)||"[]");
+ favorites=new Set(saved.map(String));
+}catch(e){favorites=new Set()}
+
+function saveFavorites(){
+ localStorage.setItem(favoriteKey,JSON.stringify([...favorites]));
+}
+
+function isFavorite(id){
+ return favorites.has(String(id));
+}
+
+function toggleFavorite(id){
+ const key=String(id);
+ if(favorites.has(key))favorites.delete(key);
+ else favorites.add(key);
+ saveFavorites();
+ renderCurrentProducts();
 }
 
 const reactions=[
@@ -535,6 +624,7 @@ function finalPrice(p){
  return Math.round(price*(100-discount)/100*100)/100;
 }
 
+/* ADMIN CHECK */
 async function checkAdmin(){
  try{
   const {data:{user}}=await db.auth.getUser();
@@ -550,18 +640,79 @@ async function loadProducts(){
  $("products").textContent="প্রোডাক্ট লোড হচ্ছে...";
  try{
   const {data,error}=await db.from("products")
-   .select("id,title,description,price,image_url,is_active,created_at,discount_percent")
+   .select("id,title,description,price,image_url,is_active,created_at,discount_percent,category")
    .eq("is_active",true)
    .order("created_at",{ascending:false});
 
   if(error)throw error;
   allProducts=data||[];
-  showProducts(allProducts);
+  buildCategories();
+  renderCurrentProducts();
   openSharedProduct();
  }catch(e){
   console.error(e);
   $("products").textContent="প্রোডাক্ট লোড হয়নি: "+e.message;
  }
+}
+
+/* CATEGORY BUTTONS */
+function buildCategories(){
+ const box=$("categories");
+ box.innerHTML="";
+
+ const categories=["সব",...new Set(
+  allProducts.map(p=>(p.category||"অন্যান্য").trim()).filter(Boolean)
+ )];
+
+ categories.forEach(category=>{
+  const b=document.createElement("button");
+  b.className="category-btn";
+  b.dataset.category=category;
+  b.textContent=category==="সব"?"সব প্রোডাক্ট":category;
+  b.onclick=()=>selectCategory(category);
+  box.appendChild(b);
+ });
+
+ const fav=document.createElement("button");
+ fav.className="category-btn favorite-tab";
+ fav.dataset.category="__favorites";
+ fav.textContent="❤️ আমার Favorite";
+ fav.onclick=()=>selectCategory("__favorites");
+ box.appendChild(fav);
+
+ updateCategoryButtons();
+}
+
+function selectCategory(category){
+ currentCategory=category;
+ updateCategoryButtons();
+ renderCurrentProducts();
+}
+
+function updateCategoryButtons(){
+ document.querySelectorAll(".category-btn").forEach(b=>{
+  b.classList.toggle("active",b.dataset.category===currentCategory);
+ });
+}
+
+function renderCurrentProducts(){
+ const query=$("search").value.toLowerCase().trim();
+
+ let list=allProducts.filter(p=>{
+  const matchesSearch=
+   (p.title||"").toLowerCase().includes(query)||
+   (p.description||"").toLowerCase().includes(query);
+
+  const category=p.category||"অন্যান্য";
+  const matchesCategory=
+   currentCategory==="সব"||
+   (currentCategory==="__favorites"&&isFavorite(p.id))||
+   category===currentCategory;
+
+  return matchesSearch&&matchesCategory;
+ });
+
+ showProducts(list);
 }
 
 /* PRODUCT CARDS */
@@ -570,7 +721,9 @@ function showProducts(items){
  box.innerHTML="";
 
  if(!items.length){
-  box.textContent="কোনো প্রোডাক্ট পাওয়া যায়নি।";
+  box.textContent=currentCategory==="__favorites"
+   ?"আপনার Favorite তালিকায় এখনো কোনো প্রোডাক্ট নেই।"
+   :"কোনো প্রোডাক্ট পাওয়া যায়নি।";
   return;
  }
 
@@ -588,8 +741,22 @@ function showProducts(items){
    openImage(p.image_url);
   };
 
+  const favorite=document.createElement("button");
+  favorite.type="button";
+  favorite.className="favorite-btn"+(isFavorite(p.id)?" active":"");
+  favorite.textContent=isFavorite(p.id)?"♥":"♡";
+  favorite.title=isFavorite(p.id)?"Favorite থেকে সরান":"Favorite করুন";
+  favorite.onclick=e=>{
+   e.stopPropagation();
+   toggleFavorite(p.id);
+  };
+
   const title=document.createElement("h3");
   title.textContent=p.title||"প্রোডাক্ট";
+
+  const category=document.createElement("small");
+  category.style.color="#8b987f";
+  category.textContent="▸ "+(p.category||"অন্যান্য");
 
   const desc=document.createElement("p");
   desc.className="description";
@@ -723,7 +890,8 @@ function showProducts(items){
 
   content.append(input,mediaInput,send,list);
   commentArea.append(toggle,content);
-  card.append(img,title,desc,more,price,actions,commentArea);
+
+  card.append(img,favorite,title,category,desc,more,price,actions,commentArea);
 
   card.onclick=e=>{
    if(e.target.closest("button,input,textarea,a,video"))return;
@@ -731,6 +899,7 @@ function showProducts(items){
   };
 
   box.appendChild(card);
+
   loadProductReactions(p.id,reactionWrap);
   loadComments(p.id,list,toggle);
  });
@@ -1008,7 +1177,7 @@ async function deleteComment(id,productId,list,toggle){
  await loadComments(productId,list,toggle);
 }
 
-/* DETAILS */
+/* PRODUCT DETAILS */
 function showProductDetails(p){
  const content=$("detailsContent");
  content.innerHTML="";
@@ -1020,6 +1189,10 @@ function showProductDetails(p){
 
  const title=document.createElement("h2");
  title.textContent=p.title||"প্রোডাক্ট";
+
+ const category=document.createElement("p");
+ category.className="muted";
+ category.textContent="ক্যাটাগরি: "+(p.category||"অন্যান্য");
 
  const price=document.createElement("p");
  price.className="price";
@@ -1048,6 +1221,14 @@ function showProductDetails(p){
  delivery.className="muted";
  delivery.textContent="ডেলিভারি: চট্টগ্রামে ৳৭০ | চট্টগ্রামের বাইরে ৳১৪০";
 
+ const favorite=document.createElement("button");
+ favorite.className="details-favorite";
+ favorite.textContent=isFavorite(p.id)?"❤️ Favorite থেকে সরান":"♡ Favorite করুন";
+ favorite.onclick=()=>{
+  toggleFavorite(p.id);
+  favorite.textContent=isFavorite(p.id)?"❤️ Favorite থেকে সরান":"♡ Favorite করুন";
+ };
+
  const order=document.createElement("button");
  order.className="details-order";
  order.textContent="🛒 এখনই অর্ডার করুন";
@@ -1061,7 +1242,7 @@ function showProductDetails(p){
  share.textContent="🔗 প্রোডাক্ট শেয়ার করুন";
  share.onclick=()=>shareProduct(p);
 
- content.append(image,title,price,description,delivery,order,share);
+ content.append(image,title,category,price,description,delivery,favorite,order,share);
  $("detailsOverlay").style.display="flex";
  document.body.style.overflow="hidden";
 }
@@ -1122,13 +1303,7 @@ function openSharedProduct(){
 }
 
 /* SEARCH */
-$("search").oninput=e=>{
- const q=e.target.value.toLowerCase().trim();
- showProducts(allProducts.filter(p=>
-  (p.title||"").toLowerCase().includes(q)||
-  (p.description||"").toLowerCase().includes(q)
- ));
-};
+$("search").oninput=renderCurrentProducts;
 
 /* ORDER */
 function openOrder(p){
