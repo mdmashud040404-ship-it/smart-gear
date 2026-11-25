@@ -3,21 +3,21 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#123c2b">
-<title>Smart Gear — Digital Store</title>
+<title>Smart Gear — Premium Digital Store</title>
 
 <style>
 :root{
   --bg:#f4f7f3;
   --white:#fff;
   --green:#123c2b;
-  --green2:#1d5138;
+  --green2:#24583d;
   --gold:#c5a45b;
   --text:#20352a;
   --muted:#718078;
   --line:#dce5dd;
-  --red:#a83c3c;
+  --red:#d52e50;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -28,11 +28,14 @@ body{
   font-family:Arial,sans-serif;
 }
 button,input,select,textarea{font-family:inherit}
-button{cursor:pointer}
+button{cursor:pointer;border:0;border-radius:9px;font-weight:bold}
 button:disabled{opacity:.6;cursor:not-allowed}
+.hidden{display:none!important}
 
 header{
-  background:linear-gradient(135deg,#10291e,#1d5138);
+  background:linear-gradient(120deg,#10291e,#24583d,#10291e);
+  background-size:200% 200%;
+  animation:gradientMove 8s ease infinite;
   color:white;
   text-align:center;
   padding:24px 15px;
@@ -44,34 +47,33 @@ header{
   object-fit:cover;
   border:3px solid var(--gold);
   background:white;
+  box-shadow:0 0 20px #c5a45b66;
 }
-header h1{
-  color:#e6c77d;
-  margin:10px 0 5px;
-  font-size:29px;
-}
+header h1{color:#f0d58e;margin:10px 0 5px;font-size:29px}
 header p{margin:5px;color:#e4eee7}
 
 .hero{
   max-width:1000px;
   margin:18px auto;
-  padding:30px 20px;
+  padding:32px 20px;
   border-radius:18px;
   color:white;
-  background:linear-gradient(120deg,#123c2b,#286345);
+  background:linear-gradient(120deg,#123c2b,#286345,#123c2b);
+  background-size:200% 200%;
+  animation:gradientMove 8s ease infinite,fadeUp .8s ease both;
   box-shadow:0 8px 25px #123c2b20;
   position:relative;
   overflow:hidden;
-  animation:fadeUp .6s ease both;
 }
 .hero:after{
   content:"✦";
   position:absolute;
-  right:20px;top:5px;
-  font-size:110px;
+  right:20px;top:0;
+  font-size:115px;
   color:#ffffff12;
+  animation:float 4s ease-in-out infinite;
 }
-.hero h2{font-size:27px;margin:0 0 10px;color:#f0d58e}
+.hero h2{font-size:27px;color:#f0d58e;margin:0 0 10px}
 .hero p{line-height:1.7;color:#e6eee8}
 .hero button{
   background:var(--gold);
@@ -81,11 +83,7 @@ header p{margin:5px;color:#e4eee7}
 }
 
 main{max-width:1050px;margin:auto;padding:12px}
-.section-title{
-  color:var(--green);
-  margin:25px 0 12px;
-  font-size:22px;
-}
+.section-title{color:var(--green);margin:25px 0 12px;font-size:22px}
 input,select,textarea{
   width:100%;
   padding:12px;
@@ -99,7 +97,7 @@ input,select,textarea{
 }
 input:focus,select:focus,textarea:focus{
   border-color:var(--gold);
-  box-shadow:0 0 0 2px #c5a45b22;
+  box-shadow:0 0 0 3px #c5a45b22;
 }
 .products{
   display:grid;
@@ -107,53 +105,37 @@ input:focus,select:focus,textarea:focus{
   gap:11px;
 }
 .product{
+  min-width:0;
   background:white;
   border:1px solid var(--line);
-  border-radius:13px;
+  border-radius:14px;
   padding:9px;
-  min-width:0;
   box-shadow:0 4px 14px #123c2b0b;
-  animation:fadeUp .45s ease both;
-  transition:transform .3s,box-shadow .3s;
+  animation:productEnter .65s ease both;
+  transition:transform .35s,box-shadow .35s;
   cursor:pointer;
 }
 .product:hover{
-  transform:translateY(-5px);
-  box-shadow:0 12px 25px #123c2b20;
+  transform:translateY(-7px) scale(1.015);
+  box-shadow:0 13px 30px #c5a45b35;
 }
-.product img{
+.product>img{
   width:100%;
-  height:125px;
+  height:130px;
   object-fit:contain;
   background:#f7f8f5;
-  border-radius:9px;
-  transition:transform .35s;
+  border-radius:10px;
+  transition:transform .4s;
 }
-.product:hover>img{transform:scale(1.04)}
+.product:hover>img{transform:scale(1.07)}
 .product h3{
   color:var(--green);
   font-size:14px;
-  margin:8px 0;
+  margin:9px 0;
   overflow-wrap:anywhere;
 }
 .product p{font-size:12px;overflow-wrap:anywhere}
-.product .price{
-  font-size:15px;
-  color:var(--green);
-  font-weight:bold;
-  margin:8px 0;
-}
-.product-action{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-.product-action button{
-  width:100%;
-  padding:10px 5px;
-}
-.order-btn{background:var(--green);color:white}
-.share-btn{background:#f0e4c4;color:#493a1c}
+.price{font-size:15px;color:var(--green);font-weight:bold}
 .old-price{
   text-decoration:line-through;
   color:#89958d;
@@ -184,6 +166,17 @@ input:focus,select:focus,textarea:focus{
   padding:2px 0 8px;
   font-size:11px;
 }
+.product-actions{display:grid;gap:6px}
+.product-actions button{padding:10px 5px;transition:transform .2s}
+.product-actions button:active{transform:scale(.94)}
+.order-btn{background:var(--green);color:white}
+.share-btn{background:#f0e4c4;color:#493a1c}
+.product-like{
+  background:#fff0f2;
+  color:#b52343;
+  border:1px solid #f5d2d9;
+}
+.product-like.liked{background:#ffe0e6;color:#d71946;animation:heartBeat .4s}
 .panel{
   background:white;
   border:1px solid var(--line);
@@ -192,16 +185,11 @@ input:focus,select:focus,textarea:focus{
   margin:18px 0;
   box-shadow:0 4px 15px #123c2b0b;
 }
-.hidden{display:none!important}
 .muted{color:var(--muted)}
 .total{color:var(--green);font-weight:bold;font-size:18px}
 
 /* Comments */
-.comment-area{
-  margin-top:9px;
-  border-top:1px solid var(--line);
-  padding-top:8px;
-}
+.comment-area{margin-top:9px;border-top:1px solid var(--line);padding-top:8px}
 .comment-toggle{
   width:100%;
   background:#f2f6f2;
@@ -212,17 +200,18 @@ input:focus,select:focus,textarea:focus{
   padding:9px;
 }
 .comment-content{display:none;margin-top:8px}
-.comment-content.open{display:block}
-.comment-area textarea{height:55px;font-size:12px}
+.comment-content.open{display:block;animation:fadeUp .3s}
+.comment-area textarea{height:60px;font-size:12px}
 .media-input{font-size:12px;padding:8px}
-.send-comment{width:100%;font-size:12px}
+.send-comment{width:100%;padding:10px;background:var(--green);color:white}
 .comment-item{
   background:#f4f7f3;
   padding:9px;
-  border-radius:8px;
-  margin:7px 0;
+  border-radius:9px;
+  margin:8px 0;
   font-size:12px;
   overflow-wrap:anywhere;
+  animation:fadeUp .35s;
 }
 .comment-item strong{color:var(--green)}
 .comment-item p{white-space:pre-wrap;line-height:1.5}
@@ -232,15 +221,16 @@ input:focus,select:focus,textarea:focus{
   object-fit:contain;
   border-radius:8px;
   background:#e9eee9;
-  margin-top:6px;
+  margin-top:7px;
 }
 .like-btn{
-  background:#f0e4c4;
-  color:#493a1c;
+  background:#fff0f2;
+  color:#b52343;
   margin-top:7px;
-  font-size:12px;
+  padding:8px 12px;
 }
-.delete-comment{background:#a83c3c;color:white;margin-left:6px}
+.like-btn.liked{background:#ffe0e6;color:#d71946;animation:heartBeat .4s}
+.delete-comment{background:#a83c3c;color:white;margin-left:6px;padding:8px}
 
 /* Product details */
 .details-overlay,.image-viewer{
@@ -252,18 +242,17 @@ input:focus,select:focus,textarea:focus{
   padding:15px;
   align-items:center;
   justify-content:center;
-  animation:fadeIn .25s ease;
+  animation:fadeIn .25s;
 }
 .details-box{
   background:white;
-  color:#20352a;
   width:min(480px,100%);
   max-height:88vh;
   overflow-y:auto;
   border-radius:18px;
   padding:17px;
   position:relative;
-  animation:popupShow .35s ease;
+  animation:popupShow .4s;
   box-shadow:0 15px 50px #0005;
 }
 .details-box>img{
@@ -286,12 +275,10 @@ input:focus,select:focus,textarea:focus{
   float:right;
   top:0;
   z-index:2;
+  width:35px;height:35px;
   border-radius:50%;
   background:var(--green);
   color:white;
-  width:35px;
-  height:35px;
-  padding:0;
 }
 .details-order,.details-share{
   width:100%;
@@ -301,17 +288,10 @@ input:focus,select:focus,textarea:focus{
 }
 .details-order{background:var(--green);color:white}
 .details-share{background:#f0e4c4;color:#493a1c}
-.image-viewer img{
-  max-width:100%;
-  max-height:85vh;
-  object-fit:contain;
-}
-.image-viewer .viewer-close{
-  position:absolute;
-  top:15px;right:15px;
-}
+.image-viewer img{max-width:100%;max-height:85vh;object-fit:contain}
+.image-viewer .viewer-close{position:absolute;top:15px;right:15px}
 
-/* Contact and footer */
+/* Contact */
 .contact-links a{
   display:block;
   padding:12px;
@@ -336,13 +316,13 @@ footer{
   right:16px;
   bottom:16px;
   z-index:6000;
-  padding:13px 19px;
+  padding:14px 19px;
   border-radius:30px;
   font-size:15px;
   background:linear-gradient(135deg,#c5a45b,#f0d58e);
   color:#14271d;
   box-shadow:0 5px 20px #0004;
-  animation:float 2.5s ease-in-out infinite;
+  animation:float 2s infinite,glow 2.5s infinite;
 }
 .chat-panel{
   display:none;
@@ -369,12 +349,7 @@ footer{
   color:white;
 }
 .chat-head strong{color:#f0d58e}
-.chat-messages{
-  flex:1;
-  overflow-y:auto;
-  padding:10px;
-  background:#f7f9f6;
-}
+.chat-messages{flex:1;overflow-y:auto;padding:10px;background:#f7f9f6}
 .chat-message{
   padding:10px;
   border-radius:10px;
@@ -386,12 +361,7 @@ footer{
 }
 .bot-message{background:#e6eee7;color:#20352a;margin-right:12%}
 .user-message{background:#d8c38e;color:#17281e;margin-left:12%}
-.chat-input-area{
-  display:flex;
-  gap:5px;
-  padding:8px;
-  background:white;
-}
+.chat-input-area{display:flex;gap:5px;padding:8px}
 .chat-input-area input{margin:0;min-width:0}
 .chat-input-area button{background:var(--green);color:white}
 .chat-wa{
@@ -406,17 +376,35 @@ footer{
 }
 
 @keyframes fadeUp{
-  from{opacity:0;transform:translateY(14px)}
+  from{opacity:0;transform:translateY(22px)}
   to{opacity:1;transform:translateY(0)}
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes productEnter{
+  from{opacity:0;transform:translateY(30px) scale(.94)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
 @keyframes popupShow{
-  from{opacity:0;transform:translateY(35px) scale(.95)}
+  from{opacity:0;transform:translateY(35px) scale(.94)}
   to{opacity:1;transform:translateY(0) scale(1)}
 }
 @keyframes float{
   0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-5px)}
+  50%{transform:translateY(-7px)}
+}
+@keyframes glow{
+  0%,100%{box-shadow:0 5px 18px #c5a45b55}
+  50%{box-shadow:0 5px 30px #c5a45b}
+}
+@keyframes heartBeat{
+  0%{transform:scale(1)}
+  35%{transform:scale(1.25)}
+  70%{transform:scale(.9)}
+  100%{transform:scale(1)}
+}
+@keyframes gradientMove{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
 }
 @media(min-width:600px){
   .products{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -425,6 +413,13 @@ footer{
 @media(min-width:900px){
   .products{grid-template-columns:repeat(4,minmax(0,1fr))}
   .product>img{height:175px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+  }
 }
 </style>
 </head>
@@ -438,9 +433,9 @@ footer{
 </header>
 
 <section class="hero">
-  <h2>Welcome to Smart Gear</h2>
+  <h2>Welcome to Smart Gear ✨</h2>
   <p>আপনার পছন্দের ডিজিটাল পণ্য খুঁজুন সহজেই। সেরা পণ্য, সুন্দর দাম এবং নির্ভরযোগ্য সেবা এক জায়গায়।</p>
-  <button type="button" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+  <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
     Shop Now →
   </button>
 </section>
@@ -469,14 +464,10 @@ footer{
     <label>বিভাগ</label>
     <select id="division" required>
       <option value="">বিভাগ নির্বাচন করুন</option>
-      <option>চট্টগ্রাম</option>
-      <option>ঢাকা</option>
-      <option>রাজশাহী</option>
-      <option>খুলনা</option>
-      <option>বরিশাল</option>
-      <option>সিলেট</option>
-      <option>রংপুর</option>
-      <option>ময়মনসিংহ</option>
+      <option>চট্টগ্রাম</option><option>ঢাকা</option>
+      <option>রাজশাহী</option><option>খুলনা</option>
+      <option>বরিশাল</option><option>সিলেট</option>
+      <option>রংপুর</option><option>ময়মনসিংহ</option>
     </select>
 
     <label>জেলা</label>
@@ -517,11 +508,11 @@ footer{
   <h2 class="section-title">📞 যোগাযোগ</h2>
   <p>মোবাইল: 01854673321</p>
   <a href="tel:+8801854673321">📞 কল করুন</a>
-  <a href="https://wa.me/8801854673321" target="_blank" rel="noopener">🟢 WhatsApp</a>
+  <a href="https://wa.me/8801854673321" target="_blank" rel="noopener">🟢 WhatsApp-এ যোগাযোগ</a>
+  <a href="https://imo.im/" target="_blank" rel="noopener">💬 IMO খুলুন</a>
 </section>
 </main>
 
-<!-- Product details popup -->
 <div class="details-overlay" id="detailsOverlay">
   <div class="details-box">
     <button class="details-close" id="detailsClose" type="button">✕</button>
@@ -529,7 +520,6 @@ footer{
   </div>
 </div>
 
-<!-- Image viewer -->
 <div class="image-viewer" id="imageViewer">
   <button class="viewer-close" id="closeImage" type="button">✕</button>
   <img id="largeImage" alt="Product image">
@@ -540,7 +530,6 @@ footer{
   <p>আপনার বিশ্বস্ত ডিজিটাল স্টোর</p>
 </footer>
 
-<!-- AI Assistant -->
 <button class="chat-launch" id="chatLaunch" type="button">🤖 AI Assistant</button>
 
 <div class="chat-panel" id="chatPanel">
@@ -590,31 +579,34 @@ function finalPrice(p){
   return Math.round(price*(100-discount)/100*100)/100;
 }
 
+const visitorKey="smartgear_visitor_id";
+let visitorId=localStorage.getItem(visitorKey);
+
+if(!visitorId){
+  visitorId=crypto.randomUUID
+    ?crypto.randomUUID()
+    :"visitor-"+Date.now()+"-"+Math.random().toString(36).slice(2);
+  localStorage.setItem(visitorKey,visitorId);
+}
+
 async function checkAdmin(){
   try{
     const {data:{user}}=await db.auth.getUser();
     if(!user)return;
-
     const {data,error}=await db.from("admins")
-      .select("user_id")
-      .eq("user_id",user.id)
-      .maybeSingle();
-
+      .select("user_id").eq("user_id",user.id).maybeSingle();
     isAdmin=!error&&!!data;
   }catch(e){console.log(e)}
 }
 
 async function loadProducts(){
   productsBox.textContent="প্রোডাক্ট লোড হচ্ছে...";
-
   try{
     const {data,error}=await db.from("products")
       .select("id,title,description,price,image_url,is_active,created_at,discount_percent")
       .eq("is_active",true)
       .order("created_at",{ascending:false});
-
     if(error)throw error;
-
     allProducts=data||[];
     showProducts(allProducts);
     openSharedProduct();
@@ -626,21 +618,21 @@ async function loadProducts(){
 
 function showProducts(items){
   productsBox.innerHTML="";
-
   if(!items.length){
     productsBox.textContent="এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
     return;
   }
 
-  items.forEach(p=>{
+  items.forEach((p,index)=>{
     const card=document.createElement("div");
     card.className="product";
+    card.style.animationDelay=Math.min(index*.06,.5)+"s";
 
     const img=document.createElement("img");
     img.src=p.image_url||"";
     img.alt=p.title||"Product";
     img.loading="lazy";
-    img.onclick=()=>openImage(p.image_url);
+    img.onclick=e=>{e.stopPropagation();openImage(p.image_url)};
 
     const title=document.createElement("h3");
     title.textContent=p.title||"";
@@ -659,9 +651,7 @@ function showProducts(items){
         const expanded=desc.classList.toggle("expanded");
         more.textContent=expanded?"See less":"See more";
       };
-    }else{
-      more.style.display="none";
-    }
+    }else more.style.display="none";
 
     const price=document.createElement("p");
     price.className="price";
@@ -671,41 +661,35 @@ function showProducts(items){
       const old=document.createElement("span");
       old.className="old-price";
       old.textContent="৳"+Number(p.price||0);
-
-      const now=document.createElement("strong");
-      now.textContent="৳"+finalPrice(p);
-
+      const current=document.createElement("strong");
+      current.textContent="৳"+finalPrice(p);
       const tag=document.createElement("span");
       tag.className="discount-tag";
       tag.textContent=discount+"% ছাড়";
-
-      price.append(old,now,tag);
-    }else{
-      price.textContent="৳"+Number(p.price||0);
-    }
+      price.append(old,current,tag);
+    }else price.textContent="৳"+Number(p.price||0);
 
     const actions=document.createElement("div");
-    actions.className="product-action";
+    actions.className="product-actions";
 
     const order=document.createElement("button");
     order.className="order-btn";
-    order.type="button";
-    order.textContent="অর্ডার করুন";
-    order.onclick=e=>{
-      e.stopPropagation();
-      openOrder(p);
-    };
+    order.textContent="🛒 অর্ডার করুন";
+    order.onclick=e=>{e.stopPropagation();openOrder(p)};
 
     const share=document.createElement("button");
     share.className="share-btn";
-    share.type="button";
     share.textContent="🔗 Share Product";
-    share.onclick=e=>{
-      e.stopPropagation();
-      shareProduct(p);
-    };
+    share.onclick=e=>{e.stopPropagation();shareProduct(p)};
 
-    actions.append(order,share);
+    const productLike=document.createElement("button");
+    productLike.className="product-like";
+    productLike.textContent="❤️ Like";
+    productLike.onclick=e=>{
+      e.stopPropagation();
+      toggleProductLike(p.id,productLike);
+    };
+    actions.append(order,share,productLike);
 
     const area=document.createElement("div");
     area.className="comment-area";
@@ -726,12 +710,11 @@ function showProducts(items){
     mediaInput.type="file";
     mediaInput.accept="image/*,video/*";
     mediaInput.className="media-input";
-    mediaInput.title="ছবি অথবা ভিডিও নির্বাচন করুন";
 
     const send=document.createElement("button");
     send.className="send-comment";
-    send.textContent="কমেন্ট পাঠান";
     send.type="button";
+    send.textContent="কমেন্ট পাঠান";
 
     const list=document.createElement("div");
     list.className="comment-list";
@@ -741,8 +724,7 @@ function showProducts(items){
       e.stopPropagation();
       content.classList.toggle("open");
       toggle.textContent=content.classList.contains("open")
-        ?"💬 কমেন্ট বন্ধ করুন"
-        :"💬 কমেন্ট দেখুন";
+        ?"💬 কমেন্ট বন্ধ করুন":"💬 কমেন্ট দেখুন";
     };
 
     send.onclick=e=>{
@@ -752,30 +734,66 @@ function showProducts(items){
 
     content.append(input,mediaInput,send,list);
     area.append(toggle,content);
-
     card.append(img,title,desc,more,price,actions,area);
 
     card.addEventListener("click",e=>{
-      if(e.target.closest("button,textarea,input,a,video"))return;
+      if(e.target.closest("button,input,textarea,a,video"))return;
       showProductDetails(p);
     });
 
     productsBox.appendChild(card);
     loadComments(p.id,list);
+    loadProductLikeState(p.id,productLike);
   });
 }
 
-/* Visitor identity for likes */
-const visitorIdKey="smartgear_visitor_id";
-let visitorId=localStorage.getItem(visitorIdKey);
+/* Product likes */
+async function loadProductLikeState(productId,button){
+  const {data,error}=await db.from("product_likes")
+    .select("visitor_id")
+    .eq("product_id",String(productId));
 
-if(!visitorId){
-  visitorId=crypto.randomUUID
-    ?crypto.randomUUID()
-    :"visitor-"+Date.now()+"-"+Math.random().toString(36).slice(2);
-  localStorage.setItem(visitorIdKey,visitorId);
+  if(error){
+    console.error("Product likes:",error.message);
+    button.textContent="❤️ Like";
+    return;
+  }
+
+  const rows=data||[];
+  const liked=rows.some(x=>x.visitor_id===visitorId);
+  button.classList.toggle("liked",liked);
+  button.textContent=(liked?"❤️":"🤍")+" "+rows.length+" Like";
 }
 
+async function toggleProductLike(productId,button){
+  button.disabled=true;
+  try{
+    const {data,error}=await db.from("product_likes")
+      .select("id")
+      .eq("product_id",String(productId))
+      .eq("visitor_id",visitorId)
+      .maybeSingle();
+
+    if(error)throw error;
+
+    if(data){
+      const {error:delError}=await db.from("product_likes")
+        .delete().eq("id",data.id);
+      if(delError)throw delError;
+    }else{
+      const {error:addError}=await db.from("product_likes")
+        .insert({product_id:String(productId),visitor_id:visitorId});
+      if(addError)throw addError;
+    }
+    await loadProductLikeState(productId,button);
+  }catch(e){
+    alert("Like কাজ করেনি: "+e.message);
+  }finally{
+    button.disabled=false;
+  }
+}
+
+/* Comment likes and comments */
 async function loadComments(productId,list){
   const {data:comments,error}=await db.from("product_comments")
     .select("id,comment,created_at,media_url,media_type")
@@ -783,26 +801,21 @@ async function loadComments(productId,list){
     .order("created_at",{ascending:false});
 
   list.innerHTML="";
-
   if(error){
     list.textContent="কমেন্ট লোড হয়নি: "+error.message;
     return;
   }
-
   if(!comments||!comments.length){
     list.textContent="এখনো কোনো কমেন্ট নেই।";
     return;
   }
 
   const ids=comments.map(c=>c.id);
-
   const {data:likes,error:likeError}=await db.from("comment_likes")
     .select("comment_id,visitor_id")
     .in("comment_id",ids);
 
-  if(likeError){
-    console.error("Like load error:",likeError);
-  }
+  if(likeError)console.error(likeError);
 
   comments.forEach(c=>{
     const item=document.createElement("div");
@@ -813,7 +826,6 @@ async function loadComments(productId,list){
 
     const text=document.createElement("p");
     text.textContent=c.comment;
-
     item.append(author,text);
 
     if(c.media_url){
@@ -825,13 +837,12 @@ async function loadComments(productId,list){
         video.className="comment-media";
         item.appendChild(video);
       }else{
-        const media=document.createElement("img");
-        media.src=c.media_url;
-        media.alt="Customer comment image";
-        media.className="comment-media";
-        media.style.cursor="zoom-in";
-        media.onclick=()=>openImage(c.media_url);
-        item.appendChild(media);
+        const image=document.createElement("img");
+        image.src=c.media_url;
+        image.alt="Comment image";
+        image.className="comment-media";
+        image.onclick=()=>openImage(c.media_url);
+        item.appendChild(image);
       }
     }
 
@@ -839,22 +850,19 @@ async function loadComments(productId,list){
     const liked=commentLikes.some(x=>x.visitor_id===visitorId);
 
     const likeBtn=document.createElement("button");
-    likeBtn.className="like-btn";
-    likeBtn.type="button";
+    likeBtn.className="like-btn"+(liked?" liked":"");
     likeBtn.textContent=(liked?"❤️":"🤍")+" "+commentLikes.length+" Like";
-
     likeBtn.onclick=async()=>{
       likeBtn.disabled=true;
       try{
         if(liked){
-          const {error}=await db.from("comment_likes")
-            .delete()
-            .eq("comment_id",c.id)
-            .eq("visitor_id",visitorId);
+          const {error}=await db.from("comment_likes").delete()
+            .eq("comment_id",c.id).eq("visitor_id",visitorId);
           if(error)throw error;
         }else{
-          const {error}=await db.from("comment_likes")
-            .insert({comment_id:c.id,visitor_id:visitorId});
+          const {error}=await db.from("comment_likes").insert({
+            comment_id:c.id,visitor_id:visitorId
+          });
           if(error)throw error;
         }
         await loadComments(productId,list);
@@ -863,18 +871,15 @@ async function loadComments(productId,list){
         likeBtn.disabled=false;
       }
     };
-
     item.appendChild(likeBtn);
 
     if(isAdmin){
       const del=document.createElement("button");
       del.className="delete-comment";
-      del.type="button";
       del.textContent="মুছুন";
       del.onclick=()=>deleteComment(c.id,productId,list);
       item.appendChild(del);
     }
-
     list.appendChild(item);
   });
 }
@@ -887,25 +892,16 @@ async function addComment(productId,input,mediaInput,button){
     alert("কমেন্ট লিখুন অথবা ছবি/ভিডিও নির্বাচন করুন");
     return;
   }
-
-  if(comment.length>1000){
-    alert("কমেন্ট সর্বোচ্চ ১০০০ অক্ষরের হতে পারবে");
-    return;
-  }
-
   if(file){
     const isImage=file.type.startsWith("image/");
     const isVideo=file.type.startsWith("video/");
-
     if(!isImage&&!isVideo){
       alert("শুধু ছবি অথবা ভিডিও আপলোড করতে পারবেন");
       return;
     }
-
-    const maxSize=isImage?5*1024*1024:20*1024*1024;
-
-    if(file.size>maxSize){
-      alert(isImage?"ছবির সাইজ সর্বোচ্চ ৫ MB":"ভিডিওর সাইজ সর্বোচ্চ ২০ MB");
+    const max=isImage?5*1024*1024:20*1024*1024;
+    if(file.size>max){
+      alert(isImage?"ছবির সর্বোচ্চ সাইজ ৫ MB":"ভিডিওর সর্বোচ্চ সাইজ ২০ MB");
       return;
     }
   }
@@ -914,24 +910,17 @@ async function addComment(productId,input,mediaInput,button){
   button.textContent="পাঠানো হচ্ছে...";
 
   try{
-    let mediaUrl=null;
-    let mediaType=null;
+    let mediaUrl=null,mediaType=null;
 
     if(file){
       const ext=file.name.split(".").pop().toLowerCase();
       const path=Date.now()+"-"+Math.random().toString(36).slice(2)+"."+ext;
 
-      const {error:uploadError}=await db.storage
-        .from("comment-media")
+      const {error:uploadError}=await db.storage.from("comment-media")
         .upload(path,file,{upsert:false});
-
       if(uploadError)throw uploadError;
 
-      const {data}=db.storage
-        .from("comment-media")
-        .getPublicUrl(path);
-
-      mediaUrl=data.publicUrl;
+      mediaUrl=db.storage.from("comment-media").getPublicUrl(path).data.publicUrl;
       mediaType=file.type.startsWith("video/")?"video":"image";
     }
 
@@ -942,17 +931,13 @@ async function addComment(productId,input,mediaInput,button){
       media_url:mediaUrl,
       media_type:mediaType
     });
-
     if(error)throw error;
 
     input.value="";
     mediaInput.value="";
-
-    const list=button.parentElement.querySelector(".comment-list");
-    await loadComments(productId,list);
-    alert("আপনার কমেন্ট জমা হয়েছে!");
+    await loadComments(productId,button.parentElement.querySelector(".comment-list"));
+    alert("কমেন্ট জমা হয়েছে!");
   }catch(e){
-    console.error(e);
     alert("কমেন্ট জমা হয়নি: "+e.message);
   }finally{
     button.disabled=false;
@@ -962,21 +947,15 @@ async function addComment(productId,input,mediaInput,button){
 
 async function deleteComment(id,productId,list){
   if(!isAdmin||!confirm("কমেন্ট মুছবেন?"))return;
-
   const {error}=await db.from("product_comments").delete().eq("id",id);
-
-  if(error){
-    alert(error.message);
-    return;
-  }
-
+  if(error){alert(error.message);return}
   await loadComments(productId,list);
 }
 
 /* Product details */
 function showProductDetails(p){
-  const overlay=$("detailsOverlay");
   const content=$("detailsContent");
+  content.innerHTML="";
 
   const image=document.createElement("img");
   image.src=p.image_url||"";
@@ -988,51 +967,40 @@ function showProductDetails(p){
 
   const price=document.createElement("p");
   price.className="price";
-
   const discount=Number(p.discount_percent||0);
 
   if(discount>0){
     const old=document.createElement("span");
     old.className="old-price";
     old.textContent="৳"+Number(p.price||0);
-
     const current=document.createElement("strong");
-    current.textContent=" ৳"+finalPrice(p);
-
+    current.textContent="৳"+finalPrice(p);
     const tag=document.createElement("span");
     tag.className="discount-tag";
     tag.textContent=discount+"% ছাড়";
-
     price.append(old,current,tag);
-  }else{
-    price.textContent="মূল্য: ৳"+Number(p.price||0);
-  }
+  }else price.textContent="মূল্য: ৳"+Number(p.price||0);
 
   const description=document.createElement("div");
   description.className="details-description";
   description.textContent=p.description||"এই প্রোডাক্টের কোনো বিবরণ দেওয়া হয়নি।";
 
-  const hint=document.createElement("p");
-  hint.className="muted";
-  hint.textContent="ডেলিভারি: চট্টগ্রামে ৳৭০ | চট্টগ্রামের বাইরে ৳১৪০";
+  const delivery=document.createElement("p");
+  delivery.className="muted";
+  delivery.textContent="ডেলিভারি: চট্টগ্রামে ৳৭০ | চট্টগ্রামের বাইরে ৳১৪০";
 
   const order=document.createElement("button");
   order.className="details-order";
   order.textContent="🛒 এখনই অর্ডার করুন";
-  order.onclick=()=>{
-    closeDetails();
-    openOrder(p);
-  };
+  order.onclick=()=>{closeDetails();openOrder(p)};
 
   const share=document.createElement("button");
   share.className="details-share";
   share.textContent="🔗 প্রোডাক্ট শেয়ার করুন";
   share.onclick=()=>shareProduct(p);
 
-  content.innerHTML="";
-  content.append(image,title,price,description,hint,order,share);
-
-  overlay.style.display="flex";
+  content.append(image,title,price,description,delivery,order,share);
+  $("detailsOverlay").style.display="flex";
   document.body.style.overflow="hidden";
 }
 
@@ -1040,9 +1008,7 @@ function closeDetails(){
   $("detailsOverlay").style.display="none";
   document.body.style.overflow="";
 }
-
 $("detailsClose").onclick=closeDetails;
-
 $("detailsOverlay").onclick=e=>{
   if(e.target.id==="detailsOverlay")closeDetails();
 };
@@ -1052,63 +1018,51 @@ function openImage(url){
   $("largeImage").src=url;
   $("imageViewer").style.display="flex";
 }
-
 $("closeImage").onclick=()=>{
   $("imageViewer").style.display="none";
   $("largeImage").src="";
 };
-
 $("imageViewer").onclick=e=>{
   if(e.target.id==="imageViewer")$("closeImage").click();
 };
 
-/* Product share */
+/* Share product */
 async function shareProduct(p){
-  const url=window.location.origin+window.location.pathname+
+  const url=location.origin+location.pathname+
     "?product="+encodeURIComponent(p.id);
-
   const data={
     title:p.title,
     text:p.title+" - Smart Gear | মূল্য ৳"+finalPrice(p),
     url
   };
-
   try{
-    if(navigator.share){
-      await navigator.share(data);
-    }else if(navigator.clipboard){
+    if(navigator.share)await navigator.share(data);
+    else if(navigator.clipboard){
       await navigator.clipboard.writeText(url);
       alert("প্রোডাক্ট লিংক কপি হয়েছে!");
-    }else{
-      prompt("প্রোডাক্ট লিংক কপি করুন:",url);
-    }
+    }else prompt("লিংক কপি করুন",url);
   }catch(e){
-    if(e.name!=="AbortError")alert("শেয়ার করা যায়নি।");
+    if(e.name!=="AbortError")alert("শেয়ার করা যায়নি");
   }
 }
 
-/* Open shared product directly */
 function openSharedProduct(){
   const id=new URLSearchParams(location.search).get("product");
   if(!id)return;
-
-  const p=allProducts.find(item=>String(item.id)===id);
-  if(p){
-    showProductDetails(p);
-  }
+  const p=allProducts.find(x=>String(x.id)===id);
+  if(p)showProductDetails(p);
 }
 
 /* Search */
 $("search").oninput=e=>{
   const q=e.target.value.toLowerCase().trim();
-
   showProducts(allProducts.filter(p=>
     (p.title||"").toLowerCase().includes(q)||
     (p.description||"").toLowerCase().includes(q)
   ));
 };
 
-/* Checkout */
+/* Order form */
 function openOrder(p){
   selected=p;
   $("selectedProduct").textContent="প্রোডাক্ট: "+p.title;
@@ -1125,22 +1079,19 @@ function deliveryCharge(){
   const district=$("district").value.trim().toLowerCase();
   return ["চট্টগ্রাম","chittagong","chattogram"].includes(district)?70:140;
 }
-
 function updateTotal(){
   const qty=Math.max(1,Math.min(99,Number($("quantity").value)||1));
   const subtotal=selected?finalPrice(selected)*qty:0;
   const delivery=deliveryCharge();
-
   $("productPrice").textContent=subtotal;
   $("deliveryPrice").textContent=delivery;
   $("totalPrice").textContent=subtotal+delivery;
 }
-
 $("quantity").oninput=updateTotal;
 $("district").oninput=updateTotal;
 
 $("payment").onchange=e=>{
-  const need=e.target.value==="bKash"||e.target.value==="Nagad";
+  const need=["bKash","Nagad"].includes(e.target.value);
   $("transactionBox").classList.toggle("hidden",!need);
   $("transaction").required=need;
 };
@@ -1149,9 +1100,7 @@ $("orderForm").onsubmit=async e=>{
   e.preventDefault();
   if(!selected)return;
 
-  const btn=$("submitOrder");
-  const msg=$("orderMessage");
-
+  const btn=$("submitOrder"),msg=$("orderMessage");
   btn.disabled=true;
   msg.textContent="অর্ডার জমা হচ্ছে...";
 
@@ -1203,9 +1152,7 @@ Transaction ID: ${order.transaction_id||"COD"}`;
     a.target="_blank";
     a.rel="noopener";
     a.textContent="WhatsApp-এ অর্ডার পাঠান";
-    msg.appendChild(document.createElement("br"));
-    msg.appendChild(a);
-
+    msg.append(document.createElement("br"),a);
     btn.textContent="অর্ডার জমা হয়েছে";
   }catch(error){
     msg.textContent="অর্ডার হয়নি: "+error.message;
@@ -1233,35 +1180,24 @@ async function askAI(question){
       })
     }
   );
-
   const data=await response.json();
-
-  if(!response.ok||!data.answer){
-    throw new Error(data.error||"AI unavailable");
-  }
-
+  if(!response.ok||!data.answer)throw new Error(data.error||"AI unavailable");
   return data.answer;
 }
 
 function faq(question){
   const q=question.toLowerCase();
-
   if(q.includes("ডেলিভারি")||q.includes("চার্জ"))
     return "চট্টগ্রাম জেলায় ৭০ টাকা, চট্টগ্রামের বাইরে ১৪০ টাকা।";
-
   if(q.includes("বিকাশ")||q.includes("নগদ")||q.includes("পেমেন্ট"))
     return "বিকাশ, নগদ ও Cash on Delivery আছে। নম্বর: 01854673321";
-
   if(q.includes("অর্ডার"))
     return "প্রোডাক্টের অর্ডার করুন বাটনে চাপ দিয়ে ফর্ম পূরণ করুন।";
-
   if(q.includes("ডিসকাউন্ট")||q.includes("ছাড়"))
     return "ডিসকাউন্টযুক্ত পণ্যে ছাড়ের মূল্য দেখানো হয়।";
-
   if(q.includes("হ্যালো")||q.includes("আসসালামু"))
     return "ওয়ালাইকুম আসসালাম! কীভাবে সাহায্য করতে পারি?";
-
-  return "দুঃখিত, এখন উত্তর দিতে পারছি না। প্রয়োজনে WhatsApp-এ যোগাযোগ করুন: https://wa.me/8801854673321";
+  return "দুঃখিত, এখন উত্তর দিতে পারছি না। WhatsApp: https://wa.me/8801854673321";
 }
 
 function chatMessage(message,type){
@@ -1273,23 +1209,19 @@ function chatMessage(message,type){
 }
 
 async function sendChat(){
-  const input=$("chatInput");
-  const button=$("chatSend");
+  const input=$("chatInput"),button=$("chatSend");
   const question=input.value.trim();
-
   if(!question)return;
 
   chatMessage(question,"user-message");
   input.value="";
   button.disabled=true;
-
   try{
     chatMessage(await askAI(question),"bot-message");
   }catch(e){
     console.error(e);
     chatMessage(faq(question),"bot-message");
   }
-
   button.disabled=false;
   input.focus();
 }
@@ -1298,17 +1230,11 @@ $("chatLaunch").onclick=()=>{
   $("chatPanel").style.display="flex";
   $("chatInput").focus();
 };
-
-$("chatClose").onclick=()=>{
-  $("chatPanel").style.display="none";
-};
-
+$("chatClose").onclick=()=>{$("chatPanel").style.display="none"};
 $("chatSend").onclick=sendChat;
-$("chatInput").onkeydown=e=>{
-  if(e.key==="Enter")sendChat();
-};
+$("chatInput").onkeydown=e=>{if(e.key==="Enter")sendChat()};
 
-/* Start website */
+/* Start */
 async function start(){
   await checkAdmin();
   await loadProducts();
