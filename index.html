@@ -4,190 +4,503 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111713">
-<title>Smart Gear — Digital Store</title>
+<meta name="theme-color" content="#123c2b">
+<title>Smart Gear — Premium Digital Store</title>
 
 <style>
-:root{--bg:#111713;--panel:#1b241e;--cream:#f2ead8;--muted:#b9b39f;--gold:#c5a45b;--line:#344238}
+:root{
+  --bg:#f4f7f3;
+  --white:#ffffff;
+  --green:#123c2b;
+  --green2:#1c4a35;
+  --gold:#c5a45b;
+  --cream:#f2ead8;
+  --text:#20352a;
+  --muted:#718078;
+  --line:#dce5dd;
+  --red:#a83c3c;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--cream);font-family:Arial,sans-serif}
-header{text-align:center;padding:18px;background:var(--panel);border-bottom:1px solid var(--line)}
-.logo{width:75px;height:75px;border-radius:50%;object-fit:cover}
-h1{color:var(--gold);margin:8px}
-main{max-width:1000px;margin:auto;padding:12px}
-input,select,textarea{width:100%;padding:11px;margin:7px 0 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--cream);font-size:15px}
-button{border:0;border-radius:8px;padding:10px 14px;background:var(--gold);color:#171810;font-weight:bold;cursor:pointer}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+header{
+  background:linear-gradient(135deg,#10291e,#1d5138);
+  color:white;
+  text-align:center;
+  padding:24px 15px;
+  border-bottom:4px solid var(--gold);
+}
+.logo{
+  width:82px;height:82px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--gold);
+  background:white;
+  box-shadow:0 5px 20px #0005;
+}
+header h1{
+  color:#e6c77d;
+  margin:10px 0 5px;
+  font-size:29px;
+  letter-spacing:1px;
+}
+header p{margin:5px;color:#e4eee7}
+.hero{
+  max-width:1000px;
+  margin:18px auto;
+  padding:30px 20px;
+  border-radius:18px;
+  color:white;
+  background:linear-gradient(120deg,#123c2b,#286345);
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 8px 25px #123c2b20;
+}
+.hero:after{
+  content:"✦";
+  position:absolute;
+  right:20px;top:5px;
+  font-size:110px;
+  color:#ffffff12;
+}
+.hero h2{
+  font-size:27px;
+  margin:0 0 10px;
+  color:#f0d58e;
+}
+.hero p{line-height:1.7;color:#e6eee8}
+.hero button{
+  background:var(--gold);
+  color:#17281e;
+  padding:12px 22px;
+  border-radius:25px;
+}
+main{max-width:1050px;margin:auto;padding:12px}
+.section-title{
+  color:var(--green);
+  margin:25px 0 12px;
+  font-size:22px;
+}
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  margin:7px 0 12px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:white;
+  color:var(--text);
+  font-size:15px;
+  outline:none;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 2px #c5a45b22;
+}
+button{
+  border:0;
+  border-radius:9px;
+  padding:10px 14px;
+  background:var(--gold);
+  color:#17281e;
+  font-weight:bold;
+}
 button:disabled{opacity:.6;cursor:not-allowed}
-.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.product{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;min-width:0}
-.product img{width:100%;height:120px;object-fit:contain;background:white;border-radius:7px;cursor:zoom-in}
-.product h3{font-size:14px;margin:7px 0}
-.product p{font-size:12px;overflow-wrap:anywhere}
-.product .price{font-size:14px;color:var(--gold);font-weight:bold}
-.product>button{width:100%;padding:9px}
-.old-price{text-decoration:line-through;color:var(--muted);font-size:12px;margin-right:5px}
-.discount-tag{background:#8b3030;color:white;padding:3px 5px;border-radius:5px;font-size:11px;margin-left:4px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px;margin:18px 0}
+.products{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+}
+.product{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:9px;
+  min-width:0;
+  box-shadow:0 4px 14px #123c2b0b;
+  animation:fadeUp .45s ease both;
+  transition:transform .2s,box-shadow .2s;
+}
+.product:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 22px #123c2b18;
+}
+.product img{
+  width:100%;
+  height:125px;
+  object-fit:contain;
+  background:#f7f8f5;
+  border-radius:9px;
+  cursor:zoom-in;
+}
+.product h3{
+  color:var(--green);
+  font-size:14px;
+  margin:8px 0;
+  overflow-wrap:anywhere;
+}
+.product p{
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+.product .price{
+  font-size:15px;
+  color:var(--green);
+  font-weight:bold;
+  margin:8px 0;
+}
+.product>button{
+  width:100%;
+  background:var(--green);
+  color:white;
+  padding:10px 5px;
+}
+.old-price{
+  text-decoration:line-through;
+  color:#89958d;
+  font-size:12px;
+  margin-right:5px;
+}
+.discount-tag{
+  background:#a83c3c;
+  color:white;
+  padding:3px 5px;
+  border-radius:5px;
+  font-size:10px;
+  margin-left:4px;
+}
+.description{
+  color:var(--muted);
+  line-height:1.5;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  overflow-wrap:anywhere;
+}
+.description.expanded{
+  display:block;
+  overflow:visible;
+}
+.see-more{
+  background:transparent;
+  color:#99752c;
+  padding:2px 0 8px;
+  font-size:11px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px;
+  margin:18px 0;
+  box-shadow:0 4px 15px #123c2b0b;
+}
 .hidden{display:none!important}
 .muted{color:var(--muted)}
-.total{color:var(--gold);font-weight:bold}
-.comment-area{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
-.comment-toggle{width:100%;background:var(--bg);color:var(--cream);border:1px solid var(--line);text-align:left;font-size:13px}
+.total{color:var(--green);font-weight:bold;font-size:18px}
+.comment-area{
+  margin-top:9px;
+  border-top:1px solid var(--line);
+  padding-top:8px;
+}
+.comment-toggle{
+  width:100%;
+  background:#f2f6f2;
+  color:var(--green);
+  border:1px solid var(--line);
+  text-align:left;
+  font-size:12px;
+  padding:9px;
+}
 .comment-content{display:none;margin-top:8px}
 .comment-content.open{display:block}
 .comment-area textarea{height:55px;font-size:12px}
 .comment-area .send-comment{width:100%;font-size:12px}
-.comment-item{background:var(--bg);padding:8px;border-radius:7px;margin:6px 0;font-size:12px;overflow-wrap:anywhere}
-.comment-item strong{color:var(--gold)}
-.delete-comment{background:#8b3030;color:white;width:auto}
-.image-viewer{display:none;position:fixed;inset:0;background:#000e;z-index:5000;align-items:center;justify-content:center;padding:15px}
-.image-viewer img{max-width:100%;max-height:85vh;object-fit:contain}
-.image-viewer button{position:absolute;top:15px;right:15px}
-.contact-links a{display:block;padding:12px;margin:8px 0;background:var(--bg);border-radius:8px;color:var(--gold);text-decoration:none}
+.comment-item{
+  background:#f4f7f3;
+  padding:8px;
+  border-radius:7px;
+  margin:6px 0;
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+.comment-item strong{color:var(--green)}
+.delete-comment{background:#a83c3c;color:white}
+.image-viewer{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000e;
+  z-index:9000;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+.image-viewer img{
+  max-width:100%;
+  max-height:85vh;
+  object-fit:contain;
+}
+.image-viewer button{
+  position:absolute;
+  top:15px;right:15px;
+}
+.contact-links a{
+  display:block;
+  padding:12px;
+  margin:8px 0;
+  background:#f2f6f2;
+  border-radius:8px;
+  color:var(--green);
+  text-decoration:none;
+  border:1px solid var(--line);
+}
+footer{
+  text-align:center;
+  padding:25px;
+  color:#e5eee7;
+  background:var(--green);
+  margin-top:25px;
+}
 
-/* AI Assistant Button */
+/* AI Assistant */
 .chat-launch{
   position:fixed;
   right:16px;
   bottom:16px;
   z-index:6000;
-  width:auto;
-  height:auto;
   padding:13px 19px;
   border-radius:30px;
   font-size:15px;
-  font-weight:bold;
-  background:linear-gradient(135deg,#c5a45b,#e5c77d);
-  color:#111713;
-  box-shadow:0 5px 20px #0006;
+  background:linear-gradient(135deg,#c5a45b,#f0d58e);
+  color:#14271d;
+  box-shadow:0 5px 20px #0004;
+  animation:float 2.5s ease-in-out infinite;
 }
-.chat-panel{display:none;position:fixed;right:10px;bottom:80px;width:min(350px,calc(100% - 20px));height:430px;max-height:70vh;background:var(--panel);border:1px solid var(--line);border-radius:14px;z-index:6000;overflow:hidden;flex-direction:column}
-.chat-head{padding:12px;background:#26352b;display:flex;justify-content:space-between;align-items:center}
-.chat-head strong{color:var(--gold)}
-.chat-messages{flex:1;overflow-y:auto;padding:10px}
-.chat-message{padding:9px;border-radius:9px;margin:7px 0;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
-.bot-message{background:#2b382f;margin-right:12%}
-.user-message{background:#66552d;margin-left:12%}
-.chat-input-area{display:flex;gap:5px;padding:8px}
+.chat-panel{
+  display:none;
+  position:fixed;
+  right:10px;
+  bottom:80px;
+  width:min(350px,calc(100% - 20px));
+  height:430px;
+  max-height:70vh;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:15px;
+  z-index:6000;
+  overflow:hidden;
+  flex-direction:column;
+  box-shadow:0 10px 35px #0003;
+}
+.chat-head{
+  padding:13px;
+  background:var(--green);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:white;
+}
+.chat-head strong{color:#f0d58e}
+.chat-messages{
+  flex:1;
+  overflow-y:auto;
+  padding:10px;
+  background:#f7f9f6;
+}
+.chat-message{
+  padding:10px;
+  border-radius:10px;
+  margin:7px 0;
+  font-size:13px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  line-height:1.5;
+}
+.bot-message{
+  background:#e6eee7;
+  color:#20352a;
+  margin-right:12%;
+}
+.user-message{
+  background:#d8c38e;
+  color:#17281e;
+  margin-left:12%;
+}
+.chat-input-area{
+  display:flex;
+  gap:5px;
+  padding:8px;
+  background:white;
+}
 .chat-input-area input{margin:0;min-width:0}
-.chat-wa{display:block;text-align:center;background:#168c49;color:white;padding:9px;margin:0 8px 8px;border-radius:8px;text-decoration:none}
-@media(min-width:600px){.products{grid-template-columns:repeat(3,minmax(0,1fr))}.product img{height:155px}}
-@media(min-width:900px){.products{grid-template-columns:repeat(4,minmax(0,1fr))}.product img{height:175px}}
+.chat-input-area button{
+  background:var(--green);
+  color:white;
+}
+.chat-wa{
+  display:block;
+  text-align:center;
+  background:#168c49;
+  color:white;
+  padding:9px;
+  margin:0 8px 8px;
+  border-radius:8px;
+  text-decoration:none;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+@media(min-width:600px){
+  .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .product img{height:155px}
+}
+@media(min-width:900px){
+  .products{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .product img{height:175px}
+}
 </style>
 </head>
 
 <body>
+
 <header>
-<img src="profile.jpg" class="logo" alt="Smart Gear">
-<h1>Smart Gear</h1>
-<p>আপনার বিশ্বস্ত ডিজিটাল স্টোর</p>
+  <img src="profile.jpg" class="logo" alt="Smart Gear">
+  <h1>Smart Gear</h1>
+  <p>আপনার বিশ্বস্ত ডিজিটাল স্টোর</p>
 </header>
 
+<section class="hero">
+  <h2>Welcome to Smart Gear</h2>
+  <p>আপনার পছন্দের ডিজিটাল পণ্য খুঁজুন সহজেই। সেরা পণ্য, সুন্দর দাম এবং নির্ভরযোগ্য সেবা এক জায়গায়।</p>
+  <button type="button" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+    Shop Now →
+  </button>
+</section>
+
 <main>
-<h2>আমাদের প্রোডাক্ট</h2>
-<input id="search" placeholder="প্রোডাক্ট খুঁজুন...">
-<div id="products" class="products">প্রোডাক্ট লোড হচ্ছে...</div>
+<section id="shop">
+  <h2 class="section-title">✨ আমাদের প্রোডাক্ট</h2>
+  <input id="search" placeholder="🔍 প্রোডাক্ট খুঁজুন...">
+  <div id="products" class="products">প্রোডাক্ট লোড হচ্ছে...</div>
+</section>
 
 <section id="orderBox" class="panel hidden">
-<h2>অর্ডার ফর্ম</h2>
-<p id="selectedProduct"></p>
+  <h2 class="section-title">🛒 অর্ডার ফর্ম</h2>
+  <p id="selectedProduct"></p>
 
-<form id="orderForm">
-<label>পরিমাণ</label>
-<input id="quantity" type="number" min="1" max="99" value="1" required>
+  <form id="orderForm">
+    <label>পরিমাণ</label>
+    <input id="quantity" type="number" min="1" max="99" value="1" required>
 
-<label>আপনার নাম</label>
-<input id="customerName" required placeholder="আপনার নাম">
+    <label>আপনার নাম</label>
+    <input id="customerName" required placeholder="আপনার নাম">
 
-<label>মোবাইল নম্বর</label>
-<input id="customerPhone" required type="tel" placeholder="01XXXXXXXXX">
+    <label>মোবাইল নম্বর</label>
+    <input id="customerPhone" required type="tel" placeholder="01XXXXXXXXX">
 
-<label>বিভাগ</label>
-<select id="division" required>
-<option value="">বিভাগ নির্বাচন করুন</option>
-<option>চট্টগ্রাম</option>
-<option>ঢাকা</option>
-<option>রাজশাহী</option>
-<option>খুলনা</option>
-<option>বরিশাল</option>
-<option>সিলেট</option>
-<option>রংপুর</option>
-<option>ময়মনসিংহ</option>
-</select>
+    <label>বিভাগ</label>
+    <select id="division" required>
+      <option value="">বিভাগ নির্বাচন করুন</option>
+      <option>চট্টগ্রাম</option>
+      <option>ঢাকা</option>
+      <option>রাজশাহী</option>
+      <option>খুলনা</option>
+      <option>বরিশাল</option>
+      <option>সিলেট</option>
+      <option>রংপুর</option>
+      <option>ময়মনসিংহ</option>
+    </select>
 
-<label>জেলা</label>
-<input id="district" required placeholder="জেলার নাম">
+    <label>জেলা</label>
+    <input id="district" required placeholder="জেলার নাম">
 
-<label>উপজেলা / থানা</label>
-<input id="upazila" required placeholder="উপজেলা বা থানা">
+    <label>উপজেলা / থানা</label>
+    <input id="upazila" required placeholder="উপজেলা বা থানা">
 
-<label>সম্পূর্ণ ঠিকানা</label>
-<textarea id="address" required placeholder="আপনার ডেলিভারি ঠিকানা"></textarea>
+    <label>সম্পূর্ণ ঠিকানা</label>
+    <textarea id="address" required placeholder="আপনার ডেলিভারি ঠিকানা"></textarea>
 
-<label>পেমেন্ট পদ্ধতি</label>
-<select id="payment" required>
-<option value="">পেমেন্ট নির্বাচন করুন</option>
-<option value="bKash">বিকাশ</option>
-<option value="Nagad">নগদ</option>
-<option value="COD">Cash on Delivery</option>
-</select>
+    <label>পেমেন্ট পদ্ধতি</label>
+    <select id="payment" required>
+      <option value="">পেমেন্ট নির্বাচন করুন</option>
+      <option value="bKash">বিকাশ</option>
+      <option value="Nagad">নগদ</option>
+      <option value="COD">Cash on Delivery</option>
+    </select>
 
-<div id="transactionBox" class="hidden">
-<p>পেমেন্ট নম্বর: <strong>01854673321</strong></p>
-<label>Transaction ID</label>
-<input id="transaction" placeholder="Transaction ID">
-</div>
+    <div id="transactionBox" class="hidden">
+      <p>পেমেন্ট নম্বর: <strong>01854673321</strong></p>
+      <label>Transaction ID</label>
+      <input id="transaction" placeholder="Transaction ID">
+    </div>
 
-<div class="panel">
-<p>পণ্যের দাম: ৳<span id="productPrice">0</span></p>
-<p>ডেলিভারি চার্জ: ৳<span id="deliveryPrice">0</span></p>
-<p class="total">সর্বমোট: ৳<span id="totalPrice">0</span></p>
-</div>
+    <div class="panel">
+      <p>পণ্যের দাম: ৳<span id="productPrice">0</span></p>
+      <p>ডেলিভারি চার্জ: ৳<span id="deliveryPrice">0</span></p>
+      <p class="total">সর্বমোট: ৳<span id="totalPrice">0</span></p>
+    </div>
 
-<button id="submitOrder" type="submit">অর্ডার নিশ্চিত করুন</button>
-<p id="orderMessage"></p>
-</form>
+    <button id="submitOrder" type="submit">অর্ডার নিশ্চিত করুন</button>
+    <p id="orderMessage"></p>
+  </form>
 </section>
 
 <section class="panel contact-links">
-<h2>যোগাযোগ</h2>
-<p>মোবাইল: 01854673321</p>
-<a href="tel:+8801854673321">📞 কল করুন</a>
-<a href="https://wa.me/8801854673321" target="_blank" rel="noopener">🟢 WhatsApp</a>
-<a href="https://imo.im/" target="_blank" rel="noopener">💬 IMO</a>
+  <h2 class="section-title">📞 যোগাযোগ</h2>
+  <p>মোবাইল: 01854673321</p>
+  <a href="tel:+8801854673321">📞 কল করুন</a>
+  <a href="https://wa.me/8801854673321" target="_blank" rel="noopener">🟢 WhatsApp</a>
+  <a href="https://imo.im/" target="_blank" rel="noopener">💬 IMO</a>
 </section>
 </main>
 
 <div class="image-viewer" id="imageViewer">
-<button id="closeImage" type="button">বন্ধ করুন ✕</button>
-<img id="largeImage" alt="Product">
+  <button id="closeImage" type="button">বন্ধ করুন ✕</button>
+  <img id="largeImage" alt="Product">
 </div>
 
-<footer style="text-align:center;padding:20px;color:var(--muted)">
-Smart Gear — Digital Store
+<footer>
+  <strong>Smart Gear — Digital Store</strong>
+  <p>আপনার বিশ্বস্ত ডিজিটাল স্টোর</p>
 </footer>
 
-<!-- AI Assistant Button -->
 <button class="chat-launch" id="chatLaunch" type="button">
-🤖 AI Assistant
+  🤖 AI Assistant
 </button>
 
 <div class="chat-panel" id="chatPanel">
-<div class="chat-head">
-<strong>🤖 AI Assistant</strong>
-<button id="chatClose" type="button">✕</button>
-</div>
+  <div class="chat-head">
+    <strong>🤖 AI Assistant</strong>
+    <button id="chatClose" type="button">✕</button>
+  </div>
 
-<div class="chat-messages" id="chatMessages">
-<div class="chat-message bot-message">আসসালামু আলাইকুম! Smart Gear AI Assistant-এ স্বাগতম। কী জানতে চান?</div>
-</div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-message bot-message">
+      আসসালামু আলাইকুম! Smart Gear AI Assistant-এ স্বাগতম। কী জানতে চান?
+    </div>
+  </div>
 
-<div class="chat-input-area">
-<input id="chatInput" placeholder="প্রশ্ন লিখুন...">
-<button id="chatSend" type="button">পাঠান</button>
-</div>
+  <div class="chat-input-area">
+    <input id="chatInput" placeholder="প্রশ্ন লিখুন...">
+    <button id="chatSend" type="button">পাঠান</button>
+  </div>
 
-<a class="chat-wa" href="https://wa.me/8801854673321" target="_blank" rel="noopener">WhatsApp-এ যোগাযোগ</a>
+  <a class="chat-wa" href="https://wa.me/8801854673321" target="_blank" rel="noopener">
+    WhatsApp-এ যোগাযোগ
+  </a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -222,16 +535,19 @@ async function checkAdmin(){
   try{
     const {data:{user}}=await db.auth.getUser();
     if(!user)return;
+
     const {data,error}=await db.from("admins")
       .select("user_id")
       .eq("user_id",user.id)
       .maybeSingle();
+
     isAdmin=!error&&!!data;
   }catch(e){console.log(e)}
 }
 
 async function loadProducts(){
   productsBox.textContent="প্রোডাক্ট লোড হচ্ছে...";
+
   try{
     const {data,error}=await db.from("products")
       .select("id,title,description,price,image_url,is_active,created_at,discount_percent")
@@ -239,6 +555,7 @@ async function loadProducts(){
       .order("created_at",{ascending:false});
 
     if(error)throw error;
+
     allProducts=data||[];
     showProducts(allProducts);
   }catch(error){
@@ -249,6 +566,7 @@ async function loadProducts(){
 
 function showProducts(items){
   productsBox.innerHTML="";
+
   if(!items.length){
     productsBox.textContent="এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।";
     return;
@@ -268,13 +586,13 @@ function showProducts(items){
     title.textContent=p.title||"";
 
     const desc=document.createElement("p");
-    desc.className="muted";
+    desc.className="description";
     desc.textContent=p.description||"";
+
+    const discount=Number(p.discount_percent||0);
 
     const price=document.createElement("p");
     price.className="price";
-
-    const discount=Number(p.discount_percent||0);
 
     if(discount>0){
       const old=document.createElement("span");
@@ -291,6 +609,20 @@ function showProducts(items){
       price.append(old,now,tag);
     }else{
       price.textContent="৳"+Number(p.price||0);
+    }
+
+    const more=document.createElement("button");
+    more.className="see-more";
+    more.type="button";
+    more.textContent="See more";
+
+    if((p.description||"").length>80){
+      more.onclick=()=>{
+        const expanded=desc.classList.toggle("expanded");
+        more.textContent=expanded?"See less":"See more";
+      };
+    }else{
+      more.style.display="none";
     }
 
     const order=document.createElement("button");
@@ -332,7 +664,8 @@ function showProducts(items){
 
     content.append(input,send,list);
     area.append(toggle,content);
-    card.append(img,title,desc,price,order,area);
+
+    card.append(img,title,desc,more,price,order,area);
     productsBox.appendChild(card);
 
     loadComments(p.id,list);
@@ -383,6 +716,7 @@ async function loadComments(productId,list){
 
 async function addComment(productId,input,button){
   const comment=input.value.trim();
+
   if(comment.length<2){
     alert("কমেন্ট লিখুন");
     return;
@@ -439,6 +773,7 @@ $("imageViewer").onclick=e=>{
 
 $("search").oninput=e=>{
   const q=e.target.value.toLowerCase().trim();
+
   showProducts(allProducts.filter(p=>
     (p.title||"").toLowerCase().includes(q)||
     (p.description||"").toLowerCase().includes(q)
@@ -458,9 +793,8 @@ function openOrder(p){
 }
 
 function deliveryCharge(){
-  return ["চট্টগ্রাম","chittagong","chattogram"].includes(
-    $("district").value.trim().toLowerCase()
-  )?70:140;
+  const district=$("district").value.trim().toLowerCase();
+  return ["চট্টগ্রাম","chittagong","chattogram"].includes(district)?70:140;
 }
 
 function updateTotal(){
