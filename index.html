@@ -114,21 +114,85 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 .ai-header h2{color:#f5d58e;margin:0;font-size:18px}
 .ai-header p{color:#e1eee5;margin:5px 0 0;font-size:12px}
 .ai-header .close{position:absolute;right:13px;top:13px;background:#ffffff25;color:white}
+
 .ai-chat{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px;background:#eef5ed;overscroll-behavior:contain}
 .msg{padding:12px 14px;border-radius:17px;margin:8px 0;max-width:92%;font-size:14px;line-height:1.65;overflow-wrap:anywhere}
 .msg.bot{background:white;border:1px solid #e2eae1;border-bottom-left-radius:5px}
 .msg.user{background:#d8f0df;margin-left:auto;border-bottom-right-radius:5px}
 .msg a{color:#1267b1;text-decoration:underline;font-weight:700;overflow-wrap:anywhere}
 
+/* PREMIUM MESSAGE VOICE OUTPUT */
+.msg-voice-row{
+ display:flex;
+ align-items:center;
+ gap:7px;
+ margin-top:9px;
+ padding-top:8px;
+ border-top:1px solid #e9eee8;
+}
+.msg.user .msg-voice-row{justify-content:flex-end;border-top-color:#c3e2ca}
+.msg-voice-btn{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:7px;
+ min-height:34px;
+ padding:6px 11px;
+ border:1px solid #dce8dc;
+ border-radius:25px;
+ background:linear-gradient(145deg,#ffffff,#f0f6ef);
+ color:#246b49;
+ font-size:11px;
+ font-weight:700;
+ box-shadow:0 2px 7px #123b2b0c;
+ transition:all .2s ease;
+}
+.msg-voice-btn svg{width:17px;height:17px;flex-shrink:0}
+.msg-voice-btn:active{transform:scale(.95)}
+.msg-voice-btn.playing{
+ background:linear-gradient(120deg,#123b2b,#26734c);
+ color:#ffe8ad;
+ border-color:#d6ad55;
+ box-shadow:0 3px 12px #123b2b30;
+}
+.msg-voice-btn.playing svg{stroke:#ffe8ad}
+.msg-voice-btn:disabled{opacity:.6;cursor:default}
+.msg-voice-status{font-size:10px;color:#77847a}
+.msg.user .msg-voice-status{text-align:right}
+
 .ai-input-area{flex:0 0 auto;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:white;border-top:1px solid #e7eee7}
 .ai-input-area label{font-size:12px;color:#52675a}
 .ai-input-area textarea{width:100%;resize:none;border-radius:14px;margin:5px 0;max-height:100px}
 .ai-input-row{display:flex;gap:8px;align-items:stretch}
 .ai-input-row textarea{flex:1;min-width:0}
+
+/* PREMIUM VOICE INPUT MICROPHONE */
 .sg-voice-controls{display:flex;align-items:center;gap:5px}
-.sg-voice-controls button{border:1px solid #e0b75e;background:#123b2b;color:white;border-radius:12px;padding:9px 8px;font-size:19px;min-width:39px;display:flex;align-items:center;justify-content:center}
-.sg-voice-controls button:active{transform:scale(.94);background:#246b49}
-.sg-voice-controls button.voice-active{background:#c62828;border-color:#c62828}
+.sg-voice-controls button{
+ border:1px solid #e0b75e;
+ background:linear-gradient(145deg,#ffffff,#f1f6ef);
+ color:#123b2b;
+ border-radius:13px;
+ padding:8px;
+ min-width:43px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ transition:all .2s ease;
+ box-shadow:0 3px 9px #123b2b10;
+}
+.sg-voice-controls button svg{width:23px;height:23px;display:block}
+.sg-voice-controls button:active{transform:scale(.93)}
+.sg-voice-controls button.voice-active{
+ background:linear-gradient(135deg,#c62828,#8f1010);
+ border-color:#e45a5a;
+ color:white;
+ box-shadow:0 0 0 4px #e5393520,0 4px 12px #c6282840;
+ animation:micPulse 1.3s infinite;
+}
+@keyframes micPulse{
+ 50%{box-shadow:0 0 0 7px #e5393515,0 4px 12px #c6282840}
+}
 .ai-send{background:linear-gradient(120deg,#123b2b,#26734c);color:white;border:0;border-radius:13px;padding:10px 11px;min-width:75px;font-weight:bold}
 .ai-send:disabled{opacity:.6}
 .ai-hint{text-align:center;color:#849087;font-size:10px;padding-top:6px}
@@ -149,7 +213,8 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  #aiModal .modal-box{height:92dvh;max-height:92dvh}
  .ai-input-row{gap:5px}
  .sg-voice-controls{gap:3px}
- .sg-voice-controls button{min-width:34px;padding:8px 5px;font-size:17px}
+ .sg-voice-controls button{min-width:38px;padding:7px}
+ .sg-voice-controls button svg{width:21px;height:21px}
  .ai-send{min-width:62px;padding:9px 7px;font-size:12px}
 }
 @media(min-width:650px){
@@ -326,14 +391,17 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
     <textarea id="aiQuestion" class="field" placeholder="আপনার প্রশ্ন লিখুন..." rows="2"></textarea>
 
     <div class="sg-voice-controls">
-     <button type="button" id="voiceMicBtn" onclick="startVoiceInput()" title="কথা বলে প্রশ্ন করুন">🎙️</button>
-     <button type="button" id="voiceToggleBtn" onclick="toggleAIVoice()" title="ভয়েস চালু/বন্ধ">🔊</button>
-     <button type="button" id="voiceStopBtn" onclick="stopVoiceOutput()" title="ভয়েস বন্ধ করুন">🔇</button>
+     <button type="button" id="voiceMicBtn" onclick="startVoiceInput()" title="কথা বলে প্রশ্ন করুন" aria-label="Voice Input চালু বা বন্ধ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+       <rect x="9" y="2.5" width="6" height="12" rx="3"/>
+       <path d="M5.5 11.5v1a6.5 6.5 0 0 0 13 0v-1M12 19v3M8.5 22h7"/>
+      </svg>
+     </button>
     </div>
 
     <button class="ai-send" id="aiSend" onclick="sendAI()">পাঠান ➤</button>
    </div>
-   <div class="ai-hint">Smart Gear Assistant • আপনার কেনাকাটার সহকারী</div>
+   <div class="ai-hint" id="voiceHint">Smart Gear Assistant • আপনার কেনাকাটার সহকারী</div>
   </div>
  </div>
 </div>
@@ -406,8 +474,9 @@ async function loadProducts(){
 
 function buildCategories(){
  const cats=["সব",...new Set(products.map(categoryOf))];
- $("categories").innerHTML=cats.map((c,i)=>`<button type="button" data-category="${escAttr(c)}" class="${c===selectedCategory?"active":(!cats.includes(selectedCategory)&&i===0?"active":"")}">${esc(c==="সব"?"সব পণ্য":c)}</button>`).join("");
- if(!cats.includes(selectedCategory))selectedCategory="সব";
+ const validCategory=cats.includes(selectedCategory);
+ if(!validCategory)selectedCategory="সব";
+ $("categories").innerHTML=cats.map(c=>`<button type="button" data-category="${escAttr(c)}" class="${c===selectedCategory?"active":""}">${esc(c==="সব"?"সব পণ্য":c)}</button>`).join("");
  $("categories").querySelectorAll("[data-category]").forEach(btn=>btn.addEventListener("click",()=>{
   selectedCategory=btn.dataset.category;
   $("categories").querySelectorAll("button").forEach(b=>b.classList.remove("active"));
@@ -722,12 +791,151 @@ function renderAIText(text){
  return safe.replace(/\n/g,"<br>");
 }
 
+/* MESSAGE VOICE OUTPUT */
+
+const SG_SPEAKER_ICON=`
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <path d="M11 5 6 9H3v6h3l5 4V5Z"/>
+ <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+ <path d="M18.5 5.5a9 9 0 0 1 0 13"/>
+</svg>`;
+
+const SG_STOP_ICON=`
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <rect x="6" y="6" width="12" height="12" rx="3"/>
+</svg>`;
+
+let sgActiveVoiceButton=null;
+let sgActiveUtterance=null;
+let sgVoiceGeneration=0;
+
+function cleanSpeechText(text){
+ return String(text||"")
+  .replace(/<[^>]*>/g," ")
+  .replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/g,"$1")
+  .replace(/https?:\/\/\S+/gi," ")
+  .replace(/www\.\S+/gi," ")
+  .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/gu," ")
+  .replace(/[\uFE0F\u200D\u20E3]/g," ")
+  .replace(/[#*_~`|\\^=+<>]/g," ")
+  .replace(/[()[\]{}]/g," ")
+  .replace(/[•·●▪◆★☆✓✔️♡♥♦♣♠→←↑↓➤➜]/g," ")
+  .replace(/[!?.,;:،؛؟।…\-–—]+/g," ")
+  .replace(/\s+/g," ")
+  .trim();
+}
+
+function resetVoiceButton(button){
+ if(!button)return;
+ button.classList.remove("playing");
+ button.innerHTML=SG_SPEAKER_ICON+"<span>শুনুন</span>";
+ const status=button.parentElement?.querySelector(".msg-voice-status");
+ if(status)status.textContent="";
+}
+
+function stopMessageVoice(){
+ sgVoiceGeneration++;
+ if("speechSynthesis" in window)window.speechSynthesis.cancel();
+ if(sgActiveVoiceButton)resetVoiceButton(sgActiveVoiceButton);
+ sgActiveVoiceButton=null;
+ sgActiveUtterance=null;
+}
+
+function speakMessage(button,text){
+ if(!("speechSynthesis" in window)){
+  alert("আপনার ব্রাউজারে Voice Output সাপোর্ট করছে না।");
+  return;
+ }
+
+ if(sgActiveVoiceButton===button){
+  stopMessageVoice();
+  return;
+ }
+
+ stopMessageVoice();
+
+ const cleanText=cleanSpeechText(text);
+ if(!cleanText){
+  alert("এই মেসেজে পড়ার মতো লেখা পাওয়া যায়নি।");
+  return;
+ }
+
+ const generation=sgVoiceGeneration;
+ const utterance=new SpeechSynthesisUtterance(cleanText);
+
+ utterance.lang=/[\u0980-\u09FF]/.test(cleanText)?"bn-BD":"en-US";
+ utterance.rate=0.95;
+ utterance.pitch=1;
+ utterance.volume=1;
+
+ const voices=window.speechSynthesis.getVoices();
+ const selectedVoice=voices.find(v=>v.lang.toLowerCase()==="bn-bd")
+  ||voices.find(v=>v.lang.toLowerCase().startsWith("bn"));
+
+ if(selectedVoice&&utterance.lang==="bn-BD")utterance.voice=selectedVoice;
+
+ sgActiveVoiceButton=button;
+ sgActiveUtterance=utterance;
+
+ button.classList.add("playing");
+ button.innerHTML=SG_STOP_ICON+"<span>বন্ধ করুন</span>";
+
+ const status=button.parentElement?.querySelector(".msg-voice-status");
+ if(status)status.textContent="ভয়েস চলছে...";
+
+ utterance.onend=function(){
+  if(generation!==sgVoiceGeneration)return;
+  resetVoiceButton(button);
+  sgActiveVoiceButton=null;
+  sgActiveUtterance=null;
+ };
+
+ utterance.onerror=function(event){
+  if(generation!==sgVoiceGeneration)return;
+  resetVoiceButton(button);
+  sgActiveVoiceButton=null;
+  sgActiveUtterance=null;
+  if(event.error!=="canceled"&&event.error!=="interrupted"){
+   console.warn("Voice Output Error:",event.error);
+  }
+ };
+
+ window.speechSynthesis.speak(utterance);
+}
+
+function createMessageVoiceButton(text){
+ const row=document.createElement("div");
+ row.className="msg-voice-row";
+
+ const button=document.createElement("button");
+ button.type="button";
+ button.className="msg-voice-btn";
+ button.title="এই মেসেজ শুনুন";
+ button.setAttribute("aria-label","এই মেসেজের Voice Output শুনুন");
+ button.innerHTML=SG_SPEAKER_ICON+"<span>শুনুন</span>";
+
+ button.addEventListener("click",()=>speakMessage(button,text));
+
+ const status=document.createElement("span");
+ status.className="msg-voice-status";
+
+ row.appendChild(button);
+ row.appendChild(status);
+ return row;
+}
+
+/* EVERY USER AND AI MESSAGE GETS ITS OWN VOICE BUTTON */
+
 function addMessage(text,who){
  const chat=$("chat"),div=document.createElement("div");
  div.className="msg "+who;
+
  if(who==="bot")div.innerHTML=renderAIText(text);
  else div.textContent=text;
- chat.appendChild(div);chat.scrollTop=chat.scrollHeight;
+
+ div.appendChild(createMessageVoiceButton(text));
+ chat.appendChild(div);
+ chat.scrollTop=chat.scrollHeight;
 }
 
 function fileAsDataURL(file){
@@ -736,7 +944,7 @@ function fileAsDataURL(file){
   reader.onload=()=>resolve(reader.result);
   reader.onerror=reject;
   reader.readAsDataURL(file);
- });
+ }
 }
 
 async function sendAI(){
@@ -744,7 +952,7 @@ async function sendAI(){
  const message=input.value.trim(),file=fileInput.files[0];
  if(!message&&!file)return alert("প্রশ্ন লিখুন অথবা ছবি দিন");
 
- addMessage((message||"ছবিটি বিশ্লেষণ করুন।")+(file?" 📷 ছবি সংযুক্ত":""),"user");
+ addMessage((message||"ছবিটি বিশ্লেষণ করুন।")+(file?" ছবি সংযুক্ত":""),"user");
  input.value="";
  button.disabled=true;button.textContent="অপেক্ষা করুন...";
 
@@ -780,8 +988,8 @@ async function sendAI(){
   const answer=result.answer||result.text||result.reply||"দুঃখিত, AI উত্তর দেয়নি।";
   addMessage(answer,"bot");
 
-  // AI উত্তরের ভয়েস চালু
-  speakAIResponse(answer);
+  /* স্বয়ংক্রিয় Voice Output বন্ধ রাখা হয়েছে।
+     ব্যবহারকারী প্রতিটি মেসেজের নিচের শুনুন বাটনে ট্যাপ করবেন। */
 
   aiHistory.push(
    {role:"user",content:message||"ছবি বিশ্লেষণ করুন"},
@@ -827,12 +1035,64 @@ loadOffers();
 </script>
 
 <script>
-/* SMART GEAR AI VOICE SYSTEM */
+/* SMART GEAR PREMIUM VOICE INPUT SYSTEM */
 
+/* ডিফল্টে মাইক্রোফোন বন্ধ */
 let sgRecognition=null;
-let sgVoiceEnabled=true;
+let sgListening=false;
+let sgVoiceInputSupported=!!(window.SpeechRecognition||window.webkitSpeechRecognition);
+
+function updateMicButton(){
+ const btn=$("voiceMicBtn");
+ const hint=$("voiceHint");
+ if(!btn)return;
+
+ if(sgListening){
+  btn.classList.add("voice-active");
+  btn.innerHTML=`
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="2.5" width="6" height="12" rx="3"/>
+    <path d="M5.5 11.5v1a6.5 6.5 0 0 0 13 0v-1M12 19v3M8.5 22h7"/>
+    <path d="M4 4l16 16" stroke="#fff" stroke-width="2"/>
+   </svg>`;
+  btn.title="Voice Input বন্ধ করুন";
+  btn.setAttribute("aria-label","Voice Input বন্ধ করুন");
+  if(hint)hint.textContent="🎙️ শুনছি... আবার মাইক্রোফোনে ট্যাপ করলে বন্ধ হবে";
+ }else{
+  btn.classList.remove("voice-active");
+  btn.innerHTML=`
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="2.5" width="6" height="12" rx="3"/>
+    <path d="M5.5 11.5v1a6.5 6.5 0 0 0 13 0v-1M12 19v3M8.5 22h7"/>
+   </svg>`;
+  btn.title="কথা বলে প্রশ্ন করুন";
+  btn.setAttribute("aria-label","Voice Input চালু করুন");
+  if(hint)hint.textContent="Smart Gear Assistant • আপনার কেনাকাটার সহকারী";
+ }
+}
+
+function stopVoiceInput(){
+ if(!sgListening&&!sgRecognition)return;
+ sgListening=false;
+ const recognition=sgRecognition;
+ sgRecognition=null;
+
+ try{
+  if(recognition)recognition.stop();
+ }catch(e){
+  console.log("Voice Input stop:",e);
+ }
+
+ updateMicButton();
+}
 
 function startVoiceInput(){
+ /* আবার ট্যাপ করলে বন্ধ হবে */
+ if(sgListening){
+  stopVoiceInput();
+  return;
+ }
+
  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 
  if(!SpeechRecognition){
@@ -840,100 +1100,115 @@ function startVoiceInput(){
   return;
  }
 
- if(sgRecognition){
-  try{sgRecognition.stop()}catch(e){}
- }
+ const recognition=new SpeechRecognition();
+ sgRecognition=recognition;
+ sgListening=true;
 
- sgRecognition=new SpeechRecognition();
- sgRecognition.lang="bn-BD";
- sgRecognition.continuous=false;
- sgRecognition.interimResults=false;
+ recognition.lang="bn-BD";
+ recognition.continuous=false;
+ recognition.interimResults=true;
+ recognition.maxAlternatives=1;
 
- const btn=document.getElementById("voiceMicBtn");
+ updateMicButton();
 
- sgRecognition.onstart=function(){
-  if(btn){btn.textContent="🔴";btn.classList.add("voice-active")}
+ recognition.onstart=function(){
+  sgListening=true;
+  updateMicButton();
  };
 
- sgRecognition.onresult=function(event){
-  const spokenText=event.results[0][0].transcript;
-  const input=document.getElementById("aiQuestion");
-  if(input){
-   input.value=spokenText;
+ recognition.onresult=function(event){
+  let finalText="";
+  let interimText="";
+
+  for(let i=event.resultIndex;i<event.results.length;i++){
+   if(event.results[i].isFinal){
+    finalText+=event.results[i][0].transcript;
+   }else{
+    interimText+=event.results[i][0].transcript;
+   }
+  }
+
+  const input=$("aiQuestion");
+  if(!input)return;
+
+  if(finalText){
+   const existing=input.value.trim();
+   input.value=existing?existing+" "+finalText:finalText;
    input.dispatchEvent(new Event("input",{bubbles:true}));
    input.focus();
   }
+
+  const hint=$("voiceHint");
+  if(hint&&interimText)hint.textContent="শোনা যাচ্ছে: "+interimText;
  };
 
- sgRecognition.onerror=function(event){
+ recognition.onerror=function(event){
   console.log("Voice Input Error:",event.error);
+
   if(event.error==="not-allowed"){
    alert("মাইক্রোফোন ব্যবহারের অনুমতি দিন। ব্রাউজারের Microphone permission চালু করুন।");
   }else if(event.error==="no-speech"){
-   alert("কোনো কথা শোনা যায়নি। আবার চেষ্টা করুন।");
+   const hint=$("voiceHint");
+   if(hint)hint.textContent="কোনো কথা শোনা যায়নি। আবার ট্যাপ করে চেষ্টা করুন।";
+  }else if(event.error==="network"){
+   const hint=$("voiceHint");
+   if(hint)hint.textContent="Voice Input নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।";
   }
  };
 
- sgRecognition.onend=function(){
-  if(btn){btn.textContent="🎙️";btn.classList.remove("voice-active")}
+ recognition.onend=function(){
+  if(sgRecognition===recognition){
+   sgRecognition=null;
+   sgListening=false;
+   updateMicButton();
+  }
  };
 
- try{sgRecognition.start()}
- catch(error){console.error(error)}
+ try{
+  recognition.start();
+ }catch(error){
+  sgRecognition=null;
+  sgListening=false;
+  updateMicButton();
+  console.error(error);
+ }
 }
 
-function speakAIResponse(text){
- if(!sgVoiceEnabled||!("speechSynthesis" in window))return;
-
- window.speechSynthesis.cancel();
-
- const cleanText=String(text||"")
-  .replace(/<[^>]*>/g," ")
-  .replace(/https?:\/\/\S+/g,"")
-  .replace(/[*#_`]/g," ")
-  .trim();
-
- if(!cleanText)return;
-
- const utterance=new SpeechSynthesisUtterance(cleanText);
- utterance.lang="bn-BD";
- utterance.rate=0.95;
- utterance.pitch=1;
- utterance.volume=1;
-
- const voices=window.speechSynthesis.getVoices();
- const bengaliVoice=voices.find(v=>v.lang.toLowerCase().startsWith("bn"));
-
- if(bengaliVoice)utterance.voice=bengaliVoice;
-
- window.speechSynthesis.speak(utterance);
-}
-
-function stopVoiceOutput(){
- if("speechSynthesis" in window){
+/* Voice Output চলার সময় মাইক্রোফোন চালু করলে আগের Voice Output বন্ধ হবে */
+$("voiceMicBtn").addEventListener("pointerdown",()=>{
+ if(!sgListening&&window.speechSynthesis){
   window.speechSynthesis.cancel();
  }
-}
+});
 
-function toggleAIVoice(){
- sgVoiceEnabled=!sgVoiceEnabled;
-
- const btn=document.getElementById("voiceToggleBtn");
-
- if(!sgVoiceEnabled){
-  stopVoiceOutput();
-  if(btn)btn.textContent="🔇";
- }else{
-  if(btn)btn.textContent="🔊";
- }
- return sgVoiceEnabled;
-}
-
+/* Voice Output voice list initialization */
 if("speechSynthesis" in window){
  window.speechSynthesis.onvoiceschanged=function(){
   window.speechSynthesis.getVoices();
  };
+ window.speechSynthesis.getVoices();
 }
+
+/* Chat বন্ধ করলে চলমান Voice Output ও Input বন্ধ */
+const aiModalObserver=new MutationObserver(()=>{
+ if(!$("aiModal").classList.contains("show")){
+  stopVoiceInput();
+  stopMessageVoice();
+ }
+});
+aiModalObserver.observe($("aiModal"),{
+ attributes:true,
+ attributeFilter:["class"]
+});
+
+/* পেজ বন্ধ হওয়ার আগে ভয়েস বন্ধ */
+window.addEventListener("pagehide",()=>{
+ stopVoiceInput();
+ stopMessageVoice();
+});
+
+/* প্রথম অবস্থায় মাইক্রোফোন বন্ধ */
+updateMicButton();
 </script>
 
 </body>
