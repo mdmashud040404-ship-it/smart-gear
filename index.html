@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -15,38 +16,31 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans Bengali",sans-serif}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-
 header{position:sticky;top:0;z-index:15;color:white;background:linear-gradient(120deg,#102d22,#236747);padding:13px 15px;box-shadow:0 4px 18px #102d2225}
 .top{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{font-size:23px;font-weight:900;color:#f2d28a}
 .brand small{display:block;font-size:10px;letter-spacing:3px;color:white}
-.header-actions{display:flex;gap:7px}
-.header-actions button{border:1px solid #ffffff55;background:#ffffff18;color:white;padding:9px 12px;border-radius:25px}
-
+.header-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.header-actions button{border:1px solid #ffffff55;background:#ffffff18;color:white;padding:9px 12px;border-radius:25px;font-size:12px}
 .container{max-width:1180px;margin:auto;padding:14px}
 .search-wrap{display:flex;gap:8px;margin:12px 0}
 .search{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:white;outline:none;box-shadow:0 3px 12px #173b2410}
 .search:focus,.field:focus{border-color:var(--green2);box-shadow:0 0 0 3px #246b4918}
-
 .categories{display:flex;gap:8px;overflow:auto;padding:3px 0 13px}
 .categories button{white-space:nowrap;border:1px solid var(--line);background:white;padding:9px 15px;border-radius:30px;color:var(--green)}
 .categories button.active{background:var(--green);color:white;border-color:var(--green)}
-
 .hero{background:linear-gradient(120deg,#123b2b,#28774e);color:white;padding:24px;border-radius:20px;margin:10px 0 18px;box-shadow:var(--shadow)}
 .hero h2{color:#f5d58e;margin:0 0 9px;font-size:23px}
 .hero p{margin:0;color:#e3eee5;line-height:1.7}
 .hero-tag{display:inline-block;margin-top:14px;padding:7px 12px;border:1px solid #ffffff55;border-radius:20px;font-size:12px;color:#ffe4a2}
-
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 12px}
 .section-head h3{margin:0;font-size:18px}
 .section-head button{border:0;background:#e5eee6;color:var(--green);padding:8px 12px;border-radius:20px}
-
 .offer-section{display:none;margin:12px 0 20px}
 .offer-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 1px 10px}
 .offer-card{flex:0 0 min(88%,680px);scroll-snap-align:start;border-radius:17px;overflow:hidden;background:white;box-shadow:var(--shadow);border:1px solid var(--line);text-decoration:none;color:inherit}
 .offer-card img{width:100%;height:190px;object-fit:cover;display:block}
 .offer-caption{padding:10px 13px;font-weight:700;color:var(--green)}
-
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .product{background:white;border:1px solid var(--line);border-radius:16px;position:relative;box-shadow:var(--shadow);animation:appear .35s ease;min-width:0}
 @keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -54,7 +48,6 @@ header{position:sticky;top:0;z-index:15;color:white;background:linear-gradient(1
 .product-info{padding:11px}
 .product h3{font-size:14px;margin:0 0 8px;line-height:1.5;min-height:40px}
 .price{font-weight:900;color:var(--green2);font-size:17px}
-
 .reaction-wrap{position:relative;display:flex;align-items:center;gap:7px;margin-top:9px;min-height:34px;flex-wrap:wrap}
 .like-main{border:0;background:#edf3ee;color:var(--green);border-radius:22px;padding:7px 11px;font-weight:700;font-size:12px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .like-main.selected{background:#e5f0ff;color:#1877f2}
@@ -66,11 +59,10 @@ header{position:sticky;top:0;z-index:15;color:white;background:linear-gradient(1
 .reaction-picker button{flex:0 0 37px;border:0;background:transparent;border-radius:50%;width:37px;height:37px;font-size:23px;padding:0}
 .reaction-picker button:active{transform:scale(1.25)}
 @keyframes reactPop{from{opacity:0;transform:translateY(8px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
-
 .product-actions{display:flex;gap:6px;margin-top:10px}
 .product-actions button{flex:1;padding:9px 4px;border:0;border-radius:9px;background:var(--green);color:white;font-size:12px}
 .product-actions .secondary{background:#edf3ee;color:var(--green)}
-
+.product-actions .order-now{background:linear-gradient(120deg,#123b2b,#26734c);border:1px solid var(--gold);color:#fff;font-weight:700}
 .modal{display:none;position:fixed;inset:0;background:#0009;z-index:100;align-items:center;justify-content:center;padding:12px}
 .modal.show{display:flex}
 .modal-box{background:white;width:100%;max-width:540px;max-height:92dvh;overflow:auto;border-radius:19px;padding:18px;box-shadow:0 15px 60px #0004}
@@ -78,21 +70,18 @@ header{position:sticky;top:0;z-index:15;color:white;background:linear-gradient(1
 .field{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin:7px 0;background:white;outline:none}
 .primary{width:100%;border:0;border-radius:11px;padding:13px;background:var(--green);color:white;font-weight:bold;margin-top:9px}
 .comment{background:#f2f5f1;padding:10px;border-radius:10px;margin:7px 0;overflow-wrap:anywhere}
-
 .owner-section{margin:18px 0 22px;background:linear-gradient(120deg,#fff,#f4f7f1);border:1px solid #e0b75e88;border-radius:18px;padding:14px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow)}
 .owner-photo{width:112px;height:132px;flex:0 0 112px;object-fit:cover;object-position:center 22%;border:3px solid var(--gold);border-radius:8px;background:#e9eee8;display:block}
 .owner-copy h3{margin:0 0 5px;color:var(--green);font-size:19px}
 .owner-role{font-weight:700;color:#a47b32;font-size:13px;margin:0 0 6px}
 .owner-copy p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
 .owner-placeholder{display:none;width:112px;height:132px;flex:0 0 112px;border:3px solid var(--gold);border-radius:8px;background:#e9eee8;color:var(--green);align-items:center;justify-content:center;text-align:center;font-size:12px;padding:8px}
-
 footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 .floating{position:fixed;right:12px;bottom:18px;z-index:80;display:flex;flex-direction:column;gap:9px}
 .floating a{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;text-decoration:none;color:white;box-shadow:0 4px 14px #0003;transition:transform .2s}
 .floating a:active{transform:scale(.9)}
 .floating svg{width:27px;height:27px;display:block}
 .wa{background:#20bd67}.imo{background:#2788df}.call{background:#174f37}.fb{background:#1877f2}
-
 .ai-launch{position:fixed;left:13px;bottom:18px;z-index:85;min-height:65px;padding:7px 16px 7px 9px;border:1.5px solid #e0b75e;border-radius:40px;background:linear-gradient(120deg,#102f22,#26734c);color:white;display:flex;align-items:center;gap:10px;box-shadow:0 0 0 4px #e0b75e20,0 5px 22px #102d2260;animation:aiFloat 3s ease-in-out infinite}
 .ai-launch-icon{width:47px;height:47px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f8df9b,#d6a943);box-shadow:0 0 15px #e0b75e80;flex-shrink:0}
 .ai-launch-icon svg{width:31px;height:31px}
@@ -103,7 +92,6 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 @keyframes onlinePulse{50%{box-shadow:0 0 0 5px #43e58b30}}
 @keyframes aiFloat{50%{transform:translateY(-4px);box-shadow:0 0 0 6px #e0b75e22,0 7px 27px #102d2260}}
 .ai-launch:active{transform:scale(.96)}
-
 #aiModal{padding:10px}
 #aiModal .modal-box{width:100%;max-width:490px;height:min(720px,90dvh);max-height:90dvh;padding:0;overflow:hidden;border-radius:24px;background:#f5f8f4;display:flex;flex-direction:column}
 .ai-header{background:linear-gradient(135deg,#102f22,#26734c);color:white;padding:16px 18px;position:relative;flex:0 0 auto}
@@ -113,13 +101,11 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 .ai-header h2{color:#f5d58e;margin:0;font-size:18px}
 .ai-header p{color:#e1eee5;margin:5px 0 0;font-size:12px}
 .ai-header .close{position:absolute;right:13px;top:13px;background:#ffffff25;color:white}
-
 .ai-chat{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px;background:#eef5ed;overscroll-behavior:contain}
 .msg{padding:12px 14px;border-radius:17px;margin:8px 0;max-width:92%;font-size:14px;line-height:1.65;overflow-wrap:anywhere}
 .msg.bot{background:white;border:1px solid #e2eae1;border-bottom-left-radius:5px}
 .msg.user{background:#d8f0df;margin-left:auto;border-bottom-right-radius:5px}
 .msg a{color:#1267b1;text-decoration:underline;font-weight:700;overflow-wrap:anywhere}
-
 .msg-voice-row{display:flex;align-items:center;gap:7px;margin-top:9px;padding-top:8px;border-top:1px solid #e9eee8}
 .msg.user .msg-voice-row{justify-content:flex-end;border-top-color:#c3e2ca}
 .msg-voice-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:6px 11px;border:1px solid #dce8dc;border-radius:25px;background:linear-gradient(145deg,#ffffff,#f0f6ef);color:#246b49;font-size:11px;font-weight:700;box-shadow:0 2px 7px #123b2b0c;transition:all .2s ease}
@@ -128,13 +114,11 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 .msg-voice-btn.playing{background:linear-gradient(120deg,#123b2b,#26734c);color:#ffe8ad;border-color:#d6ad55;box-shadow:0 3px 12px #123b2b30}
 .msg-voice-btn.playing svg{stroke:#ffe8ad}
 .msg-voice-status{font-size:10px;color:#77847a}
-
 .ai-input-area{flex:0 0 auto;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:white;border-top:1px solid #e7eee7}
 .ai-input-area label{font-size:12px;color:#52675a}
 .ai-input-area textarea{width:100%;resize:none;border-radius:14px;margin:5px 0;max-height:100px}
 .ai-input-row{display:flex;gap:8px;align-items:stretch}
 .ai-input-row textarea{flex:1;min-width:0}
-
 .sg-voice-controls{display:flex;align-items:center;gap:5px}
 .sg-voice-controls button{border:1px solid #e0b75e;background:linear-gradient(145deg,#ffffff,#f1f6ef);color:#123b2b;border-radius:13px;padding:8px;min-width:43px;display:flex;align-items:center;justify-content:center;transition:all .2s ease;box-shadow:0 3px 9px #123b2b10}
 .sg-voice-controls button svg{width:23px;height:23px;display:block}
@@ -146,11 +130,20 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 .ai-send:disabled{opacity:.6}
 .ai-hint{text-align:center;color:#849087;font-size:10px;padding-top:6px}
 .ai-hint.live-hint{color:#c62828;font-weight:700}
-
 .payment-info{display:none;background:#fff8e8;border:1px solid #e0b75e;border-radius:12px;padding:12px;margin:8px 0;color:#5e4821;font-size:13px;line-height:1.7}
 .payment-number{font-size:19px;font-weight:900;letter-spacing:1px;color:var(--green)}
 .copy-number{border:0;border-radius:8px;background:var(--green);color:white;padding:7px 12px;margin-top:6px}
 
+/* MY ORDERS */
+.order-status{display:inline-block;padding:5px 10px;border-radius:20px;background:#fff2d7;color:#93651a;font-size:12px;font-weight:700}
+.order-status.confirmed{background:#e5f0ff;color:#1763a7}
+.order-status.processing{background:#eee8ff;color:#6744a5}
+.order-status.delivered{background:#e1f5e8;color:#18723a}
+.order-status.cancelled{background:#ffe5e5;color:#b42323}
+.order-item{background:#f4f7f3;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.order-item h3{font-size:15px;color:var(--green);margin:0 0 8px}
+.order-item p{font-size:13px;line-height:1.6;margin:5px 0;overflow-wrap:anywhere}
+.order-empty{text-align:center;padding:20px;color:var(--muted);background:#f4f7f3;border-radius:12px}
 @media(max-width:420px){
  .owner-section{gap:12px;padding:11px}
  .owner-photo,.owner-placeholder{width:94px;height:116px;flex-basis:94px}
@@ -187,6 +180,7 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
   <div class="brand">SMART GEAR<small>DIGITAL STORE</small></div>
   <div class="header-actions">
    <button onclick="showSaved()">♡ Saved</button>
+   <button onclick="openMyOrders()">📦 আমার অর্ডার</button>
    <button onclick="openCart()">🛒 <span id="cartCount">0</span></button>
   </div>
  </div>
@@ -309,6 +303,18 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </div>
 </div>
 
+<!-- MY ORDERS MODAL -->
+<div class="modal" id="myOrdersModal">
+ <div class="modal-box">
+  <button class="close" onclick="closeModal('myOrdersModal')">×</button>
+  <h2>📦 আমার অর্ডার</h2>
+  <p style="font-size:13px;color:#77847a;line-height:1.6">অর্ডার করার সময় ব্যবহৃত মোবাইল নম্বরটি লিখে আপনার অর্ডারগুলো দেখুন।</p>
+  <input class="field" id="orderSearchPhone" placeholder="আপনার মোবাইল নম্বর লিখুন" inputmode="tel">
+  <button class="primary" id="findOrdersButton" onclick="findMyOrders()">অর্ডার খুঁজুন</button>
+  <div id="myOrdersList" style="margin-top:14px"></div>
+ </div>
+</div>
+
 <div class="modal" id="aiModal">
  <div class="modal-box">
   <div class="ai-header">
@@ -336,10 +342,8 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
   <div class="ai-input-area">
    <label for="aiImage">📷 ছবি যুক্ত করুন</label>
    <input type="file" id="aiImage" accept="image/*" class="field">
-
    <div class="ai-input-row">
     <textarea id="aiQuestion" class="field" placeholder="আপনার প্রশ্ন লিখুন..." rows="2"></textarea>
-
     <div class="sg-voice-controls">
      <button type="button" id="voiceMicBtn" onclick="startVoiceInput()" title="কথা বলে প্রশ্ন করুন" aria-label="Voice Input চালু বা বন্ধ">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -347,14 +351,12 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
        <path d="M5.5 11.5v1a6.5 6.5 0 0 0 13 0v-1M12 19v3M8.5 22h7"/>
       </svg>
      </button>
-
      <button type="button" id="voiceCallBtn" onclick="toggleLiveCall()" title="লাইভ ভয়েস কল চালু করুন" aria-label="লাইভ ভয়েস কল">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
        <path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 18a19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 3.2 2 2 0 0 1 4.1 1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 9a16 16 0 0 0 7 7l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/>
       </svg>
      </button>
     </div>
-
     <button class="ai-send" id="aiSend" onclick="sendAI()">পাঠান ➤</button>
    </div>
    <div class="ai-hint" id="voiceHint">Smart Gear Assistant • আপনার কেনাকাটার সহকারী</div>
@@ -371,10 +373,8 @@ const PHONE="01854673321";
 let db=null,products=[],cart=[],selectedCategory="সব",savedIds=[],aiHistory=[],reactionCounts={},myReactions={};
 try{savedIds=JSON.parse(localStorage.getItem("sg_saved")||"[]")}catch(e){}
 try{myReactions=JSON.parse(localStorage.getItem("sg_reactions")||"{}")}catch(e){}
-
 const REACTIONS=["👍","❤️","😂","😮","😢","😡"];
 let holdTimer=null,longPressed=false,reactionPending={};
-
 if(window.supabase&&SUPABASE_URL&&SUPABASE_KEY)db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 function createVisitorId(){
@@ -394,7 +394,6 @@ function getVisitorId(){
   window.smartGearVisitorId=id;return id;
  }catch(e){window.smartGearVisitorId=createVisitorId();return window.smartGearVisitorId}
 }
-
 const $=id=>document.getElementById(id);
 function nameOf(p){return p.name||p.title||p.product_name||"পণ্য"}
 function priceOf(p){return Number(p.price||0)}
@@ -427,7 +426,6 @@ async function loadProducts(){
   buildCategories();renderProducts();
  }catch(e){box.innerHTML="পণ্য লোড হয়নি: "+esc(e.message)}
 }
-
 function buildCategories(){
  const cats=["সব",...new Set(products.map(categoryOf))];
  if(!cats.includes(selectedCategory))selectedCategory="সব";
@@ -438,7 +436,6 @@ function buildCategories(){
   btn.classList.add("active");renderProducts();
  }));
 }
-
 function renderProducts(){
  $("listTitle").textContent="✨ আমাদের পণ্য";
  const q=$("search").value.trim().toLocaleLowerCase();
@@ -460,6 +457,7 @@ function renderProducts(){
      <button class="secondary" onclick="addCart('${escAttr(id)}')">কার্টে নিন</button>
     </div>
     <div class="product-actions">
+     <button class="order-now" onclick="buyNow('${escAttr(id)}')">অর্ডার করুন</button>
      <button class="secondary" onclick="toggleSaved('${escAttr(id)}')">${savedIds.includes(id)?"♥ Saved":"♡ Save"}</button>
      <button class="secondary" onclick="shareProduct('${escAttr(id)}')">↗ Share</button>
     </div>
@@ -468,7 +466,6 @@ function renderProducts(){
  }).join(""):"<p>কোনো পণ্য পাওয়া যায়নি।</p>";
  bindReactionControls();loadReactionCounts();
 }
-
 function bindReactionControls(){
  document.querySelectorAll("[data-like-button]").forEach(btn=>{
   if(btn.dataset.bound)return;
@@ -498,18 +495,15 @@ function bindReactionControls(){
   });
  });
 }
-
 function showReactionPicker(id){
  const picker=document.querySelector(`[data-reaction-picker="${CSS.escape(String(id))}"]`);
  if(!picker)return;
  document.querySelectorAll(".reaction-picker.open").forEach(p=>p.classList.remove("open"));
  picker.classList.add("open");
 }
-
 document.addEventListener("pointerdown",e=>{
  if(!e.target.closest(".reaction-wrap"))document.querySelectorAll(".reaction-picker.open").forEach(p=>p.classList.remove("open"));
 });
-
 async function reactProduct(id,reaction){
  if(!db)return alert("Supabase সংযোগ নেই");
  id=String(id);
@@ -537,7 +531,6 @@ async function reactProduct(id,reaction){
   alert("রিঅ্যাকশন দেওয়া যায়নি: "+(error.message||String(error)));
  }finally{delete reactionPending[id]}
 }
-
 async function loadReactionCounts(){
  if(!db)return;
  const ids=products.map(p=>p.id).filter(Boolean);
@@ -554,7 +547,6 @@ async function loadReactionCounts(){
   ids.forEach(id=>renderReactionCounts(String(id)));
  }catch(e){console.info("Reaction count error:",e.message)}
 }
-
 function renderReactionCounts(id){
  const box=$("reactionCounts-"+id);
  if(!box)return;
@@ -573,6 +565,7 @@ function showProduct(id){
   <p>${esc(descOf(p))}</p>
   <p>ক্যাটাগরি: ${esc(categoryOf(p))}</p>
   <button class="primary" onclick="addCart('${escAttr(id)}');closeModal('productModal')">কার্টে নিন</button>
+  <button class="primary" style="background:linear-gradient(120deg,#123b2b,#26734c);border:1px solid #e0b75e" onclick="buyNow('${escAttr(id)}')">অর্ডার করুন</button>
   <button class="primary" style="background:#246b49" onclick="shareProduct('${escAttr(id)}')">পণ্য শেয়ার করুন</button>
   <button class="primary" style="background:linear-gradient(120deg,#123b2b,#26734c);border:1px solid #e0b75e" onclick="askProductAI('${escAttr(id)}')">🤖 এই পণ্যের AI সাজেশন দেখুন</button>
   <hr><h3>মন্তব্য</h3>
@@ -582,7 +575,6 @@ function showProduct(id){
   <div id="comments">মন্তব্য লোড হচ্ছে...</div>`;
  openModal("productModal");loadComments(id);
 }
-
 function askProductAI(id){
  const p=products.find(x=>String(x.id)===String(id));
  if(!p)return alert("পণ্যের তথ্য পাওয়া যায়নি");
@@ -594,7 +586,6 @@ function askProductAI(id){
  $("aiQuestion").value=prompt;
  setTimeout(()=>sendAI(),180);
 }
-
 async function loadComments(id){
  const box=$("comments");
  if(!db){box.textContent="Supabase সংযোগ নেই";return}
@@ -602,7 +593,6 @@ async function loadComments(id){
  if(error){box.textContent="মন্তব্য লোড হয়নি";return}
  box.innerHTML=(data||[]).map(c=>`<div class="comment"><b>${esc(c.name||"গ্রাহক")}</b><p>${esc(c.comment||"")}</p></div>`).join("")||"এখনো কোনো মন্তব্য নেই।";
 }
-
 async function addComment(id){
  if(!db)return alert("Supabase সংযোগ নেই");
  const name=$("commentName").value.trim()||"গ্রাহক",comment=$("commentText").value.trim();
@@ -611,14 +601,12 @@ async function addComment(id){
  if(error)return alert("মন্তব্য পাঠানো যায়নি: "+error.message);
  $("commentText").value="";loadComments(id);
 }
-
 function toggleSaved(id){
  if(savedIds.includes(id))savedIds=savedIds.filter(x=>x!==id);
  else savedIds.push(id);
  localStorage.setItem("sg_saved",JSON.stringify(savedIds));
  renderProducts();
 }
-
 function showSaved(){
  $("listTitle").textContent="♡ সংরক্ষিত পণ্য";
  const list=products.filter(p=>savedIds.includes(String(p.id)));
@@ -630,12 +618,14 @@ function showSaved(){
     <div class="price">${money(priceOf(p))}</div>
     <div class="product-actions">
      <button onclick="showProduct('${escAttr(p.id)}')">বিস্তারিত</button>
+     <button class="order-now" onclick="buyNow('${escAttr(p.id)}')">অর্ডার করুন</button>
+    </div>
+    <div class="product-actions">
      <button class="secondary" onclick="toggleSaved('${escAttr(p.id)}');showSaved()">Remove</button>
     </div>
    </div>
   </article>`).join(""):"<p>এখনো কোনো পণ্য সংরক্ষণ করেননি।</p>";
 }
-
 async function shareProduct(id){
  const p=products.find(x=>String(x.id)===String(id));
  if(!p)return;
@@ -648,7 +638,6 @@ async function shareProduct(id){
   catch(e){prompt("লিংক কপি করুন",text)}
  }
 }
-
 function addCart(id){
  const p=products.find(x=>String(x.id)===String(id));
  if(!p)return;
@@ -658,13 +647,24 @@ function addCart(id){
  updateCart();alert("কার্টে যোগ হয়েছে");
 }
 
+/* সরাসরি একটি পণ্য অর্ডার */
+function buyNow(id){
+ const p=products.find(x=>String(x.id)===String(id));
+ if(!p)return alert("পণ্যটি পাওয়া যায়নি");
+ cart=[{p,qty:1}];
+ updateCart();
+ closeModal("productModal");
+ closeModal("cartModal");
+ updateCheckoutTotal();
+ openModal("checkoutModal");
+}
+
 function updateCart(){$("cartCount").textContent=cart.reduce((a,x)=>a+x.qty,0)}
 function subtotal(){return cart.reduce((a,x)=>a+priceOf(x.p)*x.qty,0)}
 function delivery(){
  const district=$("district").value.trim().normalize("NFC").replace(/\s/g,"").replace(/জেলা$/,"").trim();
  return district==="চট্টগ্রাম"?70:140;
 }
-
 function openCart(){
  $("cartItems").innerHTML=cart.map((x,i)=>`
   <div class="comment">
@@ -675,30 +675,25 @@ function openCart(){
  $("cartTotal").textContent="পণ্যের মূল্য: "+money(subtotal());
  openModal("cartModal");
 }
-
 function changeQty(i,n){
  cart[i].qty+=n;
  if(cart[i].qty<=0)cart.splice(i,1);
  updateCart();openCart();
 }
-
 function openCheckout(){
  if(!cart.length)return alert("কার্ট খালি");
  closeModal("cartModal");updateCheckoutTotal();openModal("checkoutModal");
 }
-
 function updateCheckoutTotal(){
  const charge=delivery();
  $("checkoutTotal").textContent=`পণ্য: ${money(subtotal())} | ডেলিভারি: ${money(charge)} | মোট: ${money(subtotal()+charge)}`;
 }
 $("district").addEventListener("input",updateCheckoutTotal);
-
 $("payment").addEventListener("change",()=>{
  const method=$("payment").value;
  $("paymentInfo").style.display=["bKash Personal - Send Money","Nagad Personal - Send Money"].includes(method)?"block":"none";
  $("transaction").placeholder=method==="Cash on Delivery"?"Transaction ID (প্রযোজ্য নয়)":"Transaction ID (বিকাশ/নগদ হলে)";
 });
-
 async function copyPaymentNumber(){
  try{await navigator.clipboard.writeText(PHONE);alert("পেমেন্ট নম্বর কপি হয়েছে")}
  catch(e){prompt("নম্বর কপি করুন",PHONE)}
@@ -719,7 +714,6 @@ async function submitOrder(){
   allocatedSoFar+=allocated;
   return{product_id:x.p.id,product_title:nameOf(x.p),price:priceOf(x.p),quantity:x.qty,customer_name:name,customer_phone:phone,division,district,upazila,delivery_address:address,delivery_charge:allocated,total_amount:line+allocated,payment_method:payment,transaction_id:transaction};
  });
-
  const button=$("orderButton");
  button.disabled=true;button.textContent="অর্ডার জমা হচ্ছে...";
  try{
@@ -728,11 +722,71 @@ async function submitOrder(){
   let msg=`নতুন অর্ডার - Smart Gear%0Aনাম: ${encodeURIComponent(name)}%0Aফোন: ${encodeURIComponent(phone)}%0Aঠিকানা: ${encodeURIComponent([division,district,upazila,address].join(", "))}%0Aপেমেন্ট: ${encodeURIComponent(payment)}%0ATransaction ID: ${encodeURIComponent(transaction||"প্রযোজ্য নয়")}%0A`;
   cart.forEach(x=>{msg+=`%0A${encodeURIComponent(nameOf(x.p))} × ${x.qty} = ${encodeURIComponent(money(priceOf(x.p)*x.qty))}`});
   msg+=`%0Aপণ্যের মূল্য: ${encodeURIComponent(money(sub))}%0Aডেলিভারি: ${encodeURIComponent(money(charge))}%0Aসর্বমোট: ${encodeURIComponent(money(sub+charge))}`;
+  const orderedPhone=phone;
   cart=[];updateCart();closeModal("checkoutModal");
+  $("orderSearchPhone").value=orderedPhone;
+  try{localStorage.setItem("sg_last_order_phone",orderedPhone)}catch(e){}
   alert("অর্ডার ডাটাবেজে জমা হয়েছে। WhatsApp-এ অর্ডারের তথ্য পাঠিয়ে দিন। পেমেন্ট যাচাই আলাদাভাবে করতে হবে।");
   window.open("https://wa.me/8801854673321?text="+msg,"_blank");
  }catch(e){alert("অর্ডার জমা হয়নি: "+e.message)}
  finally{button.disabled=false;button.textContent="অর্ডার নিশ্চিত করুন"}
+}
+
+/* MY ORDERS */
+function openMyOrders(){
+ try{
+  const last=localStorage.getItem("sg_last_order_phone");
+  if(last&&!$("orderSearchPhone").value)$("orderSearchPhone").value=last;
+ }catch(e){}
+ $("myOrdersList").innerHTML="";
+ openModal("myOrdersModal");
+}
+function normalizePhone(value){
+ return String(value||"").replace(/[^\d+]/g,"").replace(/^(\+?88)/,"").replace(/^0/,"");
+}
+function statusInfo(status){
+ const s=String(status||"Pending").toLowerCase().trim();
+ if(["confirmed","নিশ্চিত","নিশ্চিত করা হয়েছে"].includes(s))return{label:"নিশ্চিত",className:"confirmed"};
+ if(["processing","প্রস্তুত করা হচ্ছে","প্রসেসিং"].includes(s))return{label:"প্রস্তুত করা হচ্ছে",className:"processing"};
+ if(["delivered","ডেলিভারি সম্পন্ন","সম্পন্ন"].includes(s))return{label:"ডেলিভারি সম্পন্ন",className:"delivered"};
+ if(["cancelled","canceled","বাতিল"].includes(s))return{label:"বাতিল",className:"cancelled"};
+ return{label:"অপেক্ষমাণ",className:""};
+}
+async function findMyOrders(){
+ if(!db)return alert("Supabase সংযোগ নেই");
+ const phone=$("orderSearchPhone").value.trim();
+ if(!phone)return alert("আপনার মোবাইল নম্বর লিখুন");
+ const button=$("findOrdersButton"),box=$("myOrdersList");
+ button.disabled=true;button.textContent="খোঁজা হচ্ছে...";
+ box.innerHTML="<p>আপনার অর্ডার খোঁজা হচ্ছে...</p>";
+ try{
+  const {data,error}=await db.from("orders").select("*").eq("customer_phone",phone).order("created_at",{ascending:false}).limit(100);
+  if(error)throw error;
+  if(!data||!data.length){
+   box.innerHTML='<div class="order-empty">এই মোবাইল নম্বরে কোনো অর্ডার পাওয়া যায়নি। অর্ডারের সময় দেওয়া নম্বরটি আবার পরীক্ষা করুন।</div>';
+   return;
+  }
+  box.innerHTML=data.map((o,index)=>{
+   const status=statusInfo(o.status);
+   const date=o.created_at?new Date(o.created_at).toLocaleString("bn-BD"):"তারিখ পাওয়া যায়নি";
+   return `<div class="order-item">
+    <h3>📦 ${esc(o.product_title||"পণ্য")}</h3>
+    <p><b>অর্ডার:</b> ${index+1}</p>
+    <p><b>পরিমাণ:</b> ${esc(o.quantity??1)}</p>
+    <p><b>পণ্যের দাম:</b> ${money(o.price)}</p>
+    <p><b>ডেলিভারি চার্জ:</b> ${money(o.delivery_charge)}</p>
+    <p><b>সর্বমোট:</b> <strong>${money(o.total_amount)}</strong></p>
+    <p><b>অর্ডারের তারিখ:</b> ${esc(date)}</p>
+    <p><b>পেমেন্ট:</b> ${esc(o.payment_method||"")}</p>
+    <p><b>অর্ডারের অবস্থা:</b> <span class="order-status ${status.className}">${status.label}</span></p>
+   </div>`;
+  }).join("");
+ }catch(e){
+  console.error("My orders error:",e);
+  box.innerHTML='<div class="order-empty">অর্ডার লোড করা যায়নি: '+esc(e.message)+'</div>';
+ }finally{
+  button.disabled=false;button.textContent="অর্ডার খুঁজুন";
+ }
 }
 
 function renderAIText(text){
@@ -747,23 +801,19 @@ function renderAIText(text){
 }
 
 /* MESSAGE VOICE OUTPUT */
-
 const SG_SPEAKER_ICON=`
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
  <path d="M11 5 6 9H3v6h3l5 4V5Z"/>
  <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
  <path d="M18.5 5.5a9 9 0 0 1 0 13"/>
 </svg>`;
-
 const SG_STOP_ICON=`
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
  <rect x="6" y="6" width="12" height="12" rx="3"/>
 </svg>`;
-
 let sgActiveVoiceButton=null;
 let sgActiveUtterance=null;
 let sgVoiceGeneration=0;
-
 function cleanSpeechText(text){
  return String(text||"")
   .replace(/<[^>]*>/g," ")
@@ -779,7 +829,6 @@ function cleanSpeechText(text){
   .replace(/\s+/g," ")
   .trim();
 }
-
 function resetVoiceButton(button){
  if(!button)return;
  button.classList.remove("playing");
@@ -787,7 +836,6 @@ function resetVoiceButton(button){
  const status=button.parentElement?.querySelector(".msg-voice-status");
  if(status)status.textContent="";
 }
-
 function stopMessageVoice(){
  sgVoiceGeneration++;
  if("speechSynthesis" in window)window.speechSynthesis.cancel();
@@ -795,7 +843,6 @@ function stopMessageVoice(){
  sgActiveVoiceButton=null;
  sgActiveUtterance=null;
 }
-
 function speakMessage(button,text){
  if(!("speechSynthesis" in window)){
   alert("আপনার ব্রাউজারে Voice Output সাপোর্ট করছে না।");
@@ -803,29 +850,20 @@ function speakMessage(button,text){
  }
  if(sgActiveVoiceButton===button){stopMessageVoice();return}
  stopMessageVoice();
-
  const cleanText=cleanSpeechText(text);
  if(!cleanText){alert("এই মেসেজে পড়ার মতো লেখা পাওয়া যায়নি।");return}
-
  const generation=sgVoiceGeneration;
  const utterance=new SpeechSynthesisUtterance(cleanText);
  utterance.lang=/[\u0980-\u09FF]/.test(cleanText)?"bn-BD":"en-US";
- utterance.rate=0.95;
- utterance.pitch=1;
- utterance.volume=1;
-
+ utterance.rate=0.95;utterance.pitch=1;utterance.volume=1;
  const voices=window.speechSynthesis.getVoices();
  const selectedVoice=voices.find(v=>v.lang.toLowerCase()==="bn-bd")||voices.find(v=>v.lang.toLowerCase().startsWith("bn"));
  if(selectedVoice&&utterance.lang==="bn-BD")utterance.voice=selectedVoice;
-
- sgActiveVoiceButton=button;
- sgActiveUtterance=utterance;
+ sgActiveVoiceButton=button;sgActiveUtterance=utterance;
  button.classList.add("playing");
  button.innerHTML=SG_STOP_ICON+"<span>বন্ধ করুন</span>";
-
  const status=button.parentElement?.querySelector(".msg-voice-status");
  if(status)status.textContent="ভয়েস চলছে...";
-
  utterance.onend=function(){
   if(generation!==sgVoiceGeneration)return;
   resetVoiceButton(button);sgActiveVoiceButton=null;sgActiveUtterance=null;
@@ -837,34 +875,25 @@ function speakMessage(button,text){
  };
  window.speechSynthesis.speak(utterance);
 }
-
 function createMessageVoiceButton(text){
- const row=document.createElement("div");
- row.className="msg-voice-row";
+ const row=document.createElement("div");row.className="msg-voice-row";
  const button=document.createElement("button");
  button.type="button";button.className="msg-voice-btn";button.title="এই মেসেজ শুনুন";
  button.setAttribute("aria-label","এই মেসেজের Voice Output শুনুন");
  button.innerHTML=SG_SPEAKER_ICON+"<span>শুনুন</span>";
  button.addEventListener("click",()=>speakMessage(button,text));
- const status=document.createElement("span");
- status.className="msg-voice-status";
- row.appendChild(button);row.appendChild(status);
- return row;
+ const status=document.createElement("span");status.className="msg-voice-status";
+ row.appendChild(button);row.appendChild(status);return row;
 }
-
 function addMessage(text,who){
  const chat=$("chat"),div=document.createElement("div");
  div.className="msg "+who;
  if(who==="bot")div.innerHTML=renderAIText(text);
  else div.textContent=text;
  div.appendChild(createMessageVoiceButton(text));
- chat.appendChild(div);
- chat.scrollTop=chat.scrollHeight;
+ chat.appendChild(div);chat.scrollTop=chat.scrollHeight;
 }
-
-/* শুরুতে দেখানো স্বাগতম মেসেজেও ভয়েস বাটন */
 $("welcomeMessage").appendChild(createMessageVoiceButton($("welcomeMessage").innerText));
-
 function fileAsDataURL(file){
  return new Promise((resolve,reject)=>{
   const reader=new FileReader();
@@ -875,59 +904,41 @@ function fileAsDataURL(file){
 }
 
 /* AI REQUEST */
-
 async function sendAI(){
  const input=$("aiQuestion"),fileInput=$("aiImage"),button=$("aiSend");
  const message=input.value.trim(),file=fileInput.files[0];
  if(!message&&!file)return alert("প্রশ্ন লিখুন অথবা ছবি দিন");
-
  addMessage((message||"ছবিটি বিশ্লেষণ করুন।")+(file?" ছবি সংযুক্ত":""),"user");
  input.value="";
  button.disabled=true;button.textContent="অপেক্ষা করুন...";
-
  try{
   let image=null;
   if(file){
    if(file.size>5*1024*1024)throw new Error("ছবির সাইজ ৫ MB-এর কম রাখুন।");
    image={data:await fileAsDataURL(file),mimeType:file.type||"image/jpeg"};
   }
-
   const productContext=products.map(p=>({
    name:nameOf(p),price:priceOf(p),description:descOf(p),category:categoryOf(p),stock:p.stock??p.quantity??null
   }));
-
   const response=await fetch(AI_URL,{
    method:"POST",
    headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},
    body:JSON.stringify({
     message:message||"ছবিটি বিশ্লেষণ করে পণ্যের পরিচয়, ভালো-মন্দ ও কেনার পরামর্শ দিন। Google ও YouTube সার্চ লিংক দিন।",
-    products:productContext,
-    history:aiHistory.slice(-8),
-    image
+    products:productContext,history:aiHistory.slice(-8),image
    })
   });
-
   const rawResponse=await response.text();
   let result={};
   try{result=rawResponse?JSON.parse(rawResponse):{}}
   catch(e){throw new Error(rawResponse.slice(0,350)||`AI সার্ভার সাড়া দেয়নি (${response.status})`)}
-
   if(!response.ok||result.error)throw new Error(result.error||result.message||`AI সার্ভারে সমস্যা হয়েছে (${response.status})`);
-
   const answer=result.answer||result.text||result.reply||"দুঃখিত, AI উত্তর দেয়নি।";
   addMessage(answer,"bot");
-
-  aiHistory.push(
-   {role:"user",content:message||"ছবি বিশ্লেষণ করুন"},
-   {role:"assistant",content:answer}
-  );
+  aiHistory.push({role:"user",content:message||"ছবি বিশ্লেষণ করুন"},{role:"assistant",content:answer});
   if(aiHistory.length>16)aiHistory=aiHistory.slice(-16);
-
   fileInput.value="";
-
-  /* সাধারণ চ্যাটে অটো ভয়েস নয়; লাইভ কল চালু থাকলে উত্তর কণ্ঠে শোনাবে */
   if(sgLiveCall)speakLiveAnswer(answer);
-
  }catch(e){
   const errorText="দুঃখিত, AI উত্তর দিতে পারেনি: "+e.message;
   addMessage(errorText,"bot");
@@ -936,13 +947,11 @@ async function sendAI(){
   button.disabled=false;button.textContent="পাঠান ➤";
  }
 }
-
 $("aiQuestion").addEventListener("keydown",e=>{
  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendAI()}
 });
 
 /* OFFERS */
-
 async function loadOffers(){
  if(!db)return;
  try{
@@ -964,19 +973,15 @@ async function loadOffers(){
   if(track.innerHTML)$("offerSection").style.display="block";
  }catch(e){console.info("Offers table not configured yet:",e.message)}
 }
-
 loadProducts();
 loadOffers();
 </script>
 
 <script>
 /* SMART GEAR VOICE INPUT + LIVE VOICE CALL */
-
 let sgRecognition=null;
 let sgListening=false;
 let sgVoiceInputSupported=!!(window.SpeechRecognition||window.webkitSpeechRecognition);
-
-/* Live call states */
 let sgLiveCall=false;
 let sgLiveProcessing=false;
 let sgLiveUtterance=null;
@@ -984,371 +989,194 @@ let sgLiveRestartTimer=null;
 let sgLiveGeneration=0;
 
 function updateMicButton(){
- const btn=$("voiceMicBtn");
- const hint=$("voiceHint");
+ const btn=$("voiceMicBtn"),hint=$("voiceHint");
  if(!btn)return;
-
  if(sgListening){
   btn.classList.add("voice-active");
-  btn.innerHTML=`
-   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="9" y="2.5" width="6" height="12" rx="3"/>
-    <path d="M5.5 11.5v1a6.5 6.5 0 0 0 13 0v-1M12 19v3M8.5 22h7"/>
-    <path d="M4 4l16 16" stroke="#fff" stroke-width="2"/>
-   </svg>`;
-  btn.title="Voice Input বন্ধ করুন";
-  btn.setAttribute("aria-label","Voice Input বন্ধ করুন");
+  btn.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5.5 11.5v1a6.5 6.5 0 0 0 13 0v-1M12 19v3M8.5 22h7"/><path d="M4 4l16 16" stroke="#fff" stroke-width="2"/></svg>`;
+  btn.title="Voice Input বন্ধ করুন";btn.setAttribute("aria-label","Voice Input বন্ধ করুন");
   if(hint&&!sgLiveCall)hint.textContent="শুনছি... আবার মাইক্রোফোনে ট্যাপ করলে বন্ধ হবে";
  }else{
   btn.classList.remove("voice-active");
-  btn.innerHTML=`
-   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="9" y="2.5" width="6" height="12" rx="3"/>
-    <path d="M5.5 11.5v1a6.5 6.5 0 0 0 13 0v-1M12 19v3M8.5 22h7"/>
-   </svg>`;
-  btn.title="কথা বলে প্রশ্ন করুন";
-  btn.setAttribute("aria-label","Voice Input চালু করুন");
+  btn.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5.5 11.5v1a6.5 6.5 0 0 0 13 0v-1M12 19v3M8.5 22h7"/></svg>`;
+  btn.title="কথা বলে প্রশ্ন করুন";btn.setAttribute("aria-label","Voice Input চালু করুন");
   if(hint&&!sgLiveCall)hint.textContent="Smart Gear Assistant • আপনার কেনাকাটার সহকারী";
  }
 }
-
 function updateLiveCallButton(){
  const btn=$("voiceCallBtn"),hint=$("voiceHint");
  if(!btn)return;
  if(sgLiveCall){
   btn.classList.add("call-active");
-  btn.innerHTML=`
-   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="6" y="6" width="12" height="12" rx="2"/>
-   </svg>`;
-  btn.title="লাইভ ভয়েস কল বন্ধ করুন";
-  btn.setAttribute("aria-label","লাইভ ভয়েস কল বন্ধ করুন");
+  btn.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>`;
+  btn.title="লাইভ ভয়েস কল বন্ধ করুন";btn.setAttribute("aria-label","লাইভ ভয়েস কল বন্ধ করুন");
   if(hint){hint.classList.add("live-hint");hint.textContent="লাইভ কল চালু আছে — কথা বলুন, AI উত্তর দেবে";}
  }else{
   btn.classList.remove("call-active");
-  btn.innerHTML=`
-   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 18a19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 3.2 2 2 0 0 1 4.1 1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 9a16 16 0 0 0 7 7l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/>
-   </svg>`;
-  btn.title="লাইভ ভয়েস কল চালু করুন";
-  btn.setAttribute("aria-label","লাইভ ভয়েস কল চালু করুন");
+  btn.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 11.2 18a19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 3.2 2 2 0 0 1 4.1 1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 9a16 16 0 0 0 7 7l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>`;
+  btn.title="লাইভ ভয়েস কল চালু করুন";btn.setAttribute("aria-label","লাইভ ভয়েস কল চালু করুন");
   if(hint){hint.classList.remove("live-hint");hint.textContent="Smart Gear Assistant • আপনার কেনাকাটার সহকারী";}
  }
 }
-
 function stopVoiceInput(){
- const recognition=sgRecognition;
- sgRecognition=null;
- sgListening=false;
- if(recognition){
-  try{recognition.onend=null;recognition.stop()}catch(e){}
- }
+ const recognition=sgRecognition;sgRecognition=null;sgListening=false;
+ if(recognition){try{recognition.onend=null;recognition.stop()}catch(e){}}
  updateMicButton();
 }
-
 function startVoiceInput(){
- if(sgLiveCall){
-  stopLiveCall();
- }
- if(sgListening){
-  stopVoiceInput();
-  return;
- }
-
+ if(sgLiveCall)stopLiveCall();
+ if(sgListening){stopVoiceInput();return}
  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SpeechRecognition){
-  alert("আপনার ব্রাউজারে Voice Input সাপোর্ট করছে না। Android Chrome ব্যবহার করুন।");
-  return;
- }
-
+ if(!SpeechRecognition){alert("আপনার ব্রাউজারে Voice Input সাপোর্ট করছে না। Android Chrome ব্যবহার করুন।");return}
  if(window.speechSynthesis)window.speechSynthesis.cancel();
-
  const recognition=new SpeechRecognition();
- sgRecognition=recognition;
- sgListening=true;
-
- recognition.lang="bn-BD";
- recognition.continuous=false;
- recognition.interimResults=true;
- recognition.maxAlternatives=1;
-
+ sgRecognition=recognition;sgListening=true;
+ recognition.lang="bn-BD";recognition.continuous=false;recognition.interimResults=true;recognition.maxAlternatives=1;
  updateMicButton();
-
  recognition.onstart=function(){
   if(sgRecognition!==recognition)return;
-  sgListening=true;
-  updateMicButton();
+  sgListening=true;updateMicButton();
  };
-
  recognition.onresult=function(event){
   let finalText="",interimText="";
   for(let i=event.resultIndex;i<event.results.length;i++){
    if(event.results[i].isFinal)finalText+=event.results[i][0].transcript;
    else interimText+=event.results[i][0].transcript;
   }
-
-  const input=$("aiQuestion");
-  if(!input)return;
-
+  const input=$("aiQuestion");if(!input)return;
   if(finalText){
    const existing=input.value.trim();
    input.value=existing?existing+" "+finalText:finalText;
-   input.dispatchEvent(new Event("input",{bubbles:true}));
-   input.focus();
+   input.dispatchEvent(new Event("input",{bubbles:true}));input.focus();
   }
-
   const hint=$("voiceHint");
   if(hint&&interimText)hint.textContent="শোনা যাচ্ছে: "+interimText;
  };
-
  recognition.onerror=function(event){
   console.log("Voice Input Error:",event.error);
-  if(event.error==="not-allowed"){
-   alert("মাইক্রোফোন ব্যবহারের অনুমতি দিন। ব্রাউজারের Microphone permission চালু করুন।");
-  }else if(event.error==="no-speech"){
-   const hint=$("voiceHint");
-   if(hint&&!sgLiveCall)hint.textContent="কোনো কথা শোনা যায়নি। আবার ট্যাপ করে চেষ্টা করুন।";
-  }else if(event.error==="network"){
-   const hint=$("voiceHint");
-   if(hint&&!sgLiveCall)hint.textContent="Voice Input নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।";
-  }
+  if(event.error==="not-allowed")alert("মাইক্রোফোন ব্যবহারের অনুমতি দিন। ব্রাউজারের Microphone permission চালু করুন।");
+  else if(event.error==="no-speech"){const hint=$("voiceHint");if(hint&&!sgLiveCall)hint.textContent="কোনো কথা শোনা যায়নি। আবার ট্যাপ করে চেষ্টা করুন।"}
+  else if(event.error==="network"){const hint=$("voiceHint");if(hint&&!sgLiveCall)hint.textContent="Voice Input নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।"}
  };
-
  recognition.onend=function(){
-  if(sgRecognition===recognition){
-   sgRecognition=null;
-   sgListening=false;
-   updateMicButton();
-  }
+  if(sgRecognition===recognition){sgRecognition=null;sgListening=false;updateMicButton()}
  };
-
  try{recognition.start()}
- catch(error){
-  sgRecognition=null;sgListening=false;updateMicButton();
-  console.error(error);
- }
+ catch(error){sgRecognition=null;sgListening=false;updateMicButton();console.error(error)}
 }
 
 /* LIVE CALL */
-
 function toggleLiveCall(){
- if(sgLiveCall){
-  stopLiveCall();
-  return;
- }
-
+ if(sgLiveCall){stopLiveCall();return}
  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SpeechRecognition){
-  alert("আপনার ব্রাউজারে লাইভ Voice Input সাপোর্ট করছে না। Android Chrome ব্যবহার করুন।");
-  return;
- }
- if(!("speechSynthesis" in window)){
-  alert("আপনার ব্রাউজারে Voice Output সাপোর্ট করছে না।");
-  return;
- }
-
- stopVoiceInput();
- stopMessageVoice();
-
- sgLiveCall=true;
- sgLiveProcessing=false;
- sgLiveGeneration++;
- updateLiveCallButton();
- startLiveRecognition();
+ if(!SpeechRecognition){alert("আপনার ব্রাউজারে লাইভ Voice Input সাপোর্ট করছে না। Android Chrome ব্যবহার করুন।");return}
+ if(!("speechSynthesis" in window)){alert("আপনার ব্রাউজারে Voice Output সাপোর্ট করছে না।");return}
+ stopVoiceInput();stopMessageVoice();
+ sgLiveCall=true;sgLiveProcessing=false;sgLiveGeneration++;
+ updateLiveCallButton();startLiveRecognition();
 }
-
 function stopLiveCall(){
- sgLiveCall=false;
- sgLiveProcessing=false;
- sgLiveGeneration++;
-
- clearTimeout(sgLiveRestartTimer);
- sgLiveRestartTimer=null;
-
- const recognition=sgRecognition;
- sgRecognition=null;
- sgListening=false;
-
- if(recognition){
-  try{recognition.onend=null;recognition.stop()}catch(e){}
- }
-
+ sgLiveCall=false;sgLiveProcessing=false;sgLiveGeneration++;
+ clearTimeout(sgLiveRestartTimer);sgLiveRestartTimer=null;
+ const recognition=sgRecognition;sgRecognition=null;sgListening=false;
+ if(recognition){try{recognition.onend=null;recognition.stop()}catch(e){}}
  if("speechSynthesis" in window)window.speechSynthesis.cancel();
  sgLiveUtterance=null;
-
- updateMicButton();
- updateLiveCallButton();
+ updateMicButton();updateLiveCallButton();
 }
-
 function startLiveRecognition(){
  if(!sgLiveCall||sgLiveProcessing||sgRecognition)return;
-
  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SpeechRecognition){
-  stopLiveCall();
-  return;
- }
-
+ if(!SpeechRecognition){stopLiveCall();return}
  clearTimeout(sgLiveRestartTimer);
  const recognition=new SpeechRecognition();
- sgRecognition=recognition;
- sgListening=true;
-
- recognition.lang="bn-BD";
- recognition.continuous=false;
- recognition.interimResults=true;
- recognition.maxAlternatives=1;
-
+ sgRecognition=recognition;sgListening=true;
+ recognition.lang="bn-BD";recognition.continuous=false;recognition.interimResults=true;recognition.maxAlternatives=1;
  updateMicButton();
-
  recognition.onstart=function(){
   if(sgRecognition!==recognition)return;
   sgListening=true;
-  const hint=$("voiceHint");
-  if(hint&&sgLiveCall)hint.textContent="আপনার কথা শুনছি...";
+  const hint=$("voiceHint");if(hint&&sgLiveCall)hint.textContent="আপনার কথা শুনছি...";
   updateMicButton();
  };
-
  recognition.onresult=function(event){
   let finalText="",interimText="";
   for(let i=event.resultIndex;i<event.results.length;i++){
    if(event.results[i].isFinal)finalText+=event.results[i][0].transcript;
    else interimText+=event.results[i][0].transcript;
   }
-
   const hint=$("voiceHint");
   if(interimText&&hint)hint.textContent="শুনছি: "+interimText;
-
   if(finalText.trim()&&!sgLiveProcessing&&sgLiveCall){
    sgLiveProcessing=true;
-   const input=$("aiQuestion");
-   input.value=finalText.trim();
+   const input=$("aiQuestion");input.value=finalText.trim();
    input.dispatchEvent(new Event("input",{bubbles:true}));
    try{recognition.stop()}catch(e){}
    sendAI();
   }
  };
-
  recognition.onerror=function(event){
   console.warn("Live recognition error:",event.error);
-  if(event.error==="not-allowed"){
-   alert("লাইভ ভয়েস কল চালাতে Microphone permission চালু করুন।");
-   stopLiveCall();
-  }
+  if(event.error==="not-allowed"){alert("লাইভ ভয়েস কল চালাতে Microphone permission চালু করুন।");stopLiveCall()}
  };
-
  recognition.onend=function(){
-  if(sgRecognition===recognition){
-   sgRecognition=null;
-   sgListening=false;
-   updateMicButton();
-  }
-
+  if(sgRecognition===recognition){sgRecognition=null;sgListening=false;updateMicButton()}
   if(sgLiveCall&&!sgLiveProcessing){
-   const hint=$("voiceHint");
-   if(hint)hint.textContent="আবার আপনার কথা শোনার জন্য প্রস্তুত হচ্ছে...";
-   sgLiveRestartTimer=setTimeout(()=>{
-    if(sgLiveCall&&!sgLiveProcessing)startLiveRecognition();
-   },700);
+   const hint=$("voiceHint");if(hint)hint.textContent="আবার আপনার কথা শোনার জন্য প্রস্তুত হচ্ছে...";
+   sgLiveRestartTimer=setTimeout(()=>{if(sgLiveCall&&!sgLiveProcessing)startLiveRecognition()},700);
   }
  };
-
  try{recognition.start()}
  catch(error){
   if(sgRecognition===recognition)sgRecognition=null;
-  sgListening=false;
-  console.error("Live recognition start error:",error);
-  if(sgLiveCall){
-   sgLiveRestartTimer=setTimeout(()=>{
-    if(sgLiveCall&&!sgLiveProcessing)startLiveRecognition();
-   },1200);
-  }
+  sgListening=false;console.error("Live recognition start error:",error);
+  if(sgLiveCall)sgLiveRestartTimer=setTimeout(()=>{if(sgLiveCall&&!sgLiveProcessing)startLiveRecognition()},1200);
  }
 }
-
 function speakLiveAnswer(text){
  if(!sgLiveCall)return;
-
- if(!("speechSynthesis" in window)){
-  sgLiveProcessing=false;
-  startLiveRecognition();
-  return;
- }
-
+ if(!("speechSynthesis" in window)){sgLiveProcessing=false;startLiveRecognition();return}
  window.speechSynthesis.cancel();
-
  const cleanText=cleanSpeechText(text);
- if(!cleanText){
-  sgLiveProcessing=false;
-  startLiveRecognition();
-  return;
- }
-
+ if(!cleanText){sgLiveProcessing=false;startLiveRecognition();return}
  const generation=sgLiveGeneration;
  const utterance=new SpeechSynthesisUtterance(cleanText);
  utterance.lang=/[\u0980-\u09FF]/.test(cleanText)?"bn-BD":"en-US";
- utterance.rate=0.95;
- utterance.pitch=1;
- utterance.volume=1;
-
+ utterance.rate=0.95;utterance.pitch=1;utterance.volume=1;
  const voices=window.speechSynthesis.getVoices();
  const selectedVoice=voices.find(v=>v.lang.toLowerCase()==="bn-bd")||voices.find(v=>v.lang.toLowerCase().startsWith("bn"));
  if(selectedVoice&&utterance.lang==="bn-BD")utterance.voice=selectedVoice;
-
  sgLiveUtterance=utterance;
- const hint=$("voiceHint");
- if(hint)hint.textContent="AI উত্তর দিচ্ছে... শুনুন";
-
+ const hint=$("voiceHint");if(hint)hint.textContent="AI উত্তর দিচ্ছে... শুনুন";
  utterance.onend=function(){
   if(generation!==sgLiveGeneration||!sgLiveCall)return;
-  sgLiveUtterance=null;
-  sgLiveProcessing=false;
+  sgLiveUtterance=null;sgLiveProcessing=false;
   if($("voiceHint"))$("voiceHint").textContent="এখন আপনার কথা শুনছি...";
   startLiveRecognition();
  };
-
  utterance.onerror=function(event){
   if(generation!==sgLiveGeneration||!sgLiveCall)return;
   console.warn("Live speech error:",event.error);
-  sgLiveUtterance=null;
-  sgLiveProcessing=false;
-  startLiveRecognition();
+  sgLiveUtterance=null;sgLiveProcessing=false;startLiveRecognition();
  };
-
  window.speechSynthesis.speak(utterance);
 }
-
-/* ভয়েস লিস্ট প্রস্তুত */
 if("speechSynthesis" in window){
- window.speechSynthesis.onvoiceschanged=function(){
-  window.speechSynthesis.getVoices();
- };
+ window.speechSynthesis.onvoiceschanged=function(){window.speechSynthesis.getVoices()};
  window.speechSynthesis.getVoices();
 }
-
-/* মাইক্রোফোন চালু করলে আগের মেসেজের ভয়েস বন্ধ */
 $("voiceMicBtn").addEventListener("pointerdown",()=>{
  if(!sgListening&&window.speechSynthesis)window.speechSynthesis.cancel();
 });
-
-/* Modal বন্ধ করলে সব ভয়েস বন্ধ */
 const aiModalObserver=new MutationObserver(()=>{
  if(!$("aiModal").classList.contains("show")){
-  stopVoiceInput();
-  stopLiveCall();
-  stopMessageVoice();
+  stopVoiceInput();stopLiveCall();stopMessageVoice();
  }
 });
 aiModalObserver.observe($("aiModal"),{attributes:true,attributeFilter:["class"]});
-
-/* পেজ বন্ধ হওয়ার আগে ভয়েস বন্ধ */
 window.addEventListener("pagehide",()=>{
- stopVoiceInput();
- stopLiveCall();
- stopMessageVoice();
+ stopVoiceInput();stopLiveCall();stopMessageVoice();
 });
-
-/* প্রাথমিক অবস্থা */
 updateMicButton();
 updateLiveCallButton();
 </script>
