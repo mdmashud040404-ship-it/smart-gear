@@ -1,15 +1,21 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#123b2b">
 <title>Smart Gear — Digital Store</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 
 <style>
-:root{--green:#123b2b;--green2:#246b49;--gold:#e0b75e;--bg:#f4f7f3;--white:#fff;--text:#19251e;--muted:#77847a;--line:#e5ebe5;--shadow:0 8px 28px #183c2412}
+:root{
+ --green:#123b2b;--green2:#246b49;--gold:#e0b75e;
+ --bg:#f4f7f3;--white:#fff;--text:#19251e;
+ --muted:#77847a;--line:#e5ebe5;
+ --shadow:0 8px 28px #183c2412
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans Bengali",sans-serif}
@@ -41,9 +47,9 @@ header{position:sticky;top:0;z-index:15;color:white;background:linear-gradient(1
 .offer-card img{width:100%;height:190px;object-fit:cover;display:block}
 .offer-caption{padding:10px 13px;font-weight:700;color:var(--green)}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.product{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;box-shadow:var(--shadow);animation:appear .35s ease}
+.product{background:white;border:1px solid var(--line);border-radius:16px;position:relative;box-shadow:var(--shadow);animation:appear .35s ease;min-width:0}
 @keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.product-img{width:100%;height:155px;object-fit:cover;background:#edf1ec;display:block;cursor:pointer}
+.product-img{width:100%;height:155px;object-fit:cover;background:#edf1ec;display:block;cursor:pointer;border-radius:15px 15px 0 0}
 .product-info{padding:11px}
 .product h3{font-size:14px;margin:0 0 8px;line-height:1.5;min-height:40px}
 .price{font-weight:900;color:var(--green2);font-size:17px}
@@ -52,49 +58,120 @@ header{position:sticky;top:0;z-index:15;color:white;background:linear-gradient(1
 .like-main.selected{background:#e5f0ff;color:#1877f2}
 .reaction-counts{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:11px;flex-wrap:wrap}
 .reaction-counts span{background:#f1f4f1;border-radius:14px;padding:4px 6px}
-.reaction-picker{display:none;position:absolute;left:0;bottom:43px;z-index:30;align-items:center;gap:3px;padding:7px;background:white;border:1px solid var(--line);border-radius:30px;box-shadow:0 7px 25px #0002;white-space:nowrap}
+.reaction-picker{
+ display:none;position:absolute;left:0;bottom:43px;z-index:50;
+ align-items:center;gap:3px;padding:7px;background:white;
+ border:1px solid var(--line);border-radius:30px;
+ box-shadow:0 7px 25px #0002;white-space:nowrap;
+ max-width:calc(100vw - 35px);overflow-x:auto;
+ overscroll-behavior-x:contain;touch-action:pan-x;
+ scrollbar-width:none
+}
+.reaction-picker::-webkit-scrollbar{display:none}
 .reaction-picker.open{display:flex;animation:reactPop .16s ease-out}
-.reaction-picker button{border:0;background:transparent;border-radius:50%;width:37px;height:37px;font-size:23px;padding:0}
+.reaction-picker button{flex:0 0 37px;border:0;background:transparent;border-radius:50%;width:37px;height:37px;font-size:23px;padding:0}
+.reaction-picker button:active{transform:scale(1.25)}
 @keyframes reactPop{from{opacity:0;transform:translateY(8px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
 .product-actions{display:flex;gap:6px;margin-top:10px}
 .product-actions button{flex:1;padding:9px 4px;border:0;border-radius:9px;background:var(--green);color:white;font-size:12px}
 .product-actions .secondary{background:#edf3ee;color:var(--green)}
-.modal{display:none;position:fixed;inset:0;background:#0009;z-index:40;align-items:center;justify-content:center;padding:12px}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:100;align-items:center;justify-content:center;padding:12px}
 .modal.show{display:flex}
-.modal-box{background:white;width:100%;max-width:540px;max-height:92vh;overflow:auto;border-radius:19px;padding:18px;box-shadow:0 15px 60px #0004}
-.close{float:right;border:0;background:#edf1ec;border-radius:50%;width:32px;height:32px;font-size:20px}
+.modal-box{background:white;width:100%;max-width:540px;max-height:92dvh;overflow:auto;border-radius:19px;padding:18px;box-shadow:0 15px 60px #0004}
+.close{float:right;border:0;background:#edf1ec;border-radius:50%;width:32px;height:32px;font-size:20px;flex-shrink:0}
 .field{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin:7px 0;background:white;outline:none}
 .primary{width:100%;border:0;border-radius:11px;padding:13px;background:var(--green);color:white;font-weight:bold;margin-top:9px}
 .comment{background:#f2f5f1;padding:10px;border-radius:10px;margin:7px 0;overflow-wrap:anywhere}
-.floating{position:fixed;right:12px;bottom:18px;z-index:25;display:flex;flex-direction:column;gap:9px}
-.floating a{width:47px;height:47px;border-radius:50%;display:grid;place-items:center;text-decoration:none;color:white;font-weight:bold;font-size:20px;box-shadow:0 4px 14px #0003}
-.wa{background:#20bd67}.imo{background:#2788df}.call{background:#174f37}
-.ai-launch{position:fixed;left:13px;bottom:18px;width:65px;height:65px;border-radius:50%;border:2px solid #ffe7a7;background:radial-gradient(circle at 35% 25%,#397d58,#123b2b 65%,#071d14);color:#ffe7a7;font-size:30px;z-index:26;box-shadow:0 0 0 4px #e0b75e28,0 0 18px #d9ad54;animation:aiPulse 2.4s infinite}
-.ai-launch span{position:relative}
-@keyframes aiPulse{50%{box-shadow:0 0 0 7px #e0b75e22,0 0 25px #e4bd65}}
-#aiModal .modal-box{max-width:490px;padding:0;overflow:hidden;border-radius:24px;background:#f5f8f4}
-.ai-header{background:linear-gradient(135deg,#102f22,#26734c);color:white;padding:19px;position:relative}
-.ai-header h2{color:#f5d58e;margin:0;font-size:21px}
-.ai-header p{color:#e1eee5;margin:5px 0;font-size:12px}
-.ai-header .close{position:absolute;right:13px;top:13px;background:#ffffff25;color:white}
-.ai-chat{height:350px;overflow:auto;padding:14px;background:#eef5ed}
-.msg{padding:12px 14px;border-radius:17px;margin:8px 0;max-width:92%;font-size:14px;line-height:1.65;overflow-wrap:anywhere}
-.msg.bot{background:white;border:1px solid #e2eae1;border-bottom-left-radius:5px}
-.msg.user{background:#d8f0df;margin-left:auto;border-bottom-right-radius:5px}
-.msg a{color:#1267b1;text-decoration:underline;font-weight:700;overflow-wrap:anywhere}
-.ai-input-area{padding:12px;background:white;border-top:1px solid #e7eee7}
-.ai-input-area textarea{resize:vertical;border-radius:14px}
-.ai-send{background:linear-gradient(120deg,#123b2b,#26734c);color:white;border:0;border-radius:13px;padding:13px;width:100%;font-weight:bold}
-.ai-hint{text-align:center;color:#849087;font-size:11px;padding:8px}
-footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 .owner-section{margin:18px 0 22px;background:linear-gradient(120deg,#fff,#f4f7f1);border:1px solid #e0b75e88;border-radius:18px;padding:14px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow)}
 .owner-photo{width:112px;height:132px;flex:0 0 112px;object-fit:cover;object-position:center 22%;border:3px solid var(--gold);border-radius:8px;background:#e9eee8;display:block}
 .owner-copy h3{margin:0 0 5px;color:var(--green);font-size:19px}
 .owner-role{font-weight:700;color:#a47b32;font-size:13px;margin:0 0 6px}
 .owner-copy p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
-@media(max-width:420px){.owner-section{gap:12px;padding:11px}.owner-photo{width:94px;height:116px;flex-basis:94px}.owner-copy h3{font-size:17px}}
-@media(min-width:650px){.container{padding:18px}.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.product-img{height:205px}.offer-card img{height:245px}}
-@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.hero{padding:32px}.hero h2{font-size:28px}}
+.owner-placeholder{display:none;width:112px;height:132px;flex:0 0 112px;border:3px solid var(--gold);border-radius:8px;background:#e9eee8;color:var(--green);align-items:center;justify-content:center;text-align:center;font-size:12px;padding:8px}
+footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
+
+/* Contact app icons */
+.floating{position:fixed;right:12px;bottom:18px;z-index:80;display:flex;flex-direction:column;gap:9px}
+.floating a{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;text-decoration:none;color:white;box-shadow:0 4px 14px #0003;transition:transform .2s}
+.floating a:active{transform:scale(.9)}
+.floating svg{width:27px;height:27px;display:block}
+.wa{background:#20bd67}
+.imo{background:#2788df}
+.call{background:#174f37}
+.fb{background:#1877f2}
+
+/* Smart Gear Assistant launcher */
+.ai-launch{
+ position:fixed;left:13px;bottom:18px;z-index:85;
+ min-height:65px;padding:7px 16px 7px 9px;
+ border:1.5px solid #e0b75e;border-radius:40px;
+ background:linear-gradient(120deg,#102f22,#26734c);
+ color:white;display:flex;align-items:center;gap:10px;
+ box-shadow:0 0 0 4px #e0b75e20,0 5px 22px #102d2260;
+ animation:aiFloat 3s ease-in-out infinite
+}
+.ai-launch-icon{width:47px;height:47px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f8df9b,#d6a943);box-shadow:0 0 15px #e0b75e80;flex-shrink:0}
+.ai-launch-icon svg{width:31px;height:31px}
+.ai-launch-copy{text-align:left;line-height:1.2}
+.ai-launch-copy b{display:block;font-size:13px;color:#ffe7a7}
+.ai-launch-copy small{font-size:10px;color:#d7f1df}
+.ai-online-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#43e58b;margin-right:4px;animation:onlinePulse 1.5s infinite}
+@keyframes onlinePulse{50%{box-shadow:0 0 0 5px #43e58b30}}
+@keyframes aiFloat{50%{transform:translateY(-4px);box-shadow:0 0 0 6px #e0b75e22,0 7px 27px #102d2260}}
+.ai-launch:active{transform:scale(.96)}
+
+/* AI modal: fixed header, scrolling chat, always-visible composer */
+#aiModal{padding:10px}
+#aiModal .modal-box{
+ width:100%;max-width:490px;height:min(720px,90dvh);
+ max-height:90dvh;padding:0;overflow:hidden;border-radius:24px;
+ background:#f5f8f4;display:flex;flex-direction:column
+}
+.ai-header{background:linear-gradient(135deg,#102f22,#26734c);color:white;padding:16px 18px;position:relative;flex:0 0 auto}
+.ai-header-brand{display:flex;align-items:center;gap:11px;padding-right:38px}
+.ai-header-logo{width:45px;height:45px;flex-shrink:0;border-radius:15px;background:linear-gradient(145deg,#f8df9b,#d6a943);display:grid;place-items:center;box-shadow:0 0 15px #e0b75e70}
+.ai-header-logo svg{width:30px;height:30px}
+.ai-header h2{color:#f5d58e;margin:0;font-size:18px}
+.ai-header p{color:#e1eee5;margin:5px 0 0;font-size:12px}
+.ai-header .close{position:absolute;right:13px;top:13px;background:#ffffff25;color:white}
+.ai-chat{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px;background:#eef5ed;overscroll-behavior:contain}
+.msg{padding:12px 14px;border-radius:17px;margin:8px 0;max-width:92%;font-size:14px;line-height:1.65;overflow-wrap:anywhere}
+.msg.bot{background:white;border:1px solid #e2eae1;border-bottom-left-radius:5px}
+.msg.user{background:#d8f0df;margin-left:auto;border-bottom-right-radius:5px}
+.msg a{color:#1267b1;text-decoration:underline;font-weight:700;overflow-wrap:anywhere}
+.ai-input-area{flex:0 0 auto;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:white;border-top:1px solid #e7eee7}
+.ai-input-area label{font-size:12px;color:#52675a}
+.ai-input-area textarea{resize:none;border-radius:14px;margin:5px 0;max-height:100px}
+.ai-input-row{display:flex;gap:8px;align-items:stretch}
+.ai-input-row textarea{flex:1;min-width:0}
+.ai-send{background:linear-gradient(120deg,#123b2b,#26734c);color:white;border:0;border-radius:13px;padding:10px 13px;min-width:90px;font-weight:bold}
+.ai-send:disabled{opacity:.6}
+.ai-hint{text-align:center;color:#849087;font-size:10px;padding-top:6px}
+.payment-info{display:none;background:#fff8e8;border:1px solid #e0b75e;border-radius:12px;padding:12px;margin:8px 0;color:#5e4821;font-size:13px;line-height:1.7}
+.payment-number{font-size:19px;font-weight:900;letter-spacing:1px;color:var(--green)}
+.copy-number{border:0;border-radius:8px;background:var(--green);color:white;padding:7px 12px;margin-top:6px}
+@media(max-width:420px){
+ .owner-section{gap:12px;padding:11px}
+ .owner-photo,.owner-placeholder{width:94px;height:116px;flex-basis:94px}
+ .owner-copy h3{font-size:17px}
+ .ai-launch{left:9px;bottom:12px;min-height:58px;padding:6px 12px 6px 7px}
+ .ai-launch-icon{width:42px;height:42px}
+ .ai-launch-copy b{font-size:12px}
+ .floating{right:9px;bottom:12px;gap:7px}
+ .floating a{width:43px;height:43px}
+ #aiModal .modal-box{height:92dvh;max-height:92dvh}
+}
+@media(min-width:650px){
+ .container{padding:18px}
+ .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+ .product-img{height:205px}
+ .offer-card img{height:245px}
+}
+@media(min-width:900px){
+ .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .hero{padding:32px}
+ .hero h2{font-size:28px}
+}
 </style>
 </head>
 
@@ -113,7 +190,6 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  <div class="search-wrap">
   <input class="search" id="search" placeholder="🔍 পণ্য খুঁজুন..." oninput="renderProducts()">
  </div>
-
  <div class="categories" id="categories">
   <button class="active">সব পণ্য</button>
  </div>
@@ -125,7 +201,8 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </section>
 
  <section class="owner-section">
-  <img class="owner-photo" src="owner-photo.jpg" alt="মোহাম্মদ নাঈম — Smart Gear Owner">
+  <img class="owner-photo" id="ownerPhoto" src="owner-photo.jpg" alt="Smart Gear Owner">
+  <div class="owner-placeholder" id="ownerPlaceholder">Owner Photo<br>Upload<br>owner-photo.jpg</div>
   <div class="owner-copy">
    <h3>মোহাম্মদ নাঈম</h3>
    <p class="owner-role">Owner · Smart Gear</p>
@@ -150,15 +227,38 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  <a href="https://www.facebook.com/share/1DqjKc77eZ/" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;color:#246b49;font-weight:bold;text-decoration:none">📘 Facebook Page</a>
 </footer>
 
-<button class="ai-launch" onclick="openAI()" aria-label="Smart Gear AI"><span>✦</span></button>
+<!-- Smart Gear Assistant launcher -->
+<button class="ai-launch" onclick="openAI()" aria-label="Smart Gear Assistant">
+ <span class="ai-launch-icon">
+  <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+   <path d="M8 11.5A7.5 7.5 0 0 1 15.5 4h17A7.5 7.5 0 0 1 40 11.5v14a7.5 7.5 0 0 1-7.5 7.5H22l-9 7v-7.5A7.5 7.5 0 0 1 8 25V11.5Z" fill="#123b2b"/>
+   <path d="m25 9 2.2 5.1L32 16l-4.8 1.9L25 23l-2-5.1-4.8-1.9 4.8-1.9L25 9Z" fill="#fff2c7"/>
+   <path d="m34 22 1.2 2.7 2.8 1.1-2.8 1.1L34 29.7l-1.1-2.8-2.8-1.1 2.8-1.1L34 22Z" fill="#fff2c7"/>
+  </svg>
+ </span>
+ <span class="ai-launch-copy">
+  <b>Smart Gear Assistant</b>
+  <small><span class="ai-online-dot"></span>Customer Support</small>
+ </span>
+</button>
 
+<!-- Contact buttons with recognizable brand-style SVG icons -->
 <div class="floating">
- <a class="wa" href="https://wa.me/8801854673321" target="_blank" rel="noopener" aria-label="WhatsApp">◉</a>
- <a class="imo" href="https://imo.im/" target="_blank" rel="noopener" aria-label="IMO">i</a>
- <a class="call" href="tel:01854673321" aria-label="Call">☎</a>
- <a style="background:#1877f2" href="https://www.facebook.com/share/1DqjKc77eZ/" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+ <a class="wa" href="https://wa.me/8801854673321" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3A12.8 12.8 0 0 0 5 22.4L3.4 29l6.8-1.8A12.9 12.9 0 1 0 16 3Zm0 23.5c-2 0-4-.5-5.7-1.6l-.4-.2-4 .1 1-3.8-.2-.4A10.5 10.5 0 1 1 16 26.5Zm5.8-7.8c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.6 8.6 0 0 1-2.5-1.5 9.4 9.4 0 0 1-1.7-2.1c-.2-.4 0-.5.2-.7l.5-.6.3-.5c.1-.2 0-.4 0-.6l-1-2.3c-.3-.6-.6-.5-.8-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4 2.4 3.7 5.8 5.1c.8.3 1.4.5 1.9.6.8.3 1.6.2 2.2.1.7-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4s-.3-.2-.6-.4Z"/></svg>
+ </a>
+ <a class="imo" href="https://imo.im/" target="_blank" rel="noopener" aria-label="IMO">
+  <svg viewBox="0 0 32 32" fill="none"><path d="M16 3C8.8 3 3 8.2 3 14.6c0 3.1 1.4 5.9 3.8 8L5.8 28l5.5-2.6c1.5.5 3.1.8 4.7.8 7.2 0 13-5.2 13-11.6S23.2 3 16 3Z" fill="white"/><path d="M9 12h14M9 16h10M9 20h6" stroke="#2788df" stroke-width="2.4" stroke-linecap="round"/></svg>
+ </a>
+ <a class="call" href="tel:01854673321" aria-label="Call">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.2c1.1.4 2.3.6 3.6.6a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.6 21 3 13.4 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.6 3.6a1 1 0 0 1-.2 1l-2.3 2.2Z"/></svg>
+ </a>
+ <a class="fb" href="https://www.facebook.com/share/1DqjKc77eZ/" target="_blank" rel="noopener" aria-label="Facebook">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5v1.9H7v3.1h2.8v8h3.7Z"/></svg>
+ </a>
 </div>
 
+<!-- Product details -->
 <div class="modal" id="productModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('productModal')">×</button>
@@ -166,6 +266,7 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </div>
 </div>
 
+<!-- Cart -->
 <div class="modal" id="cartModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('cartModal')">×</button>
@@ -176,6 +277,7 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </div>
 </div>
 
+<!-- Checkout -->
 <div class="modal" id="checkoutModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('checkoutModal')">×</button>
@@ -194,32 +296,55 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
   <select class="field" id="payment">
    <option value="">পেমেন্ট পদ্ধতি নির্বাচন করুন</option>
    <option value="Cash on Delivery">Cash on Delivery</option>
-   <option value="bKash">bKash</option><option value="Nagad">Nagad</option>
+   <option value="bKash Personal - Send Money">বিকাশ Personal — Send Money</option>
+   <option value="Nagad Personal - Send Money">নগদ Personal — Send Money</option>
   </select>
-  <p>বিকাশ/নগদ নম্বর: <b>01854673321</b></p>
+
+  <div class="payment-info" id="paymentInfo">
+   <b>Personal Account — Send Money Only</b><br>
+   এই নম্বরে Send Money করুন। Cash Out বা Merchant Payment করবেন না।
+   <div class="payment-number">01854673321</div>
+   <button type="button" class="copy-number" onclick="copyPaymentNumber()">নম্বর কপি করুন</button>
+   <p style="margin-bottom:0">পেমেন্ট করার পর Transaction ID লিখুন। অর্ডার জমা হলেও পেমেন্ট স্বয়ংক্রিয়ভাবে যাচাই হয় না।</p>
+  </div>
+
   <input class="field" id="transaction" placeholder="Transaction ID (বিকাশ/নগদ হলে)">
   <p id="checkoutTotal"></p>
-  <button class="primary" onclick="submitOrder()">অর্ডার নিশ্চিত করুন</button>
+  <button class="primary" id="orderButton" onclick="submitOrder()">অর্ডার নিশ্চিত করুন</button>
  </div>
 </div>
 
+<!-- AI assistant -->
 <div class="modal" id="aiModal">
  <div class="modal-box">
   <div class="ai-header">
    <button class="close" onclick="closeModal('aiModal')">×</button>
-   <h2>✦ Smart Gear AI</h2>
-   <p>আপনার স্মার্ট শপিং সহকারী</p>
-   <small style="color:#a8e6bd">● Online Assistant</small>
+   <div class="ai-header-brand">
+    <span class="ai-header-logo">
+     <svg viewBox="0 0 48 48" fill="none">
+      <path d="M8 11.5A7.5 7.5 0 0 1 15.5 4h17A7.5 7.5 0 0 1 40 11.5v14a7.5 7.5 0 0 1-7.5 7.5H22l-9 7v-7.5A7.5 7.5 0 0 1 8 25V11.5Z" fill="#123b2b"/>
+      <path d="m25 9 2.2 5.1L32 16l-4.8 1.9L25 23l-2-5.1-4.8-1.9 4.8-1.9L25 9Z" fill="#fff2c7"/>
+      <path d="m34 22 1.2 2.7 2.8 1.1-2.8 1.1L34 29.7l-1.1-2.8-2.8-1.1 2.8-1.1L34 22Z" fill="#fff2c7"/>
+     </svg>
+    </span>
+    <div>
+     <h2>Smart Gear Assistant</h2>
+     <p>আপনার স্মার্ট কাস্টমার সার্ভিস সহকারী</p>
+     <small style="color:#a8e6bd"><span class="ai-online-dot"></span>Online Assistant</small>
+    </div>
+   </div>
   </div>
   <div class="ai-chat" id="chat">
-   <div class="msg bot">আসসালামু আলাইকুম! 👋<br>Smart Gear AI-তে স্বাগতম।<br><br>পণ্যের দাম, মান, ভালো-মন্দ, ব্যবহার অথবা কেনার পরামর্শ জানতে প্রশ্ন করুন। ❤️</div>
+   <div class="msg bot">আসসালামু আলাইকুম! 👋<br>Smart Gear Assistant-এ স্বাগতম।<br><br>পণ্যের দাম, মান, ভালো-মন্দ, ব্যবহার অথবা কেনার পরামর্শ জানতে প্রশ্ন করুন। চাইলে পণ্যের ছবিও পাঠাতে পারেন। ❤️</div>
   </div>
   <div class="ai-input-area">
-   <label style="font-size:12px;color:#52675a">📷 ছবি যুক্ত করুন</label>
+   <label for="aiImage">📷 ছবি যুক্ত করুন</label>
    <input type="file" id="aiImage" accept="image/*" class="field">
-   <textarea id="aiQuestion" class="field" placeholder="আপনার প্রশ্ন লিখুন..." rows="2"></textarea>
-   <button class="ai-send" id="aiSend" onclick="sendAI()">✦ AI-কে প্রশ্ন করুন ➤</button>
-   <div class="ai-hint">Smart Gear AI • আপনার কেনাকাটার সহকারী</div>
+   <div class="ai-input-row">
+    <textarea id="aiQuestion" class="field" placeholder="আপনার প্রশ্ন লিখুন..." rows="2"></textarea>
+    <button class="ai-send" id="aiSend" onclick="sendAI()">পাঠান ➤</button>
+   </div>
+   <div class="ai-hint">Smart Gear Assistant • আপনার কেনাকাটার সহকারী</div>
   </div>
  </div>
 </div>
@@ -227,12 +352,11 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 <script>
 const SUPABASE_URL=window.SUPABASE_URL||"https://ioneandybnnficnbehng.supabase.co";
 const SUPABASE_KEY=window.SUPABASE_ANON_KEY||"";
-const AI_URL="https://ioneandybnnficnbehng.supabase.co/functions/v1/clever-function";
+const AI_URL=SUPABASE_URL+"/functions/v1/clever-function";
 const PHONE="01854673321";
 
 let db=null,products=[],cart=[],selectedCategory="সব";
 let savedIds=[],aiHistory=[],reactionCounts={},myReactions={};
-
 try{savedIds=JSON.parse(localStorage.getItem("sg_saved")||"[]")}catch(e){}
 try{myReactions=JSON.parse(localStorage.getItem("sg_reactions")||"{}")}catch(e){}
 
@@ -243,6 +367,7 @@ if(window.supabase&&SUPABASE_URL&&SUPABASE_KEY){
  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 }
 
+const $=id=>document.getElementById(id);
 function nameOf(p){return p.name||p.title||p.product_name||"পণ্য"}
 function priceOf(p){return Number(p.price||0)}
 function descOf(p){return p.description||p.details||"বিস্তারিত তথ্য পাওয়া যায়নি।"}
@@ -251,16 +376,21 @@ function imageOf(p){return p.image_url||p.image||p.photo||"https://placehold.co/
 function money(n){return "৳"+Number(n||0).toLocaleString("en-US")}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function escAttr(s){return esc(s).replace(/`/g,"&#96;")}
-function openModal(id){document.getElementById(id).classList.add("show")}
-function closeModal(id){document.getElementById(id).classList.remove("show")}
-function openAI(){openModal("aiModal")}
+function openModal(id){$(id).classList.add("show")}
+function closeModal(id){$(id).classList.remove("show")}
+function openAI(){openModal("aiModal");setTimeout(()=>{$("aiQuestion").focus()},250)}
+
+$("ownerPhoto").addEventListener("error",()=>{
+ $("ownerPhoto").style.display="none";
+ $("ownerPlaceholder").style.display="flex";
+});
 
 window.addEventListener("click",e=>{
  if(e.target.classList.contains("modal"))e.target.classList.remove("show");
 });
 
 async function loadProducts(){
- const box=document.getElementById("products");
+ const box=$("products");
  if(!db){box.innerHTML="<p>Supabase সংযোগ নেই। config.js পরীক্ষা করুন।</p>";return}
  box.innerHTML="<p>পণ্য লোড হচ্ছে...</p>";
  try{
@@ -275,48 +405,41 @@ async function loadProducts(){
 
 function buildCategories(){
  const cats=["সব",...new Set(products.map(categoryOf))];
- document.getElementById("categories").innerHTML=cats.map((c,i)=>
-  `<button class="${i===0?"active":""}" onclick="setCategory('${escAttr(c)}',this)">${esc(c==="সব"?"সব পণ্য":c)}</button>`
+ $("categories").innerHTML=cats.map((c,i)=>
+  `<button type="button" data-category="${escAttr(c)}" class="${i===0?"active":""}">${esc(c==="সব"?"সব পণ্য":c)}</button>`
  ).join("");
-}
-
-function setCategory(c,el){
- selectedCategory=c;
- document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
- el.classList.add("active");
- renderProducts();
+ $("categories").querySelectorAll("[data-category]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+   selectedCategory=btn.dataset.category;
+   $("categories").querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+   btn.classList.add("active");
+   renderProducts();
+  });
+ });
 }
 
 function renderProducts(){
- document.getElementById("listTitle").textContent="✨ আমাদের পণ্য";
- const q=document.getElementById("search").value.toLowerCase();
+ $("listTitle").textContent="✨ আমাদের পণ্য";
+ const q=$("search").value.toLowerCase();
  const list=products.filter(p=>
   (selectedCategory==="সব"||categoryOf(p)===selectedCategory)&&
   (nameOf(p).toLowerCase().includes(q)||descOf(p).toLowerCase().includes(q))
  );
-
- document.getElementById("products").innerHTML=list.length?list.map(p=>{
-  const id=String(p.id);
-  const mine=myReactions[id];
+ $("products").innerHTML=list.length?list.map(p=>{
+  const id=String(p.id),mine=myReactions[id];
   return `
   <article class="product">
    <img class="product-img" src="${escAttr(imageOf(p))}" alt="${escAttr(nameOf(p))}" onclick="showProduct('${escAttr(id)}')">
    <div class="product-info">
     <h3>${esc(nameOf(p))}</h3>
     <div class="price">${money(priceOf(p))}</div>
-
     <div class="reaction-wrap">
-     <button class="like-main ${mine?'selected':''}" data-like-button="${escAttr(id)}">
-      ${mine||"👍"} ${mine?"পছন্দ হয়েছে":"Like"}
-     </button>
-
+     <button class="like-main ${mine?'selected':''}" data-like-button="${escAttr(id)}">${mine||"👍"} ${mine?"পছন্দ হয়েছে":"Like"}</button>
      <div class="reaction-picker" data-reaction-picker="${escAttr(id)}">
       ${REACTIONS.slice(1).map(r=>`<button type="button" data-reaction="${r}" data-id="${escAttr(id)}">${r}</button>`).join("")}
      </div>
-
      <div class="reaction-counts" id="reactionCounts-${escAttr(id)}">রিঅ্যাকশন লোড হচ্ছে...</div>
     </div>
-
     <div class="product-actions">
      <button onclick="showProduct('${escAttr(id)}')">বিস্তারিত</button>
      <button class="secondary" onclick="addCart('${escAttr(id)}')">কার্টে নিন</button>
@@ -328,18 +451,16 @@ function renderProducts(){
    </div>
   </article>`;
  }).join(""):"<p>কোনো পণ্য পাওয়া যায়নি।</p>";
-
  bindReactionControls();
  loadReactionCounts();
 }
 
-/* Facebook-style reaction: tap = Like, hold = reaction menu */
+/* Tap Like, long press to open the horizontally swipeable reaction picker */
 function bindReactionControls(){
  document.querySelectorAll("[data-like-button]").forEach(btn=>{
   if(btn.dataset.bound)return;
   btn.dataset.bound="1";
   const id=btn.dataset.likeButton;
-
   btn.addEventListener("pointerdown",()=>{
    longPressed=false;
    clearTimeout(holdTimer);
@@ -348,17 +469,14 @@ function bindReactionControls(){
     showReactionPicker(id);
    },500);
   });
-
   btn.addEventListener("pointerup",()=>{
    clearTimeout(holdTimer);
    if(!longPressed)reactProduct(id,"👍");
   });
-
   btn.addEventListener("pointerleave",()=>clearTimeout(holdTimer));
   btn.addEventListener("pointercancel",()=>clearTimeout(holdTimer));
   btn.addEventListener("contextmenu",e=>e.preventDefault());
  });
-
  document.querySelectorAll(".reaction-picker button[data-reaction]").forEach(btn=>{
   if(btn.dataset.bound)return;
   btn.dataset.bound="1";
@@ -385,32 +503,19 @@ document.addEventListener("pointerdown",e=>{
 async function reactProduct(id,reaction){
  if(!db)return alert("Supabase সংযোগ নেই");
  id=String(id);
-
  if(myReactions[id]){
   document.querySelector(`[data-reaction-picker="${CSS.escape(id)}"]`)?.classList.remove("open");
   return alert("এই ব্রাউজার থেকে এই পণ্যে ইতিমধ্যে রিঅ্যাকশন দেওয়া হয়েছে।");
  }
-
- const {error}=await db.from("product_reactions").insert({
-  product_id:id,
-  reaction:reaction
- });
-
+ const {error}=await db.from("product_reactions").insert({product_id:id,reaction});
  if(error)return alert("রিঅ্যাকশন দেওয়া যায়নি: "+error.message);
-
  myReactions[id]=reaction;
  localStorage.setItem("sg_reactions",JSON.stringify(myReactions));
-
  const button=document.querySelector(`[data-like-button="${CSS.escape(id)}"]`);
- if(button){
-  button.classList.add("selected");
-  button.textContent=reaction+" পছন্দ হয়েছে";
- }
-
+ if(button){button.classList.add("selected");button.textContent=reaction+" পছন্দ হয়েছে"}
  if(!reactionCounts[id])reactionCounts[id]={};
  reactionCounts[id][reaction]=(reactionCounts[id][reaction]||0)+1;
  renderReactionCounts(id);
-
  document.querySelector(`[data-reaction-picker="${CSS.escape(id)}"]`)?.classList.remove("open");
 }
 
@@ -418,25 +523,21 @@ async function loadReactionCounts(){
  if(!db)return;
  const ids=products.map(p=>p.id).filter(Boolean);
  if(!ids.length)return;
-
  try{
-  const {data,error}=await db.from("product_reactions")
-   .select("product_id,reaction").in("product_id",ids);
+  const {data,error}=await db.from("product_reactions").select("product_id,reaction").in("product_id",ids);
   if(error)throw error;
-
   reactionCounts={};
   (data||[]).forEach(row=>{
    const id=String(row.product_id),r=row.reaction;
    if(!reactionCounts[id])reactionCounts[id]={};
    reactionCounts[id][r]=(reactionCounts[id][r]||0)+1;
   });
-
   ids.forEach(id=>renderReactionCounts(String(id)));
  }catch(e){console.info("Reaction count error:",e.message)}
 }
 
 function renderReactionCounts(id){
- const box=document.getElementById("reactionCounts-"+id);
+ const box=$("reactionCounts-"+id);
  if(!box)return;
  const counts=reactionCounts[id]||{};
  const parts=REACTIONS.filter(r=>counts[r]).map(r=>`<span>${r} ${counts[r]}</span>`);
@@ -446,8 +547,7 @@ function renderReactionCounts(id){
 function showProduct(id){
  const p=products.find(x=>String(x.id)===String(id));
  if(!p)return;
-
- document.getElementById("productDetails").innerHTML=`
+ $("productDetails").innerHTML=`
   <img src="${escAttr(imageOf(p))}" style="width:100%;max-height:270px;object-fit:contain;border-radius:12px">
   <h2>${esc(nameOf(p))}</h2>
   <h3 class="price">${money(priceOf(p))}</h3>
@@ -455,22 +555,19 @@ function showProduct(id){
   <p>ক্যাটাগরি: ${esc(categoryOf(p))}</p>
   <button class="primary" onclick="addCart('${escAttr(id)}');closeModal('productModal')">কার্টে নিন</button>
   <button class="primary" style="background:#246b49" onclick="shareProduct('${escAttr(id)}')">পণ্য শেয়ার করুন</button>
-  <hr>
-  <h3>মন্তব্য</h3>
+  <hr><h3>মন্তব্য</h3>
   <input id="commentName" class="field" placeholder="আপনার নাম">
   <textarea id="commentText" class="field" placeholder="আপনার মন্তব্য"></textarea>
   <button class="primary" onclick="addComment('${escAttr(id)}')">মন্তব্য পাঠান</button>
   <div id="comments">মন্তব্য লোড হচ্ছে...</div>`;
-
  openModal("productModal");
  loadComments(id);
 }
 
 async function loadComments(id){
- const box=document.getElementById("comments");
- if(!db)return;
- const {data,error}=await db.from("product_comments").select("*")
-  .eq("product_id",id).order("created_at",{ascending:false}).limit(30);
+ const box=$("comments");
+ if(!db){box.textContent="Supabase সংযোগ নেই";return}
+ const {data,error}=await db.from("product_comments").select("*").eq("product_id",id).order("created_at",{ascending:false}).limit(30);
  if(error){box.textContent="মন্তব্য লোড হয়নি";return}
  box.innerHTML=(data||[]).map(c=>
   `<div class="comment"><b>${esc(c.name||"গ্রাহক")}</b><p>${esc(c.comment||"")}</p></div>`
@@ -478,12 +575,13 @@ async function loadComments(id){
 }
 
 async function addComment(id){
- const name=document.getElementById("commentName").value.trim()||"গ্রাহক";
- const comment=document.getElementById("commentText").value.trim();
+ if(!db)return alert("Supabase সংযোগ নেই");
+ const name=$("commentName").value.trim()||"গ্রাহক";
+ const comment=$("commentText").value.trim();
  if(!comment)return alert("মন্তব্য লিখুন");
  const {error}=await db.from("product_comments").insert({product_id:id,name,comment});
  if(error)return alert("মন্তব্য পাঠানো যায়নি: "+error.message);
- document.getElementById("commentText").value="";
+ $("commentText").value="";
  loadComments(id);
 }
 
@@ -495,9 +593,9 @@ function toggleSaved(id){
 }
 
 function showSaved(){
- document.getElementById("listTitle").textContent="♡ সংরক্ষিত পণ্য";
+ $("listTitle").textContent="♡ সংরক্ষিত পণ্য";
  const list=products.filter(p=>savedIds.includes(String(p.id)));
- document.getElementById("products").innerHTML=list.length?list.map(p=>`
+ $("products").innerHTML=list.length?list.map(p=>`
   <article class="product">
    <img class="product-img" src="${escAttr(imageOf(p))}" onclick="showProduct('${escAttr(p.id)}')">
    <div class="product-info">
@@ -511,25 +609,16 @@ function showSaved(){
   </article>`).join(""):"<p>এখনো কোনো পণ্য সংরক্ষণ করেননি।</p>";
 }
 
-/* Share product */
 async function shareProduct(id){
  const p=products.find(x=>String(x.id)===String(id));
  if(!p)return;
-
  const url=location.href.split("#")[0]+"#product-"+encodeURIComponent(id);
  const text=nameOf(p)+" — "+money(priceOf(p))+"\n"+url;
-
  if(navigator.share){
-  try{
-   await navigator.share({title:nameOf(p),text,url});
-  }catch(e){}
+  try{await navigator.share({title:nameOf(p),text,url})}catch(e){}
  }else{
-  try{
-   await navigator.clipboard.writeText(text);
-   alert("পণ্যের লিংক কপি হয়েছে");
-  }catch(e){
-   prompt("লিংক কপি করুন",text);
-  }
+  try{await navigator.clipboard.writeText(text);alert("পণ্যের লিংক কপি হয়েছে")}
+  catch(e){prompt("লিংক কপি করুন",text)}
  }
 }
 
@@ -544,27 +633,25 @@ function addCart(id){
 }
 
 function updateCart(){
- document.getElementById("cartCount").textContent=cart.reduce((a,x)=>a+x.qty,0);
+ $("cartCount").textContent=cart.reduce((a,x)=>a+x.qty,0);
 }
 
-function subtotal(){
- return cart.reduce((a,x)=>a+priceOf(x.p)*x.qty,0);
-}
+function subtotal(){return cart.reduce((a,x)=>a+priceOf(x.p)*x.qty,0)}
 
 function delivery(){
- return document.getElementById("district").value.trim()==="চট্টগ্রাম"?70:140;
+ const district=$("district").value.trim().replace(/\s/g,"");
+ return district==="চট্টগ্রাম"?70:140;
 }
 
 function openCart(){
- document.getElementById("cartItems").innerHTML=cart.map((x,i)=>`
+ $("cartItems").innerHTML=cart.map((x,i)=>`
   <div class="comment">
    <b>${esc(nameOf(x.p))}</b><br>
    ${money(priceOf(x.p))} × ${x.qty}
    <button onclick="changeQty(${i},-1)">−</button>
    <button onclick="changeQty(${i},1)">+</button>
   </div>`).join("")||"আপনার কার্ট খালি।";
-
- document.getElementById("cartTotal").textContent="পণ্যের মূল্য: "+money(subtotal());
+ $("cartTotal").textContent="পণ্যের মূল্য: "+money(subtotal());
  openModal("cartModal");
 }
 
@@ -584,32 +671,42 @@ function openCheckout(){
 
 function updateCheckoutTotal(){
  const charge=delivery();
- document.getElementById("checkoutTotal").textContent=
+ $("checkoutTotal").textContent=
  `পণ্য: ${money(subtotal())} | ডেলিভারি: ${money(charge)} | মোট: ${money(subtotal()+charge)}`;
 }
 
-document.getElementById("district").addEventListener("input",updateCheckoutTotal);
+$("district").addEventListener("input",updateCheckoutTotal);
+$("payment").addEventListener("change",()=>{
+ const method=$("payment").value;
+ $("paymentInfo").style.display=["bKash Personal - Send Money","Nagad Personal - Send Money"].includes(method)?"block":"none";
+ $("transaction").placeholder=method==="Cash on Delivery"?"Transaction ID (প্রযোজ্য নয়)":"Transaction ID (বিকাশ/নগদ হলে)";
+});
+
+async function copyPaymentNumber(){
+ try{await navigator.clipboard.writeText(PHONE);alert("পেমেন্ট নম্বর কপি হয়েছে")}
+ catch(e){prompt("নম্বর কপি করুন",PHONE)}
+}
 
 async function submitOrder(){
  if(!db)return alert("Supabase সংযোগ নেই");
+ if(!cart.length)return alert("কার্ট খালি");
 
- const name=document.getElementById("customerName").value.trim();
- const phone=document.getElementById("customerPhone").value.trim();
- const district=document.getElementById("district").value.trim();
- const division=document.getElementById("division").value;
- const upazila=document.getElementById("upazila").value.trim();
- const address=document.getElementById("address").value.trim();
- const payment=document.getElementById("payment").value;
- const transaction=document.getElementById("transaction").value.trim();
+ const name=$("customerName").value.trim();
+ const phone=$("customerPhone").value.trim();
+ const district=$("district").value.trim();
+ const division=$("division").value;
+ const upazila=$("upazila").value.trim();
+ const address=$("address").value.trim();
+ const payment=$("payment").value;
+ const transaction=$("transaction").value.trim();
 
  if(!name||!phone||!district||!division||!upazila||!address||!payment)
   return alert("সব প্রয়োজনীয় তথ্য পূরণ করুন");
 
- if(["bKash","Nagad"].includes(payment)&&!transaction)
+ if(["bKash Personal - Send Money","Nagad Personal - Send Money"].includes(payment)&&!transaction)
   return alert("Transaction ID লিখুন");
 
  const charge=delivery(),sub=subtotal();
-
  const rows=cart.map(x=>{
   const line=priceOf(x.p)*x.qty;
   const allocated=sub>0?Math.round(charge*line/sub):0;
@@ -629,25 +726,33 @@ async function submitOrder(){
   };
  });
 
- const {error}=await db.from("orders").insert(rows);
- if(error)return alert("অর্ডার জমা হয়নি: "+error.message);
+ const button=$("orderButton");
+ button.disabled=true;
+ button.textContent="অর্ডার জমা হচ্ছে...";
+ try{
+  const {error}=await db.from("orders").insert(rows);
+  if(error)throw error;
 
- let msg=`নতুন অর্ডার - Smart Gear%0Aনাম: ${encodeURIComponent(name)}%0Aফোন: ${encodeURIComponent(phone)}%0Aঠিকানা: ${encodeURIComponent([division,district,upazila,address].join(", "))}%0Aপেমেন্ট: ${encodeURIComponent(payment)}%0ATransaction ID: ${encodeURIComponent(transaction||"প্রযোজ্য নয়")}%0A`;
+  let msg=`নতুন অর্ডার - Smart Gear%0Aনাম: ${encodeURIComponent(name)}%0Aফোন: ${encodeURIComponent(phone)}%0Aঠিকানা: ${encodeURIComponent([division,district,upazila,address].join(", "))}%0Aপেমেন্ট: ${encodeURIComponent(payment)}%0ATransaction ID: ${encodeURIComponent(transaction||"প্রযোজ্য নয়")}%0A`;
+  cart.forEach(x=>{
+   msg+=`%0A${encodeURIComponent(nameOf(x.p))} × ${x.qty} = ${encodeURIComponent(money(priceOf(x.p)*x.qty))}`;
+  });
+  msg+=`%0Aপণ্যের মূল্য: ${encodeURIComponent(money(sub))}%0Aডেলিভারি: ${encodeURIComponent(money(charge))}%0Aসর্বমোট: ${encodeURIComponent(money(sub+charge))}`;
 
- cart.forEach(x=>{
-  msg+=`%0A${encodeURIComponent(nameOf(x.p))} × ${x.qty} = ${encodeURIComponent(money(priceOf(x.p)*x.qty))}`;
- });
-
- msg+=`%0Aপণ্যের মূল্য: ${encodeURIComponent(money(sub))}%0Aডেলিভারি: ${encodeURIComponent(money(charge))}%0Aসর্বমোট: ${encodeURIComponent(money(sub+charge))}`;
-
- cart=[];
- updateCart();
- closeModal("checkoutModal");
- alert("অর্ডার ডাটাবেজে জমা হয়েছে। WhatsApp-এ অর্ডারের তথ্য পাঠিয়ে দিন।");
- window.open("https://wa.me/8801854673321?text="+msg,"_blank");
+  cart=[];
+  updateCart();
+  closeModal("checkoutModal");
+  alert("অর্ডার ডাটাবেজে জমা হয়েছে। WhatsApp-এ অর্ডারের তথ্য পাঠিয়ে দিন। পেমেন্ট যাচাই আলাদাভাবে করতে হবে।");
+  window.open("https://wa.me/8801854673321?text="+msg,"_blank");
+ }catch(e){
+  alert("অর্ডার জমা হয়নি: "+e.message);
+ }finally{
+  button.disabled=false;
+  button.textContent="অর্ডার নিশ্চিত করুন";
+ }
 }
 
-/* AI */
+/* AI response text and safe links */
 function renderAIText(text){
  let safe=esc(text);
  safe=safe.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
@@ -662,7 +767,7 @@ function renderAIText(text){
 }
 
 function addMessage(text,who){
- const chat=document.getElementById("chat");
+ const chat=$("chat");
  const div=document.createElement("div");
  div.className="msg "+who;
  if(who==="bot")div.innerHTML=renderAIText(text);
@@ -681,18 +786,17 @@ function fileAsDataURL(file){
 }
 
 async function sendAI(){
- const input=document.getElementById("aiQuestion");
- const fileInput=document.getElementById("aiImage");
- const button=document.getElementById("aiSend");
+ const input=$("aiQuestion");
+ const fileInput=$("aiImage");
+ const button=$("aiSend");
  const message=input.value.trim();
  const file=fileInput.files[0];
-
  if(!message&&!file)return alert("প্রশ্ন লিখুন অথবা ছবি দিন");
 
  addMessage((message||"ছবিটি বিশ্লেষণ করুন।")+(file?" 📷 ছবি সংযুক্ত":""),"user");
  input.value="";
  button.disabled=true;
- button.textContent="AI উত্তর তৈরি করছে...";
+ button.textContent="অপেক্ষা করুন...";
 
  try{
   let image=null;
@@ -719,7 +823,6 @@ async function sendAI(){
 
   const result=await response.json();
   if(!response.ok||result.error)throw new Error(result.error||"AI সার্ভারে সমস্যা হয়েছে।");
-
   const answer=result.answer||result.text||result.reply||"দুঃখিত, AI উত্তর দেয়নি।";
   addMessage(answer,"bot");
   aiHistory.push(
@@ -732,9 +835,17 @@ async function sendAI(){
   addMessage("দুঃখিত, AI উত্তর দিতে পারেনি: "+e.message,"bot");
  }finally{
   button.disabled=false;
-  button.textContent="✦ AI-কে প্রশ্ন করুন ➤";
+  button.textContent="পাঠান ➤";
  }
 }
+
+/* Enter to send; Shift+Enter for a new line */
+$("aiQuestion").addEventListener("keydown",e=>{
+ if(e.key==="Enter"&&!e.shiftKey){
+  e.preventDefault();
+  sendAI();
+ }
+});
 
 /* Offers */
 async function loadOffers(){
@@ -744,15 +855,13 @@ async function loadOffers(){
    .select("title,description,discount_text,image_url,link,is_active,created_at")
    .eq("is_active",true)
    .order("created_at",{ascending:false});
-
   if(error)throw error;
   if(!data||!data.length)return;
 
-  const track=document.getElementById("offerTrack");
+  const track=$("offerTrack");
   track.innerHTML=data.filter(o=>o.image_url).map(o=>{
    const href=o.link&&/^https?:\/\//i.test(o.link)?o.link:"#";
    const title=esc(o.title||"Smart Gear Offer");
-
    return `<a class="offer-card" href="${escAttr(href)}"
     ${href!=="#"?'target="_blank" rel="noopener"':""}>
     <img src="${escAttr(o.image_url)}" alt="${title}">
@@ -763,11 +872,8 @@ async function loadOffers(){
     </div>
    </a>`;
   }).join("");
-
-  if(track.innerHTML)document.getElementById("offerSection").style.display="block";
- }catch(e){
-  console.info("Offers table not configured yet:",e.message);
- }
+  if(track.innerHTML)$("offerSection").style.display="block";
+ }catch(e){console.info("Offers table not configured yet:",e.message)}
 }
 
 loadProducts();
