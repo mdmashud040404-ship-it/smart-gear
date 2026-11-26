@@ -4,156 +4,381 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111713">
-<title>Smart Gear Admin</title>
+<meta name="theme-color" content="#123b2b">
+<title>Smart Gear | Admin Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 
 <style>
 :root{
-  --bg:#111713;
-  --panel:#1b241e;
-  --cream:#f2ead8;
-  --muted:#b9b39f;
-  --gold:#c5a45b;
-  --line:#344238;
-  --red:#e56b6b;
-  --green:#70c58b;
+  --green:#123b2b;
+  --green2:#1d563d;
+  --green3:#28734d;
+  --gold:#e0b75e;
+  --cream:#f8f6ef;
+  --white:#fff;
+  --bg:#f1f4ef;
+  --text:#1b2b22;
+  --muted:#718078;
+  --line:#e1e8e1;
+  --red:#d94c4c;
+  --shadow:0 8px 28px rgba(18,59,43,.08);
 }
 *{box-sizing:border-box}
 body{
   margin:0;
-  padding:18px;
   background:var(--bg);
-  color:var(--cream);
-  font-family:Arial,sans-serif;
+  color:var(--text);
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
 }
-.container{max-width:950px;margin:auto}
-h1,h2{color:var(--gold)}
-h1{text-align:center}
-.card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:18px;
-  margin:16px 0;
-}
-input,textarea,button{
-  width:100%;
-  padding:12px;
-  margin:7px 0;
-  border-radius:8px;
-  border:1px solid var(--line);
-  font-size:15px;
-}
-input,textarea{
-  background:#111713;
-  color:var(--cream);
-}
-textarea{min-height:85px;resize:vertical}
-button{
-  background:var(--gold);
-  color:#111713;
-  font-weight:bold;
-  border:0;
-  cursor:pointer;
-}
-button:disabled{opacity:.6;cursor:not-allowed}
-.btn-red{background:#a94343;color:white}
-.btn-green{background:#347d4d;color:white}
-.btn-gray{background:#45534a;color:white}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
 .hidden{display:none!important}
-#message{padding:10px;border-radius:8px;white-space:pre-wrap}
-.product{
+#loginBox{
+  max-width:420px;
+  margin:9vh auto;
+  padding:30px;
+  background:white;
+  border-radius:22px;
+  box-shadow:var(--shadow);
+}
+.login-logo{
+  width:65px;height:65px;
+  display:grid;place-items:center;
+  margin:auto;
+  border-radius:20px;
+  background:var(--green);
+  color:var(--gold);
+  font-size:30px;font-weight:bold;
+}
+.login-title{text-align:center;color:var(--green)}
+.login-sub{text-align:center;color:var(--muted);font-size:14px}
+input,textarea{
+  width:100%;
+  padding:13px 14px;
+  margin:7px 0 14px;
   border:1px solid var(--line);
-  padding:12px;
-  border-radius:12px;
-  margin:12px 0;
-  display:flex;
-  gap:12px;
-  align-items:center;
+  border-radius:11px;
+  background:#fbfcfa;
+  color:var(--text);
+  outline:none;
 }
-.product img{
-  width:85px;
-  height:85px;
-  object-fit:cover;
-  border-radius:8px;
-  background:#111713;
+input:focus,textarea:focus{
+  border-color:var(--green3);
+  box-shadow:0 0 0 3px rgba(40,115,77,.10);
 }
-.product-info{flex:1;min-width:0}
-.product-info p{margin:5px 0;color:var(--muted);overflow-wrap:anywhere}
-.actions{display:flex;gap:6px;flex-wrap:wrap}
-.actions button{width:auto;padding:9px 12px}
-.status{color:var(--green)}
-.discount{color:var(--gold);font-weight:bold}
-.small{font-size:13px;color:var(--muted)}
+textarea{min-height:95px;resize:vertical}
+label{font-size:14px;font-weight:700;color:var(--green)}
+.btn{
+  border:0;border-radius:10px;
+  padding:12px 17px;
+  background:var(--green);
+  color:white;font-weight:bold;
+}
+.btn:hover{filter:brightness(1.1)}
+.btn-gold{background:var(--gold);color:var(--green)}
+.btn-red{background:var(--red);color:white}
+.btn-gray{background:#e8eee8;color:var(--green)}
+.btn-green{background:var(--green3);color:white}
+.btn-block{width:100%}
+#loginMessage,.message{
+  font-size:14px;
+  white-space:pre-wrap;
+  margin-top:8px;
+}
+.layout{min-height:100vh}
+.sidebar{
+  position:fixed;inset:0 auto 0 0;
+  width:245px;
+  background:var(--green);
+  color:white;
+  padding:24px 16px;
+  z-index:5;
+}
+.brand{
+  display:flex;align-items:center;gap:12px;
+  padding:4px 8px 25px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+.brand-icon{
+  width:43px;height:43px;border-radius:13px;
+  display:grid;place-items:center;
+  background:var(--gold);color:var(--green);
+  font-size:22px;font-weight:bold;
+}
+.brand strong{font-size:19px}
+.brand small{display:block;color:#c8d6cb;margin-top:3px}
+.nav-title{
+  color:#a9c0af;font-size:11px;
+  letter-spacing:1.5px;margin:25px 10px 10px;
+}
+.nav-btn{
+  width:100%;display:flex;align-items:center;gap:12px;
+  border:0;border-radius:11px;
+  padding:13px 14px;margin:5px 0;
+  color:#eaf2eb;background:transparent;
+  text-align:left;font-weight:600;
+}
+.nav-btn:hover,.nav-btn.active{
+  background:rgba(255,255,255,.13);
+  color:var(--gold);
+}
+.sidebar-bottom{
+  position:absolute;bottom:20px;left:16px;right:16px;
+}
+.main{margin-left:245px;padding:25px 30px}
+.topbar{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;
+  margin-bottom:25px;
+}
+.topbar h1{margin:0;color:var(--green);font-size:25px}
+.topbar p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.admin-pill{
+  background:#e4eee5;color:var(--green);
+  padding:9px 13px;border-radius:30px;
+  font-size:13px;font-weight:bold;
+}
+.section{display:none}
+.section.active{display:block}
+.card{
+  background:white;border:1px solid var(--line);
+  border-radius:17px;padding:21px;
+  margin-bottom:20px;box-shadow:var(--shadow);
+}
+.card h2{color:var(--green);font-size:19px;margin:0 0 17px}
+.stats{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;margin-bottom:20px;
+}
+.stat{
+  background:white;border:1px solid var(--line);
+  border-radius:16px;padding:20px;
+  box-shadow:var(--shadow);
+}
+.stat span{color:var(--muted);font-size:13px}
+.stat strong{display:block;font-size:28px;color:var(--green);margin-top:9px}
+.form-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0 15px;
+}
+.full{grid-column:1/-1}
+.preview{
+  width:100%;max-height:220px;object-fit:contain;
+  background:#f3f6f2;border-radius:12px;
+  margin:5px 0 12px;
+}
+.item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--line);
+}
+.item:last-child{border-bottom:0}
+.item img{
+  width:82px;height:82px;object-fit:cover;
+  border-radius:12px;background:#f0f3ef;
+}
+.item-info{flex:1;min-width:0}
+.item-info strong{display:block;overflow-wrap:anywhere}
+.item-info p{font-size:13px;color:var(--muted);margin:5px 0}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.actions button{padding:8px 11px;font-size:12px}
+.status{font-size:12px;font-weight:bold}
+.active-status{color:#23844a}
+.inactive-status{color:var(--red)}
+.empty{
+  padding:25px;text-align:center;
+  color:var(--muted);background:#f8faf7;border-radius:12px;
+}
+.hint{font-size:12px;color:var(--muted);margin-top:-8px}
+@media(max-width:800px){
+  .sidebar{width:70px;padding:18px 8px}
+  .brand{justify-content:center;padding:0 0 20px}
+  .brand-text,.nav-title,.nav-text,.sidebar-bottom .logout-text{display:none}
+  .nav-btn{justify-content:center;padding:14px 5px;font-size:20px}
+  .sidebar-bottom{left:8px;right:8px}
+  .main{margin-left:70px;padding:20px 15px}
+}
 @media(max-width:520px){
-  body{padding:10px}
-  .product{align-items:flex-start}
-  .product img{width:70px;height:70px}
-  .actions button{font-size:12px}
+  .main{padding:15px 10px}
+  .topbar h1{font-size:20px}
+  .stats{grid-template-columns:1fr 1fr;gap:9px}
+  .stat{padding:14px}
+  .stat strong{font-size:22px}
+  .card{padding:15px}
+  .form-grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .item{align-items:flex-start}
+  .item img{width:65px;height:65px}
+  .actions button{padding:7px 9px}
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-<h1>Smart Gear Admin</h1>
+<div id="loginBox">
+  <div class="login-logo">SG</div>
+  <h2 class="login-title">Smart Gear</h2>
+  <p class="login-sub">Admin Dashboard Login</p>
 
-<div id="loginBox" class="card">
-  <h2>Admin Login</h2>
+  <label>Admin Email</label>
   <input id="email" type="email" placeholder="Admin Email">
+
+  <label>Password</label>
   <input id="password" type="password" placeholder="Password">
-  <button id="loginBtn" onclick="login()">Login</button>
+
+  <button id="loginBtn" class="btn btn-block btn-gold" onclick="login()">Login to Dashboard</button>
   <div id="loginMessage"></div>
 </div>
 
-<div id="adminPanel" class="hidden">
+<div id="adminPanel" class="layout hidden">
 
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-      <h2>Dashboard</h2>
-      <button class="btn-red" style="width:auto" onclick="logout()">Logout</button>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">SG</div>
+      <div class="brand-text">
+        <strong>Smart Gear</strong>
+        <small>Admin Control</small>
+      </div>
     </div>
-    <p class="status">Admin হিসেবে লগইন করা হয়েছে।</p>
-  </div>
 
-  <div class="card">
-    <h2>নতুন প্রোডাক্ট যোগ করুন</h2>
+    <div class="nav-title">MAIN MENU</div>
 
-    <label>প্রোডাক্টের নাম</label>
-    <input id="title" placeholder="Product name">
+    <button class="nav-btn active" onclick="showSection('dashboard',this)">
+      <span>▦</span><span class="nav-text">Dashboard</span>
+    </button>
+    <button class="nav-btn" onclick="showSection('products',this)">
+      <span>▣</span><span class="nav-text">Products</span>
+    </button>
+    <button class="nav-btn" onclick="showSection('offers',this)">
+      <span>🎁</span><span class="nav-text">Offer Posters</span>
+    </button>
 
-    <label>বিস্তারিত</label>
-    <textarea id="description" placeholder="Product description"></textarea>
+    <div class="sidebar-bottom">
+      <button class="nav-btn" onclick="logout()">
+        <span>↪</span><span class="logout-text">Logout</span>
+      </button>
+    </div>
+  </aside>
 
-    <label>মূল দাম (৳)</label>
-    <input id="price" type="number" min="0" step="0.01" placeholder="1000">
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="pageTitle">Dashboard</h1>
+        <p>Smart Gear Store Management</p>
+      </div>
+      <div class="admin-pill">● Admin Online</div>
+    </header>
 
-    <label>Discount (%)</label>
-    <input id="discount" type="number" min="0" max="100" step="0.01" value="0" placeholder="20">
+    <section id="dashboard" class="section active">
+      <div class="stats">
+        <div class="stat">
+          <span>মোট প্রোডাক্ট</span>
+          <strong id="productCount">0</strong>
+        </div>
+        <div class="stat">
+          <span>Active Products</span>
+          <strong id="activeCount">0</strong>
+        </div>
+        <div class="stat">
+          <span>Offer Posters</span>
+          <strong id="offerCount">0</strong>
+        </div>
+      </div>
 
-    <p id="pricePreview" class="discount">বিক্রয়মূল্য: ৳০</p>
+      <div class="card">
+        <h2>স্বাগতম Smart Gear Admin Panel-এ</h2>
+        <p>এখান থেকে তোমার অনলাইন স্টোরের প্রোডাক্ট ও অফার পোস্টার পরিচালনা করতে পারবে।</p>
+        <button class="btn btn-gold" onclick="showSection('products')">প্রোডাক্ট পরিচালনা →</button>
+        <button class="btn btn-green" onclick="showSection('offers')">অফার পোস্টার পরিচালনা →</button>
+      </div>
+    </section>
 
-    <label>প্রোডাক্টের ছবি</label>
-    <input id="imageFile" type="file" accept="image/*">
+    <section id="products" class="section">
+      <div class="card">
+        <h2>＋ নতুন প্রোডাক্ট যোগ করুন</h2>
 
-    <label>অথবা ছবির URL (ঐচ্ছিক)</label>
-    <input id="imageUrl" type="url" placeholder="https://example.com/image.jpg">
+        <div class="form-grid">
+          <div class="full">
+            <label>প্রোডাক্টের নাম</label>
+            <input id="title" placeholder="Product name">
+          </div>
 
-    <button id="addBtn" onclick="addProduct()">প্রোডাক্ট যোগ করুন</button>
-    <div id="addMessage"></div>
-  </div>
+          <div class="full">
+            <label>বিস্তারিত</label>
+            <textarea id="description" placeholder="Product description"></textarea>
+          </div>
 
-  <div class="card">
-    <h2>প্রোডাক্ট তালিকা</h2>
-    <button class="btn-gray" onclick="loadProducts()">Refresh Products</button>
-    <div id="productsList">লোড হচ্ছে...</div>
-  </div>
+          <div>
+            <label>মূল দাম (৳)</label>
+            <input id="price" type="number" min="0" step="0.01" placeholder="1000">
+          </div>
 
-</div>
+          <div>
+            <label>Discount (%)</label>
+            <input id="discount" type="number" min="0" max="100" step="0.01" value="0">
+          </div>
+
+          <div class="full">
+            <p id="pricePreview" style="color:#28734d;font-weight:bold">বিক্রয়মূল্য: ৳০</p>
+          </div>
+
+          <div class="full">
+            <label>প্রোডাক্টের ছবি</label>
+            <input id="imageFile" type="file" accept="image/*">
+            <p class="hint">সর্বোচ্চ ৫ MB</p>
+          </div>
+
+          <div class="full">
+            <label>অথবা ছবির URL (ঐচ্ছিক)</label>
+            <input id="imageUrl" type="url" placeholder="https://example.com/image.jpg">
+          </div>
+        </div>
+
+        <button id="addBtn" class="btn btn-gold" onclick="addProduct()">প্রোডাক্ট যোগ করুন</button>
+        <div id="addMessage" class="message"></div>
+      </div>
+
+      <div class="card">
+        <h2>প্রোডাক্ট তালিকা</h2>
+        <button class="btn btn-gray" onclick="loadProducts()">↻ Refresh Products</button>
+        <div id="productsList">লোড হচ্ছে...</div>
+      </div>
+    </section>
+
+    <section id="offers" class="section">
+      <div class="card">
+        <h2>🎁 নতুন Offer Poster প্রকাশ করুন</h2>
+
+        <label>অফারের শিরোনাম</label>
+        <input id="offerTitle" placeholder="যেমন: Mega Sale">
+
+        <label>অফারের বিস্তারিত</label>
+        <textarea id="offerDescription" placeholder="অফারের বিস্তারিত লিখুন"></textarea>
+
+        <label>Discount Text</label>
+        <input id="offerDiscount" placeholder="যেমন: ৩০% পর্যন্ত ছাড়">
+
+        <label>Poster Image (Gallery থেকে)</label>
+        <input id="offerImage" type="file" accept="image/*">
+        <p class="hint">সর্বোচ্চ ৫ MB</p>
+        <img id="offerPreview" class="preview hidden" alt="Poster preview">
+
+        <label>অফারের লিংক (ঐচ্ছিক)</label>
+        <input id="offerLink" type="url" placeholder="https://example.com">
+
+        <button id="offerBtn" class="btn btn-gold" onclick="addOffer()">Offer প্রকাশ করুন</button>
+        <div id="offerMessage" class="message"></div>
+      </div>
+
+      <div class="card">
+        <h2>প্রকাশিত Offer Posters</h2>
+        <button class="btn btn-gray" onclick="loadOffers()">↻ Refresh Offers</button>
+        <div id="offersList">লোড হচ্ছে...</div>
+      </div>
+    </section>
+
+  </main>
 </div>
 
 <script>
@@ -163,62 +388,58 @@ const db = window.supabase.createClient(
 );
 
 const BUCKET = "product-assets";
-
 let currentUser = null;
 let products = [];
+let offers = [];
 
-function el(id){
-  return document.getElementById(id);
-}
+function el(id){ return document.getElementById(id); }
 
 function safeText(value){
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
+  return String(value ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   })[c]);
 }
 
-function showMessage(id,message,isError=false){
-  el(id).textContent = message;
-  el(id).style.color = isError ? "#ff8585" : "#70c58b";
+function message(id,text,isError=false){
+  el(id).textContent = text;
+  el(id).style.color = isError ? "#d94c4c" : "#23844a";
 }
 
-function updatePricePreview(){
-  const price = Number(el("price").value) || 0;
-  const discount = Math.min(100,Math.max(0,Number(el("discount").value)||0));
-  const finalPrice = price * (100-discount)/100;
+function showSection(id,button){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  el(id).classList.add("active");
 
-  el("pricePreview").textContent =
-    "বিক্রয়মূল্য: ৳" + finalPrice.toFixed(2);
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  if(button) button.classList.add("active");
+
+  const titles = {
+    dashboard:"Dashboard",
+    products:"Product Management",
+    offers:"Offer Poster Management"
+  };
+  el("pageTitle").textContent = titles[id] || "Dashboard";
+
+  if(id==="products") loadProducts();
+  if(id==="offers") loadOffers();
 }
-
-el("price").addEventListener("input",updatePricePreview);
-el("discount").addEventListener("input",updatePricePreview);
 
 async function login(){
   const email = el("email").value.trim();
   const password = el("password").value;
 
   if(!email || !password){
-    showMessage("loginMessage","Email ও Password দিন।",true);
+    message("loginMessage","Email ও Password দিন।",true);
     return;
   }
 
   el("loginBtn").disabled = true;
-  showMessage("loginMessage","লগইন হচ্ছে...");
+  message("loginMessage","লগইন হচ্ছে...");
 
-  const {data,error} = await db.auth.signInWithPassword({
-    email,
-    password
-  });
-
+  const {data,error} = await db.auth.signInWithPassword({email,password});
   el("loginBtn").disabled = false;
 
   if(error){
-    showMessage("loginMessage",error.message,true);
+    message("loginMessage",error.message,true);
     return;
   }
 
@@ -232,19 +453,14 @@ async function checkAdmin(user){
     return;
   }
 
-  const {data,error} = await db
-    .from("admins")
+  const {data,error} = await db.from("admins")
     .select("user_id")
     .eq("user_id",user.id)
     .maybeSingle();
 
   if(error || !data){
     await db.auth.signOut();
-    showMessage(
-      "loginMessage",
-      "এই অ্যাকাউন্টটি Admin হিসেবে অনুমোদিত নয়।",
-      true
-    );
+    message("loginMessage","এই অ্যাকাউন্টটি Admin হিসেবে অনুমোদিত নয়।",true);
     el("loginBox").classList.remove("hidden");
     el("adminPanel").classList.add("hidden");
     return;
@@ -254,43 +470,46 @@ async function checkAdmin(user){
   el("loginBox").classList.add("hidden");
   el("adminPanel").classList.remove("hidden");
 
-  await loadProducts();
+  await Promise.all([loadProducts(),loadOffers()]);
+  updateStats();
 }
 
 async function logout(){
   await db.auth.signOut();
   currentUser = null;
   products = [];
+  offers = [];
   el("adminPanel").classList.add("hidden");
   el("loginBox").classList.remove("hidden");
 }
 
 async function uploadImage(file){
   if(!file) return null;
+  if(!file.type.startsWith("image/")) throw new Error("শুধু ছবির ফাইল আপলোড করুন।");
+  if(file.size > 5*1024*1024) throw new Error("ছবির সাইজ ৫ MB-এর কম হতে হবে।");
 
-  if(!file.type.startsWith("image/")){
-    throw new Error("শুধু ছবির ফাইল আপলোড করুন।");
-  }
+  const extension = (file.name.split(".").pop() || "jpg").replace(/[^a-zA-Z0-9]/g,"");
+  const path = Date.now()+"-"+Math.random().toString(36).slice(2)+"."+extension;
 
-  if(file.size > 5*1024*1024){
-    throw new Error("ছবির সাইজ ৫ MB-এর কম হতে হবে।");
-  }
-
-  const extension = file.name.split(".").pop().replace(/[^a-zA-Z0-9]/g,"") || "jpg";
-  const path = Date.now() + "-" + Math.random().toString(36).slice(2) + "." + extension;
-
-  const {error} = await db.storage
-    .from(BUCKET)
-    .upload(path,file,{
-      cacheControl:"3600",
-      upsert:false
-    });
+  const {error} = await db.storage.from(BUCKET).upload(path,file,{
+    cacheControl:"3600",
+    upsert:false
+  });
 
   if(error) throw error;
 
-  const {data} = db.storage.from(BUCKET).getPublicUrl(path);
-  return data.publicUrl;
+  return db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
 }
+
+function updatePricePreview(){
+  const price = Number(el("price").value)||0;
+  const discount = Math.min(100,Math.max(0,Number(el("discount").value)||0));
+  el("pricePreview").textContent =
+    "বিক্রয়মূল্য: ৳"+(price*(100-discount)/100).toFixed(2);
+}
+
+el("price").addEventListener("input",updatePricePreview);
+el("discount").addEventListener("input",updatePricePreview);
 
 async function addProduct(){
   if(!currentUser) return;
@@ -301,56 +520,37 @@ async function addProduct(){
   const discount = Number(el("discount").value);
   const file = el("imageFile").files[0];
 
-  if(!title){
-    showMessage("addMessage","প্রোডাক্টের নাম লিখুন।",true);
-    return;
-  }
-
-  if(!Number.isFinite(price) || price < 0){
-    showMessage("addMessage","সঠিক দাম লিখুন।",true);
-    return;
-  }
-
-  if(!Number.isFinite(discount) || discount < 0 || discount > 100){
-    showMessage("addMessage","Discount ০ থেকে ১০০-এর মধ্যে দিন।",true);
-    return;
-  }
+  if(!title) return message("addMessage","প্রোডাক্টের নাম লিখুন।",true);
+  if(!Number.isFinite(price)||price<0) return message("addMessage","সঠিক দাম লিখুন।",true);
+  if(!Number.isFinite(discount)||discount<0||discount>100)
+    return message("addMessage","Discount ০ থেকে ১০০-এর মধ্যে দিন।",true);
 
   el("addBtn").disabled = true;
-  showMessage("addMessage","প্রোডাক্ট যোগ হচ্ছে...");
+  message("addMessage","প্রোডাক্ট যোগ হচ্ছে...");
 
   try{
     let image_url = el("imageUrl").value.trim();
-
-    if(file){
-      image_url = await uploadImage(file);
-    }
+    if(file) image_url = await uploadImage(file);
 
     const {error} = await db.from("products").insert({
-      title,
-      description,
-      price,
+      title,description,price,
       original_price:price,
       discount_percent:discount,
-      image_url:image_url || null,
+      image_url:image_url||null,
       is_active:true
     });
 
     if(error) throw error;
 
-    el("title").value = "";
-    el("description").value = "";
-    el("price").value = "";
-    el("discount").value = "0";
-    el("imageFile").value = "";
-    el("imageUrl").value = "";
+    ["title","description","price","imageUrl"].forEach(id=>el(id).value="");
+    el("discount").value="0";
+    el("imageFile").value="";
     updatePricePreview();
 
-    showMessage("addMessage","প্রোডাক্ট সফলভাবে যোগ হয়েছে।");
+    message("addMessage","প্রোডাক্ট সফলভাবে যোগ হয়েছে।");
     await loadProducts();
-
   }catch(error){
-    showMessage("addMessage","সমস্যা: " + error.message,true);
+    message("addMessage","সমস্যা: "+error.message,true);
   }
 
   el("addBtn").disabled = false;
@@ -358,78 +558,71 @@ async function addProduct(){
 
 async function loadProducts(){
   if(!currentUser) return;
-
   el("productsList").textContent = "প্রোডাক্ট লোড হচ্ছে...";
 
-  const {data,error} = await db
-    .from("products")
+  const {data,error} = await db.from("products")
     .select("id,title,description,price,original_price,discount_percent,image_url,is_active,created_at")
     .order("created_at",{ascending:false});
 
   if(error){
-    el("productsList").textContent = "প্রোডাক্ট লোড হয়নি: " + error.message;
+    el("productsList").textContent = "প্রোডাক্ট লোড হয়নি: "+error.message;
     return;
   }
 
-  products = data || [];
+  products = data||[];
+  updateStats();
 
-  if(products.length === 0){
-    el("productsList").textContent = "এখনো কোনো প্রোডাক্ট নেই।";
+  if(!products.length){
+    el("productsList").innerHTML='<div class="empty">এখনো কোনো প্রোডাক্ট নেই।</div>';
     return;
   }
 
-  el("productsList").innerHTML = products.map(p => {
-    const discount = Number(p.discount_percent || 0);
-    const basePrice = Number(p.price || 0);
-    const finalPrice = basePrice * (100-discount)/100;
+  el("productsList").innerHTML = products.map(p=>{
+    const discount = Number(p.discount_percent||0);
+    const price = Number(p.price||0);
+    const finalPrice = price*(100-discount)/100;
 
     return `
-      <div class="product">
-        <img src="${safeText(p.image_url || "")}"
-             alt="${safeText(p.title)}"
-             onerror="this.style.display='none'">
-
-        <div class="product-info">
+      <div class="item">
+        <img src="${safeText(p.image_url||"")}" alt="${safeText(p.title)}"
+          onerror="this.style.display='none'">
+        <div class="item-info">
           <strong>${safeText(p.title)}</strong>
-          <p>মূল দাম: ৳${basePrice.toFixed(2)}</p>
-          <p class="discount">Discount: ${discount}%</p>
-          <p>বিক্রয়মূল্য: ৳${finalPrice.toFixed(2)}</p>
-          <p>${p.is_active ? "🟢 Active" : "🔴 Inactive"}</p>
-
+          <p>মূল দাম: ৳${price.toFixed(2)} | বিক্রয়মূল্য: ৳${finalPrice.toFixed(2)}</p>
+          <p>Discount: ${discount}%</p>
+          <span class="status ${p.is_active?'active-status':'inactive-status'}">
+            ${p.is_active?'● Active':'● Inactive'}
+          </span>
           <div class="actions">
-            <button onclick="editProduct('${safeText(p.id)}')">Edit</button>
-            <button class="btn-green" onclick="toggleProduct('${safeText(p.id)}',${!p.is_active})">
-              ${p.is_active ? "Inactive" : "Active"}
+            <button class="btn btn-gold" onclick="editProduct('${safeText(p.id)}')">Edit</button>
+            <button class="btn btn-green" onclick="toggleProduct('${safeText(p.id)}',${!p.is_active})">
+              ${p.is_active?'Inactive':'Active'}
             </button>
-            <button class="btn-red" onclick="deleteProduct('${safeText(p.id)}')">Delete</button>
+            <button class="btn btn-red" onclick="deleteProduct('${safeText(p.id)}')">Delete</button>
           </div>
         </div>
-      </div>
-    `;
+      </div>`;
   }).join("");
 }
 
 async function editProduct(id){
-  const p = products.find(item => String(item.id) === String(id));
+  const p = products.find(x=>String(x.id)===String(id));
   if(!p) return;
 
   const title = prompt("প্রোডাক্টের নাম:",p.title);
-  if(title === null) return;
-
-  const description = prompt("প্রোডাক্টের বিবরণ:",p.description || "");
-  if(description === null) return;
-
+  if(title===null) return;
+  const description = prompt("প্রোডাক্টের বিবরণ:",p.description||"");
+  if(description===null) return;
   const priceInput = prompt("মূল দাম (৳):",p.price);
-  if(priceInput === null) return;
-
-  const discountInput = prompt("Discount (%):",p.discount_percent || 0);
-  if(discountInput === null) return;
+  if(priceInput===null) return;
+  const discountInput = prompt("Discount (%):",p.discount_percent||0);
+  if(discountInput===null) return;
 
   const price = Number(priceInput);
   const discount = Number(discountInput);
 
-  if(!title.trim() || !Number.isFinite(price) || price < 0 ||
-     !Number.isFinite(discount) || discount < 0 || discount > 100){
+  if(!title.trim()||!Number.isFinite(price)||price<0||
+     !Number.isFinite(discount)||discount<0||discount>100){
     alert("সঠিক নাম, দাম ও Discount দিন।");
     return;
   }
@@ -442,55 +635,183 @@ async function editProduct(id){
     discount_percent:discount
   }).eq("id",p.id);
 
-  if(error){
-    alert("আপডেট হয়নি: " + error.message);
-    return;
-  }
-
+  if(error) return alert("আপডেট হয়নি: "+error.message);
   alert("প্রোডাক্ট আপডেট হয়েছে।");
   await loadProducts();
 }
 
 async function toggleProduct(id,active){
   const {error} = await db.from("products")
-    .update({is_active:active})
-    .eq("id",id);
+    .update({is_active:active}).eq("id",id);
 
-  if(error){
-    alert("পরিবর্তন হয়নি: " + error.message);
-    return;
-  }
-
+  if(error) return alert("পরিবর্তন হয়নি: "+error.message);
   await loadProducts();
 }
 
 async function deleteProduct(id){
   if(!confirm("এই প্রোডাক্টটি মুছে ফেলতে চান?")) return;
 
-  const {error} = await db.from("products")
-    .delete()
-    .eq("id",id);
-
-  if(error){
-    alert("ডিলিট হয়নি: " + error.message);
-    return;
-  }
+  const {error} = await db.from("products").delete().eq("id",id);
+  if(error) return alert("ডিলিট হয়নি: "+error.message);
 
   alert("প্রোডাক্ট ডিলিট হয়েছে।");
   await loadProducts();
 }
 
-db.auth.getSession().then(({data}) => {
-  checkAdmin(data.session?.user || null);
+el("offerImage").addEventListener("change",()=>{
+  const file = el("offerImage").files[0];
+  if(!file){
+    el("offerPreview").classList.add("hidden");
+    return;
+  }
+  el("offerPreview").src = URL.createObjectURL(file);
+  el("offerPreview").classList.remove("hidden");
 });
 
-db.auth.onAuthStateChange((event,session) => {
-  if(event === "SIGNED_OUT"){
+async function addOffer(){
+  if(!currentUser) return;
+
+  const title = el("offerTitle").value.trim();
+  const description = el("offerDescription").value.trim();
+  const discount_text = el("offerDiscount").value.trim();
+  const link = el("offerLink").value.trim();
+  const file = el("offerImage").files[0];
+
+  if(!title) return message("offerMessage","অফারের শিরোনাম লিখুন।",true);
+  if(!file) return message("offerMessage","Poster-এর ছবি নির্বাচন করুন।",true);
+
+  el("offerBtn").disabled = true;
+  message("offerMessage","Poster আপলোড হচ্ছে...");
+
+  try{
+    const image_url = await uploadImage(file);
+
+    const {error} = await db.from("offers").insert({
+      title,description,discount_text,image_url,link:link||null,is_active:true
+    });
+
+    if(error) throw error;
+
+    ["offerTitle","offerDescription","offerDiscount","offerLink"].forEach(id=>el(id).value="");
+    el("offerImage").value="";
+    el("offerPreview").classList.add("hidden");
+
+    message("offerMessage","Offer Poster সফলভাবে প্রকাশ হয়েছে।");
+    await loadOffers();
+  }catch(error){
+    message("offerMessage","সমস্যা: "+error.message,true);
+  }
+
+  el("offerBtn").disabled = false;
+}
+
+async function loadOffers(){
+  if(!currentUser) return;
+  el("offersList").textContent = "Offer লোড হচ্ছে...";
+
+  const {data,error} = await db.from("offers")
+    .select("id,title,description,discount_text,image_url,link,is_active,created_at")
+    .order("created_at",{ascending:false});
+
+  if(error){
+    el("offersList").textContent = "Offer লোড হয়নি: "+error.message;
+    return;
+  }
+
+  offers = data||[];
+  updateStats();
+
+  if(!offers.length){
+    el("offersList").innerHTML='<div class="empty">এখনো কোনো Offer Poster প্রকাশ করা হয়নি।</div>';
+    return;
+  }
+
+  el("offersList").innerHTML = offers.map(o=>`
+    <div class="item">
+      <img src="${safeText(o.image_url)}" alt="${safeText(o.title)}"
+        onerror="this.style.display='none'">
+      <div class="item-info">
+        <strong>${safeText(o.title)}</strong>
+        <p>${safeText(o.discount_text||"")}</p>
+        <p>${safeText(o.description||"")}</p>
+        <span class="status ${o.is_active?'active-status':'inactive-status'}">
+          ${o.is_active?'● Published':'● Unpublished'}
+        </span>
+        <div class="actions">
+          <button class="btn btn-gold" onclick="editOffer('${safeText(o.id)}')">Edit</button>
+          <button class="btn btn-green" onclick="toggleOffer('${safeText(o.id)}',${!o.is_active})">
+            ${o.is_active?'Unpublish':'Publish'}
+          </button>
+          <button class="btn btn-red" onclick="deleteOffer('${safeText(o.id)}')">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+async function editOffer(id){
+  const o = offers.find(x=>String(x.id)===String(id));
+  if(!o) return;
+
+  const title = prompt("অফারের শিরোনাম:",o.title);
+  if(title===null) return;
+  const description = prompt("অফারের বিস্তারিত:",o.description||"");
+  if(description===null) return;
+  const discount_text = prompt("Discount Text:",o.discount_text||"");
+  if(discount_text===null) return;
+  const link = prompt("অফারের লিংক:",o.link||"");
+  if(link===null) return;
+
+  if(!title.trim()) return alert("অফারের শিরোনাম লিখুন।");
+
+  const {error} = await db.from("offers").update({
+    title:title.trim(),
+    description:description.trim(),
+    discount_text:discount_text.trim(),
+    link:link.trim()||null
+  }).eq("id",id);
+
+  if(error) return alert("আপডেট হয়নি: "+error.message);
+  alert("Offer আপডেট হয়েছে।");
+  await loadOffers();
+}
+
+async function toggleOffer(id,active){
+  const {error} = await db.from("offers")
+    .update({is_active:active}).eq("id",id);
+
+  if(error) return alert("পরিবর্তন হয়নি: "+error.message);
+  await loadOffers();
+}
+
+async function deleteOffer(id){
+  if(!confirm("এই Offer Poster ডিলিট করতে চান?")) return;
+
+  const {error} = await db.from("offers").delete().eq("id",id);
+  if(error) return alert("ডিলিট হয়নি: "+error.message);
+
+  alert("Offer Poster ডিলিট হয়েছে।");
+  await loadOffers();
+}
+
+function updateStats(){
+  el("productCount").textContent = products.length;
+  el("activeCount").textContent = products.filter(p=>p.is_active).length;
+  el("offerCount").textContent = offers.length;
+}
+
+db.auth.getSession().then(({data})=>{
+  checkAdmin(data.session?.user||null);
+});
+
+db.auth.onAuthStateChange((event,session)=>{
+  if(event==="SIGNED_OUT"){
     currentUser = null;
     el("adminPanel").classList.add("hidden");
     el("loginBox").classList.remove("hidden");
   }
 });
 </script>
+
 </body>
 </html>
