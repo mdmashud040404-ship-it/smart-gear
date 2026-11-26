@@ -89,27 +89,12 @@ header{position:sticky;top:0;z-index:15;color:white;background:linear-gradient(1
 .owner-copy p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
 .owner-placeholder{display:none;width:112px;height:132px;flex:0 0 112px;border:3px solid var(--gold);border-radius:8px;background:#e9eee8;color:var(--green);align-items:center;justify-content:center;text-align:center;font-size:12px;padding:8px}
 footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
-
-/* Contact app icons */
 .floating{position:fixed;right:12px;bottom:18px;z-index:80;display:flex;flex-direction:column;gap:9px}
 .floating a{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;text-decoration:none;color:white;box-shadow:0 4px 14px #0003;transition:transform .2s}
 .floating a:active{transform:scale(.9)}
 .floating svg{width:27px;height:27px;display:block}
-.wa{background:#20bd67}
-.imo{background:#2788df}
-.call{background:#174f37}
-.fb{background:#1877f2}
-
-/* Smart Gear Assistant launcher */
-.ai-launch{
- position:fixed;left:13px;bottom:18px;z-index:85;
- min-height:65px;padding:7px 16px 7px 9px;
- border:1.5px solid #e0b75e;border-radius:40px;
- background:linear-gradient(120deg,#102f22,#26734c);
- color:white;display:flex;align-items:center;gap:10px;
- box-shadow:0 0 0 4px #e0b75e20,0 5px 22px #102d2260;
- animation:aiFloat 3s ease-in-out infinite
-}
+.wa{background:#20bd67}.imo{background:#2788df}.call{background:#174f37}.fb{background:#1877f2}
+.ai-launch{position:fixed;left:13px;bottom:18px;z-index:85;min-height:65px;padding:7px 16px 7px 9px;border:1.5px solid #e0b75e;border-radius:40px;background:linear-gradient(120deg,#102f22,#26734c);color:white;display:flex;align-items:center;gap:10px;box-shadow:0 0 0 4px #e0b75e20,0 5px 22px #102d2260;animation:aiFloat 3s ease-in-out infinite}
 .ai-launch-icon{width:47px;height:47px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f8df9b,#d6a943);box-shadow:0 0 15px #e0b75e80;flex-shrink:0}
 .ai-launch-icon svg{width:31px;height:31px}
 .ai-launch-copy{text-align:left;line-height:1.2}
@@ -119,14 +104,8 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
 @keyframes onlinePulse{50%{box-shadow:0 0 0 5px #43e58b30}}
 @keyframes aiFloat{50%{transform:translateY(-4px);box-shadow:0 0 0 6px #e0b75e22,0 7px 27px #102d2260}}
 .ai-launch:active{transform:scale(.96)}
-
-/* AI modal: fixed header, scrolling chat, always-visible composer */
 #aiModal{padding:10px}
-#aiModal .modal-box{
- width:100%;max-width:490px;height:min(720px,90dvh);
- max-height:90dvh;padding:0;overflow:hidden;border-radius:24px;
- background:#f5f8f4;display:flex;flex-direction:column
-}
+#aiModal .modal-box{width:100%;max-width:490px;height:min(720px,90dvh);max-height:90dvh;padding:0;overflow:hidden;border-radius:24px;background:#f5f8f4;display:flex;flex-direction:column}
 .ai-header{background:linear-gradient(135deg,#102f22,#26734c);color:white;padding:16px 18px;position:relative;flex:0 0 auto}
 .ai-header-brand{display:flex;align-items:center;gap:11px;padding-right:38px}
 .ai-header-logo{width:45px;height:45px;flex-shrink:0;border-radius:15px;background:linear-gradient(145deg,#f8df9b,#d6a943);display:grid;place-items:center;box-shadow:0 0 15px #e0b75e70}
@@ -190,9 +169,7 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  <div class="search-wrap">
   <input class="search" id="search" placeholder="🔍 পণ্য খুঁজুন..." oninput="renderProducts()">
  </div>
- <div class="categories" id="categories">
-  <button class="active">সব পণ্য</button>
- </div>
+ <div class="categories" id="categories"><button class="active">সব পণ্য</button></div>
 
  <section class="hero">
   <h2>Welcome to Smart Gear ✨</h2>
@@ -201,7 +178,7 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </section>
 
  <section class="owner-section">
-  <img src="profile.png" alt="Owner Photo"> alt="Smart Gear Owner">
+  <img id="ownerPhoto" class="owner-photo" src="owner-photo.jpg" alt="Smart Gear Owner">
   <div class="owner-placeholder" id="ownerPlaceholder">Owner Photo<br>Upload<br>owner-photo.jpg</div>
   <div class="owner-copy">
    <h3>মোহাম্মদ নাঈম</h3>
@@ -227,7 +204,6 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  <a href="https://www.facebook.com/share/1DqjKc77eZ/" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;color:#246b49;font-weight:bold;text-decoration:none">📘 Facebook Page</a>
 </footer>
 
-<!-- Smart Gear Assistant launcher -->
 <button class="ai-launch" onclick="openAI()" aria-label="Smart Gear Assistant">
  <span class="ai-launch-icon">
   <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
@@ -242,7 +218,6 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </span>
 </button>
 
-<!-- Contact buttons with recognizable brand-style SVG icons -->
 <div class="floating">
  <a class="wa" href="https://wa.me/8801854673321" target="_blank" rel="noopener" aria-label="WhatsApp">
   <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3A12.8 12.8 0 0 0 5 22.4L3.4 29l6.8-1.8A12.9 12.9 0 1 0 16 3Zm0 23.5c-2 0-4-.5-5.7-1.6l-.4-.2-4 .1 1-3.8-.2-.4A10.5 10.5 0 1 1 16 26.5Zm5.8-7.8c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.6 8.6 0 0 1-2.5-1.5 9.4 9.4 0 0 1-1.7-2.1c-.2-.4 0-.5.2-.7l.5-.6.3-.5c.1-.2 0-.4 0-.6l-1-2.3c-.3-.6-.6-.5-.8-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4 2.4 3.7 5.8 5.1c.8.3 1.4.5 1.9.6.8.3 1.6.2 2.2.1.7-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4s-.3-.2-.6-.4Z"/></svg>
@@ -258,7 +233,6 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </a>
 </div>
 
-<!-- Product details -->
 <div class="modal" id="productModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('productModal')">×</button>
@@ -266,7 +240,6 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </div>
 </div>
 
-<!-- Cart -->
 <div class="modal" id="cartModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('cartModal')">×</button>
@@ -277,7 +250,6 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
  </div>
 </div>
 
-<!-- Checkout -->
 <div class="modal" id="checkoutModal">
  <div class="modal-box">
   <button class="close" onclick="closeModal('checkoutModal')">×</button>
@@ -299,7 +271,6 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
    <option value="bKash Personal - Send Money">বিকাশ Personal — Send Money</option>
    <option value="Nagad Personal - Send Money">নগদ Personal — Send Money</option>
   </select>
-
   <div class="payment-info" id="paymentInfo">
    <b>Personal Account — Send Money Only</b><br>
    এই নম্বরে Send Money করুন। Cash Out বা Merchant Payment করবেন না।
@@ -307,14 +278,12 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
    <button type="button" class="copy-number" onclick="copyPaymentNumber()">নম্বর কপি করুন</button>
    <p style="margin-bottom:0">পেমেন্ট করার পর Transaction ID লিখুন। অর্ডার জমা হলেও পেমেন্ট স্বয়ংক্রিয়ভাবে যাচাই হয় না।</p>
   </div>
-
   <input class="field" id="transaction" placeholder="Transaction ID (বিকাশ/নগদ হলে)">
   <p id="checkoutTotal"></p>
   <button class="primary" id="orderButton" onclick="submitOrder()">অর্ডার নিশ্চিত করুন</button>
  </div>
 </div>
 
-<!-- AI assistant -->
 <div class="modal" id="aiModal">
  <div class="modal-box">
   <div class="ai-header">
@@ -357,8 +326,43 @@ const PHONE="01854673321";
 
 let db=null,products=[],cart=[],selectedCategory="সব";
 let savedIds=[],aiHistory=[],reactionCounts={},myReactions={};
+let visitorId="";
+
 try{savedIds=JSON.parse(localStorage.getItem("sg_saved")||"[]")}catch(e){}
 try{myReactions=JSON.parse(localStorage.getItem("sg_reactions")||"{}")}catch(e){}
+
+/* Generate a UUID for this browser so Supabase always receives visitor_id */
+function createVisitorId(){
+ if(window.crypto&&typeof window.crypto.randomUUID==="function"){
+  return window.crypto.randomUUID();
+ }
+ const bytes=new Uint8Array(16);
+ if(window.crypto&&typeof window.crypto.getRandomValues==="function"){
+  window.crypto.getRandomValues(bytes);
+ }else{
+  for(let i=0;i<16;i++)bytes[i]=Math.floor(Math.random()*256);
+ }
+ bytes[6]=(bytes[6]&0x0f)|0x40;
+ bytes[8]=(bytes[8]&0x3f)|0x80;
+ return [...bytes].map((b,i)=>
+  ([4,6,8,10].includes(i)?"-":"")+b.toString(16).padStart(2,"0")
+ ).join("");
+}
+
+function getVisitorId(){
+ if(visitorId)return visitorId;
+ try{
+  let stored=localStorage.getItem("smart_gear_visitor_id");
+  if(!stored){
+   stored=createVisitorId();
+   localStorage.setItem("smart_gear_visitor_id",stored);
+  }
+  visitorId=stored;
+ }catch(e){
+  visitorId=createVisitorId();
+ }
+ return visitorId;
+}
 
 const REACTIONS=["👍","❤️","😂","😮","😢","😡"];
 let holdTimer=null,longPressed=false;
@@ -378,8 +382,9 @@ function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&l
 function escAttr(s){return esc(s).replace(/`/g,"&#96;")}
 function openModal(id){$(id).classList.add("show")}
 function closeModal(id){$(id).classList.remove("show")}
-function openAI(){openModal("aiModal");setTimeout(()=>{$("aiQuestion").focus()},250)}
+function openAI(){openModal("aiModal");setTimeout(()=>$("aiQuestion").focus(),250)}
 
+/* Owner photo fallback */
 $("ownerPhoto").addEventListener("error",()=>{
  $("ownerPhoto").style.display="none";
  $("ownerPlaceholder").style.display="flex";
@@ -455,7 +460,7 @@ function renderProducts(){
  loadReactionCounts();
 }
 
-/* Tap Like, long press to open the horizontally swipeable reaction picker */
+/* Tap Like, long press to open reaction picker */
 function bindReactionControls(){
  document.querySelectorAll("[data-like-button]").forEach(btn=>{
   if(btn.dataset.bound)return;
@@ -500,19 +505,32 @@ document.addEventListener("pointerdown",e=>{
  }
 });
 
+/* FIXED: visitor_id is now included in every reaction insert */
 async function reactProduct(id,reaction){
  if(!db)return alert("Supabase সংযোগ নেই");
  id=String(id);
+
  if(myReactions[id]){
   document.querySelector(`[data-reaction-picker="${CSS.escape(id)}"]`)?.classList.remove("open");
   return alert("এই ব্রাউজার থেকে এই পণ্যে ইতিমধ্যে রিঅ্যাকশন দেওয়া হয়েছে।");
  }
- const {error}=await db.from("product_reactions").insert({product_id:id,reaction});
+
+ const visitor=getVisitorId();
+
+ const {error}=await db.from("product_reactions").insert({
+  product_id:id,
+  reaction:reaction,
+  visitor_id:visitor
+ });
+
  if(error)return alert("রিঅ্যাকশন দেওয়া যায়নি: "+error.message);
+
  myReactions[id]=reaction;
- localStorage.setItem("sg_reactions",JSON.stringify(myReactions));
+ try{localStorage.setItem("sg_reactions",JSON.stringify(myReactions))}catch(e){}
+
  const button=document.querySelector(`[data-like-button="${CSS.escape(id)}"]`);
  if(button){button.classList.add("selected");button.textContent=reaction+" পছন্দ হয়েছে"}
+
  if(!reactionCounts[id])reactionCounts[id]={};
  reactionCounts[id][reaction]=(reactionCounts[id][reaction]||0)+1;
  renderReactionCounts(id);
@@ -588,7 +606,7 @@ async function addComment(id){
 function toggleSaved(id){
  if(savedIds.includes(id))savedIds=savedIds.filter(x=>x!==id);
  else savedIds.push(id);
- localStorage.setItem("sg_saved",JSON.stringify(savedIds));
+ try{localStorage.setItem("sg_saved",JSON.stringify(savedIds))}catch(e){}
  renderProducts();
 }
 
@@ -635,9 +653,7 @@ function addCart(id){
 function updateCart(){
  $("cartCount").textContent=cart.reduce((a,x)=>a+x.qty,0);
 }
-
 function subtotal(){return cart.reduce((a,x)=>a+priceOf(x.p)*x.qty,0)}
-
 function delivery(){
  const district=$("district").value.trim().replace(/\s/g,"");
  return district==="চট্টগ্রাম"?70:140;
@@ -839,7 +855,6 @@ async function sendAI(){
  }
 }
 
-/* Enter to send; Shift+Enter for a new line */
 $("aiQuestion").addEventListener("keydown",e=>{
  if(e.key==="Enter"&&!e.shiftKey){
   e.preventDefault();
