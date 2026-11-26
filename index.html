@@ -1,4 +1,287 @@
+
 <!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#123b2b">
+<title>Smart Gear — Digital Store</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+
+<style>
+:root{--green:#123b2b;--green2:#246b49;--gold:#e0b75e;--bg:#f4f7f3;--white:#fff;--text:#19251e;--muted:#77847a;--line:#e5ebe5;--shadow:0 8px 28px #183c2412}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans Bengali",sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:15;color:white;background:linear-gradient(120deg,#102d22,#236747);padding:13px 15px;box-shadow:0 4px 18px #102d2225}
+.top{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:23px;font-weight:900;color:#f2d28a}
+.brand small{display:block;font-size:10px;letter-spacing:3px;color:white}
+.header-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.header-actions button{border:1px solid #ffffff55;background:#ffffff18;color:white;padding:9px 12px;border-radius:25px;font-size:12px}
+.container{max-width:1180px;margin:auto;padding:14px}
+.search-wrap{display:flex;gap:8px;margin:12px 0}
+.search{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:white;outline:none;box-shadow:0 3px 12px #173b2410}
+.search:focus,.field:focus{border-color:var(--green2);box-shadow:0 0 0 3px #246b4918}
+.categories{display:flex;gap:8px;overflow:auto;padding:3px 0 13px}
+.categories button{white-space:nowrap;border:1px solid var(--line);background:white;padding:9px 15px;border-radius:30px;color:var(--green)}
+.categories button.active{background:var(--green);color:white;border-color:var(--green)}
+.hero{background:linear-gradient(120deg,#123b2b,#28774e);color:white;padding:24px;border-radius:20px;margin:10px 0 18px;box-shadow:var(--shadow)}
+.hero h2{color:#f5d58e;margin:0 0 9px;font-size:23px}
+.hero p{margin:0;color:#e3eee5;line-height:1.7}
+.hero-tag{display:inline-block;margin-top:14px;padding:7px 12px;border:1px solid #ffffff55;border-radius:20px;font-size:12px;color:#ffe4a2}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 12px}
+.section-head h3{margin:0;font-size:18px}
+.section-head button{border:0;background:#e5eee6;color:var(--green);padding:8px 12px;border-radius:20px}
+.offer-section{display:none;margin:12px 0 20px}
+.offer-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 1px 10px}
+.offer-card{flex:0 0 min(88%,680px);scroll-snap-align:start;border-radius:17px;overflow:hidden;background:white;box-shadow:var(--shadow);border:1px solid var(--line);text-decoration:none;color:inherit}
+.offer-card img{width:100%;height:190px;object-fit:cover;display:block}
+.offer-caption{padding:10px 13px;font-weight:700;color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{background:white;border:1px solid var(--line);border-radius:16px;position:relative;box-shadow:var(--shadow);animation:appear .35s ease;min-width:0}
+@keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.product-img{width:100%;height:155px;object-fit:cover;background:#edf1ec;display:block;cursor:pointer;border-radius:15px 15px 0 0}
+.product-info{padding:11px}
+.product h3{font-size:14px;margin:0 0 8px;line-height:1.5;min-height:40px}
+.price{font-weight:900;color:var(--green2);font-size:17px}
+.reaction-wrap{position:relative;display:flex;align-items:center;gap:7px;margin-top:9px;min-height:34px;flex-wrap:wrap}
+.like-main{border:0;background:#edf3ee;color:var(--green);border-radius:22px;padding:7px 11px;font-weight:700;font-size:12px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.like-main.selected{background:#e5f0ff;color:#1877f2}
+.reaction-counts{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:11px;flex-wrap:wrap}
+.reaction-counts span{background:#f1f4f1;border-radius:14px;padding:4px 6px}
+.reaction-picker{display:none;position:absolute;left:0;bottom:43px;z-index:50;align-items:center;gap:3px;padding:7px;background:white;border:1px solid var(--line);border-radius:30px;box-shadow:0 7px 25px #0002;white-space:nowrap;max-width:calc(100vw - 35px);overflow-x:auto;overscroll-behavior-x:contain;touch-action:pan-x;scrollbar-width:none}
+.reaction-picker::-webkit-scrollbar{display:none}
+.reaction-picker.open{display:flex;animation:reactPop .16s ease-out}
+.reaction-picker button{flex:0 0 37px;border:0;background:transparent;border-radius:50%;width:37px;height:37px;font-size:23px;padding:0}
+.reaction-picker button:active{transform:scale(1.25)}
+@keyframes reactPop{from{opacity:0;transform:translateY(8px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+.product-actions{display:flex;gap:6px;margin-top:10px}
+.product-actions button{flex:1;padding:9px 4px;border:0;border-radius:9px;background:var(--green);color:white;font-size:12px}
+.product-actions .secondary{background:#edf3ee;color:var(--green)}
+.product-actions .order-now{background:linear-gradient(120deg,#123b2b,#26734c);border:1px solid var(--gold);color:#fff;font-weight:700}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:100;align-items:center;justify-content:center;padding:12px}
+.modal.show{display:flex}
+.modal-box{background:white;width:100%;max-width:540px;max-height:92dvh;overflow:auto;border-radius:19px;padding:18px;box-shadow:0 15px 60px #0004}
+.close{float:right;border:0;background:#edf1ec;border-radius:50%;width:32px;height:32px;font-size:20px;flex-shrink:0}
+.field{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin:7px 0;background:white;outline:none}
+.primary{width:100%;border:0;border-radius:11px;padding:13px;background:var(--green);color:white;font-weight:bold;margin-top:9px}
+.comment{background:#f2f5f1;padding:10px;border-radius:10px;margin:7px 0;overflow-wrap:anywhere}
+.owner-section{margin:18px 0 22px;background:linear-gradient(120deg,#fff,#f4f7f1);border:1px solid #e0b75e88;border-radius:18px;padding:14px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow)}
+.owner-photo{width:112px;height:132px;flex:0 0 112px;object-fit:cover;object-position:center 22%;border:3px solid var(--gold);border-radius:8px;background:#e9eee8;display:block}
+.owner-copy h3{margin:0 0 5px;color:var(--green);font-size:19px}
+.owner-role{font-weight:700;color:#a47b32;font-size:13px;margin:0 0 6px}
+.owner-copy p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+.owner-placeholder{display:none;width:112px;height:132px;flex:0 0 112px;border:3px solid var(--gold);border-radius:8px;background:#e9eee8;color:var(--green);align-items:center;justify-content:center;text-align:center;font-size:12px;padding:8px}
+footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}
+.floating{position:fixed;right:12px;bottom:18px;z-index:80;display:flex;flex-direction:column;gap:9px}
+.floating a{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;text-decoration:none;color:white;box-shadow:0 4px 14px #0003;transition:transform .2s}
+.floating a:active{transform:scale(.9)}
+.floating svg{width:27px;height:27px;display:block}
+.wa{background:#20bd67}.imo{background:#2788df}.call{background:#174f37}.fb{background:#1877f2}
+.ai-launch{position:fixed;left:13px;bottom:18px;z-index:85;min-height:65px;padding:7px 16px 7px 9px;border:1.5px solid #e0b75e;border-radius:40px;background:linear-gradient(120deg,#102f22,#26734c);color:white;display:flex;align-items:center;gap:10px;box-shadow:0 0 0 4px #e0b75e20,0 5px 22px #102d2260;animation:aiFloat 3s ease-in-out infinite}
+.ai-launch-icon{width:47px;height:47px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f8df9b,#d6a943);box-shadow:0 0 15px #e0b75e80;flex-shrink:0}
+.ai-launch-icon svg{width:31px;height:31px}
+.ai-launch-copy{text-align:left;line-height:1.2}
+.ai-launch-copy b{display:block;font-size:13px;color:#ffe7a7}
+.ai-launch-copy small{font-size:10px;color:#d7f1df}
+.ai-online-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#43e58b;margin-right:4px;animation:onlinePulse 1.5s infinite}
+@keyframes onlinePulse{50%{box-shadow:0 0 0 5px #43e58b30}}
+@keyframes aiFloat{50%{transform:translateY(-4px);box-shadow:0 0 0 6px #e0b75e22,0 7px 27px #102d2260}}
+.ai-launch:active{transform:scale(.96)}
+#aiModal{padding:10px}
+#aiModal .modal-box{width:100%;max-width:490px;height:min(720px,90dvh);max-height:90dvh;padding:0;overflow:hidden;border-radius:24px;background:#f5f8f4;display:flex;flex-direction:column}
+.ai-header{background:linear-gradient(135deg,#102f22,#26734c);color:white;padding:16px 18px;position:relative;flex:0 0 auto}
+.ai-header-brand{display:flex;align-items:center;gap:11px;padding-right:38px}
+.ai-header-logo{width:45px;height:45px;flex-shrink:0;border-radius:15px;background:linear-gradient(145deg,#f8df9b,#d6a943);display:grid;place-items:center;box-shadow:0 0 15px #e0b75e70}
+.ai-header-logo svg{width:30px;height:30px}
+.ai-header h2{color:#f5d58e;margin:0;font-size:18px}
+.ai-header p{color:#e1eee5;margin:5px 0 0;font-size:12px}
+.ai-header .close{position:absolute;right:13px;top:13px;background:#ffffff25;color:white}
+.ai-chat{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px;background:#eef5ed;overscroll-behavior:contain}
+.msg{padding:12px 14px;border-radius:17px;margin:8px 0;max-width:92%;font-size:14px;line-height:1.65;overflow-wrap:anywhere}
+.msg.bot{background:white;border:1px solid #e2eae1;border-bottom-left-radius:5px}
+.msg.user{background:#d8f0df;margin-left:auto;border-bottom-right-radius:5px}
+.msg a{color:#1267b1;text-decoration:underline;font-weight:700;overflow-wrap:anywhere}
+.msg-voice-row{display:flex;align-items:center;gap:7px;margin-top:9px;padding-top:8px;border-top:1px solid #e9eee8}
+.msg.user .msg-voice-row{justify-content:flex-end;border-top-color:#c3e2ca}
+.msg-voice-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:6px 11px;border:1px solid #dce8dc;border-radius:25px;background:linear-gradient(145deg,#ffffff,#f0f6ef);color:#246b49;font-size:11px;font-weight:700;box-shadow:0 2px 7px #123b2b0c;transition:all .2s ease}
+.msg-voice-btn svg{width:17px;height:17px;flex-shrink:0}
+.msg-voice-btn:active{transform:scale(.95)}
+.msg-voice-btn.playing{background:linear-gradient(120deg,#123b2b,#26734c);color:#ffe8ad;border-color:#d6ad55;box-shadow:0 3px 12px #123b2b30}
+.msg-voice-btn.playing svg{stroke:#ffe8ad}
+.msg-voice-status{font-size:10px;color:#77847a}
+.ai-input-area{flex:0 0 auto;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:white;border-top:1px solid #e7eee7}
+.ai-input-area label{font-size:12px;color:#52675a}
+.ai-input-area textarea{width:100%;resize:none;border-radius:14px;margin:5px 0;max-height:100px}
+.ai-input-row{display:flex;gap:8px;align-items:stretch}
+.ai-input-row textarea{flex:1;min-width:0}
+.sg-voice-controls{display:flex;align-items:center;gap:5px}
+.sg-voice-controls button{border:1px solid #e0b75e;background:linear-gradient(145deg,#ffffff,#f1f6ef);color:#123b2b;border-radius:13px;padding:8px;min-width:43px;display:flex;align-items:center;justify-content:center;transition:all .2s ease;box-shadow:0 3px 9px #123b2b10}
+.sg-voice-controls button svg{width:23px;height:23px;display:block}
+.sg-voice-controls button:active{transform:scale(.93)}
+.sg-voice-controls button.voice-active{background:linear-gradient(135deg,#c62828,#8f1010);border-color:#e45a5a;color:white;box-shadow:0 0 0 4px #e5393520,0 4px 12px #c6282840;animation:micPulse 1.3s infinite}
+.sg-voice-controls button.call-active{background:linear-gradient(135deg,#c62828,#8f1010);border-color:#e45a5a;color:white;animation:micPulse 1.3s infinite}
+@keyframes micPulse{50%{box-shadow:0 0 0 7px #e5393515,0 4px 12px #c6282840}}
+.ai-send{background:linear-gradient(120deg,#123b2b,#26734c);color:white;border:0;border-radius:13px;padding:10px 11px;min-width:75px;font-weight:bold}
+.ai-send:disabled{opacity:.6}
+.ai-hint{text-align:center;color:#849087;font-size:10px;padding-top:6px}
+.ai-hint.live-hint{color:#c62828;font-weight:700}
+.payment-info{display:none;background:#fff8e8;border:1px solid #e0b75e;border-radius:12px;padding:12px;margin:8px 0;color:#5e4821;font-size:13px;line-height:1.7}
+.payment-number{font-size:19px;font-weight:900;letter-spacing:1px;color:var(--green)}
+.copy-number{border:0;border-radius:8px;background:var(--green);color:white;padding:7px 12px;margin-top:6px}
+
+/* MY ORDERS */
+.order-status{display:inline-block;padding:5px 10px;border-radius:20px;background:#fff2d7;color:#93651a;font-size:12px;font-weight:700}
+.order-status.confirmed{background:#e5f0ff;color:#1763a7}
+.order-status.processing{background:#eee8ff;color:#6744a5}
+.order-status.delivered{background:#e1f5e8;color:#18723a}
+.order-status.cancelled{background:#ffe5e5;color:#b42323}
+.order-item{background:#f4f7f3;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.order-item h3{font-size:15px;color:var(--green);margin:0 0 8px}
+.order-item p{font-size:13px;line-height:1.6;margin:5px 0;overflow-wrap:anywhere}
+.order-empty{text-align:center;padding:20px;color:var(--muted);background:#f4f7f3;border-radius:12px}
+@media(max-width:420px){
+ .owner-section{gap:12px;padding:11px}
+ .owner-photo,.owner-placeholder{width:94px;height:116px;flex-basis:94px}
+ .owner-copy h3{font-size:17px}
+ .ai-launch{left:9px;bottom:12px;min-height:58px;padding:6px 12px 6px 7px}
+ .ai-launch-icon{width:42px;height:42px}
+ .ai-launch-copy b{font-size:12px}
+ .floating{right:9px;bottom:12px;gap:7px}
+ .floating a{width:43px;height:43px}
+ #aiModal .modal-box{height:92dvh;max-height:92dvh}
+ .ai-input-row{gap:5px}
+ .sg-voice-controls{gap:3px}
+ .sg-voice-controls button{min-width:37px;padding:6px}
+ .sg-voice-controls button svg{width:20px;height:20px}
+ .ai-send{min-width:55px;padding:9px 6px;font-size:12px}
+}
+@media(min-width:650px){
+ .container{padding:18px}
+ .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+ .product-img{height:205px}
+ .offer-card img{height:245px}
+}
+@media(min-width:900px){
+ .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .hero{padding:32px}
+ .hero h2{font-size:28px}
+}
+</style>
+</head>
+
+<body>
+<header>
+ <div class="top">
+  <div class="brand">SMART GEAR<small>DIGITAL STORE</small></div>
+  <div class="header-actions">
+   <button onclick="showSaved()">♡ Saved</button>
+   <button onclick="openMyOrders()">📦 আমার অর্ডার</button>
+   <button onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+  </div>
+ </div>
+</header>
+
+<main class="container">
+ <div class="search-wrap">
+  <input class="search" id="search" placeholder="🔍 পণ্য খুঁজুন..." oninput="renderProducts()">
+ </div>
+ <div class="categories" id="categories"><button class="active">সব পণ্য</button></div>
+
+ <section class="hero">
+  <h2>Welcome to Smart Gear ✨</h2>
+  <p>আপনার প্রয়োজনীয় ডিজিটাল পণ্য কিনুন সহজেই। পণ্যের মান, বৈশিষ্ট্য ও কেনার পরামর্শ জানতে আমাদের AI সহকারীর সাহায্য নিন।</p>
+  <span class="hero-tag">বিশ্বস্ত কেনাকাটা • সহজ অর্ডার • স্মার্ট পছন্দ</span>
+ </section>
+
+ <section class="owner-section">
+  <img class="owner-photo" id="ownerPhoto" src="owner-photo.jpg" alt="Smart Gear Owner">
+  <div class="owner-placeholder" id="ownerPlaceholder">Owner Photo<br>Upload<br>owner-photo.jpg</div>
+  <div class="owner-copy">
+   <h3>মোহাম্মদ নাঈম</h3>
+   <p class="owner-role">Owner · Smart Gear</p>
+   <p>Smart Gear-এর পক্ষ থেকে আপনাকে স্বাগতম। আপনার আস্থা ও ভালোবাসাই আমাদের অনুপ্রেরণা।</p>
+  </div>
+ </section>
+
+ <section class="offer-section" id="offerSection">
+  <div class="section-head"><h3>🎁 আজকের অফার</h3></div>
+  <div class="offer-track" id="offerTrack"></div>
+ </section>
+
+ <div class="section-head">
+  <h3 id="listTitle">✨ আমাদের পণ্য</h3>
+  <button onclick="loadProducts()">↻ Refresh</button>
+ </div>
+ <div class="grid" id="products"><p>পণ্য লোড হচ্ছে...</p></div>
+</main>
+
+<footer>
+ © Smart Gear — Digital Store<br>
+ <a href="https://www.facebook.com/share/1DqjKc77eZ/" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;color:#246b49;font-weight:bold;text-decoration:none">📘 Facebook Page</a>
+</footer>
+
+<button class="ai-launch" onclick="openAI()" aria-label="Smart Gear Assistant">
+ <span class="ai-launch-icon">
+  <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+   <path d="M8 11.5A7.5 7.5 0 0 1 15.5 4h17A7.5 7.5 0 0 1 40 11.5v14a7.5 7.5 0 0 1-7.5 7.5H22l-9 7v-7.5A7.5 7.5 0 0 1 8 25V11.5Z" fill="#123b2b"/>
+   <path d="m25 9 2.2 5.1L32 16l-4.8 1.9L25 23l-2-5.1-4.8-1.9 4.8-1.9L25 9Z" fill="#fff2c7"/>
+   <path d="m34 22 1.2 2.7 2.8 1.1-2.8 1.1L34 29.7l-1.1-2.8-2.8-1.1 2.8-1.1L34 22Z" fill="#fff2c7"/>
+  </svg>
+ </span>
+ <span class="ai-launch-copy">
+  <b>Smart Gear Assistant</b>
+  <small><span class="ai-online-dot"></span>Customer Support</small>
+ </span>
+</button>
+
+<div class="floating">
+ <a class="wa" href="https://wa.me/8801854673321" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3A12.8 12.8 0 0 0 5 22.4L3.4 29l6.8-1.8A12.9 12.9 0 1 0 16 3Zm0 23.5c-2 0-4-.5-5.7-1.6l-.4-.2-4 .1 1-3.8-.2-.4A10.5 10.5 0 1 1 16 26.5Zm5.8-7.8c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.6 8.6 0 0 1-2.5-1.5 9.4 9.4 0 0 1-1.7-2.1c-.2-.4 0-.5.2-.7l.5-.6.3-.5c.1-.2 0-.4 0-.6l-1-2.3c-.3-.6-.6-.5-.8-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4 2.4 3.7 5.8 5.1c.8.3 1.4.5 1.9.6.8.3 1.6.2 2.2.1.7-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4s-.3-.2-.6-.4Z"/></svg>
+ </a>
+ <a class="imo" href="https://imo.im/" target="_blank" rel="noopener" aria-label="IMO">
+  <svg viewBox="0 0 32 32" fill="none"><path d="M16 3C8.8 3 3 8.2 3 14.6c0 3.1 1.4 5.9 3.8 8L5.8 28l5.5-2.6c1.5.5 3.1.8 4.7.8 7.2 0 13-5.2 13-11.6S23.2 3 16 3Z" fill="white"/><path d="M9 12h14M9 16h10M9 20h6" stroke="#2788df" stroke-width="2.4" stroke-linecap="round"/></svg>
+ </a>
+ <a class="call" href="tel:01854673321" aria-label="Call">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.2c1.1.4 2.3.6 3.6.6a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.6 21 3 13.4 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.6 3.6a1 1 0 0 1-.2 1l-2.3 2.2Z"/></svg>
+ </a>
+ <a class="fb" href="https://www.facebook.com/share/1DqjKc77eZ/" target="_blank" rel="noopener" aria-label="Facebook">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5v1.9H7v3.1h2.8v8h3.7Z"/></svg>
+ </a>
+</div>
+
+<div class="modal" id="productModal">
+ <div class="modal-box">
+  <button class="close" onclick="closeModal('productModal')">×</button>
+  <div id="productDetails"></div>
+ </div>
+</div>
+
+<div class="modal" id="cartModal">
+ <div class="modal-box">
+  <button class="close" onclick="closeModal('cartModal')">×</button>
+  <h2>🛒 আপনার কার্ট</h2>
+  <div id="cartItems"></div>
+  <h3 id="cartTotal"></h3>
+  <button class="primary" onclick="openCheckout()">অর্ডার করুন</button>
+ </div>
+</div>
+
+<div class="modal" id="checkoutModal">
+ <div class="modal-box">
+  <button class="close" onclick="closeModal('checkoutModal')">×</button>
+  <h2>📦 অর্ডার তথ্য</h2>
+  <input class="field" id="customerName" placeholder="আপনার নাম">
+  <input class="field" id="customerPhone" placeholder="মোবাইল নম্বর" inputmode="tel" autocomplete="tel">
+  <select class="field" id="division">
+   <option value="">বিভাগ নির্বাচন করুন</option>
+   <option>চট্টগ্রাম</option><option>ঢাকা</option><option>রাজশাহী</option><option>খুলনা</option><option>বরিশাল</option><option>সিলেট</option><option>রংপুর</option><option>ময়মনসিংহ</option>
+  </select>
+  <input class="field" id="district" placeholder="জেলা (চট্টগ্রাম হলে<!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
