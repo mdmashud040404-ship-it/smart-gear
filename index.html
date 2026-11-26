@@ -424,5 +424,38 @@ function toggleAIVoice() {
   return sgVoiceEnabled;
 }
  </script>
+ <div class="sg-voice-controls">
+  <button type="button" id="voiceMicBtn"
+    onclick="startVoiceInput()" title="কথা বলে প্রশ্ন করুন">
+    🎙️
+  </button>
+
+  <button type="button" id="voiceToggleBtn"
+    onclick="toggleAIVoice()" title="ভয়েস চালু বা বন্ধ">
+    🔊
+  </button>
+
+  <button type="button"
+    onclick="stopVoiceOutput()" title="ভয়েস বন্ধ করুন">
+    🔇
+  </button>
+</div>
+
+<style>
+.sg-voice-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sg-voice-controls button {
+  border: 1px solid #e0b75e;
+  background: #123b2b;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 13px;
+  font-size: 20px;
+  cursor: pointer;
+}
+</style>
 </body>
 </html>
