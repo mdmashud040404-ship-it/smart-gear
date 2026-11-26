@@ -679,10 +679,78 @@ async function reactProduct(id,reaction){
 
  id=String(id);
 
- if(myReactions[id]){
-  document.querySelector(`[data-reaction-picker="${CSS.escape(id)}"]`)?.classList.remove("open");
-  return alert("এই ব্রাউজার থেকে এই পণ্যে ইতিমধ্যে রিঅ্যাকশন দেওয়া হয়েছে।");
- }
+ 
+async function reactProduct(id, reaction) {
+  if (!db) {
+    alert("Supabase সংযোগ নেই");
+    return;
+  }
+
+  id = String(id);
+  const visitorId = getVisitorId();
+
+  if (!reactionPending) window.reactionPending = {};
+  if (reactionPending[id]) return;
+
+  reactionPending[id] = true;
+
+  try {
+    const picker = document.querySelector(
+      `[data-reaction-picker="${CSS.escape(id)}"]`
+    );
+
+    // আগের রিঅ্যাকশন থাকলে একই রিঅ্যাকশনে চাপ দিলে Unlike
+    const previousReaction = myReactions[id];
+
+    if (previousReaction && previousReaction === reaction) {
+      const { error } = await db
+        .from("product_reactions")
+        .delete()
+        .eq("product_id", id)
+        .eq("visitor_id", visitorId);
+
+      if (error) throw error;
+
+      delete myReactions[id];
+
+    } else {
+      // নতুন রিঅ্যাকশন অথবা আগের রিঅ্যাকশন পরিবর্তন
+      const { error } = await db
+        .from("product_reactions")
+        .upsert({
+          product_id: id,
+          visitor_id: visitorId,
+          reaction: reaction
+        }, {
+          onConflict: "product_id,visitor_id"
+        });
+
+      if (error) throw error;
+
+      myReactions[id] = reaction;
+    }
+
+    try {
+      localStorage.setItem(
+        "sg_reactions",
+        JSON.stringify(myReactions)
+      );
+    } catch (e) {}
+
+    picker?.classList.remove("open");
+
+    await loadReactionCounts();
+
+    renderProducts();
+
+  } catch (error) {
+    console.error("Reaction error:", error);
+    alert("রিঅ্যাকশন দেওয়া যায়নি: " + (error.message || error));
+  } finally {
+    delete reactionPending[id];
+  }
+}
+
 
  if(reactionPending[id])return;
  if(!REACTIONS.includes(reaction))return;
