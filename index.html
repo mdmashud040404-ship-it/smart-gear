@@ -41,7 +41,12 @@ footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:12px}.fl
     <button type="button"
       onclick="stopVoiceOutput()" title="ভয়েস বন্ধ করুন">🔇</button>
   </div>
-</div>{resize:none;border-radius:14px;margin:5px 0;max-height:100px}.ai-input-row{display:flex;gap:8px;align-items:stretch}.ai-input-row textarea{flex:1;min-width:0}.ai-send{background:linear-gradient(120deg,#123b2b,#26734c);color:white;border:0;border-radius:13px;padding:10px 13px;min-width:90px;font-weight:bold}.ai-send:disabled{opacity:.6}.ai-hint{text-align:center;color:#849087;font-size:10px;padding-top:6px}
+</div>{resize:none;border-radius:14px;margin:5px 0;max-height:100px}.ai-input-row{display:flex;gap:8px;align-items:stretch}.ai-input-row textarea<textarea id="aiQuestion"></textarea>
+
+<!-- এখানে Voice Button বসবে -->
+
+<button type="button" id="voiceMicBtn"
+onclick="startVoiceInput()">🎙️</button>{flex:1;min-width:0}.ai-send{background:linear-gradient(120deg,#123b2b,#26734c);color:white;border:0;border-radius:13px;padding:10px 13px;min-width:90px;font-weight:bold}.ai-send:disabled{opacity:.6}.ai-hint{text-align:center;color:#849087;font-size:10px;padding-top:6px}
 .payment-info{display:none;background:#fff8e8;border:1px solid #e0b75e;border-radius:12px;padding:12px;margin:8px 0;color:#5e4821;font-size:13px;line-height:1.7}.payment-number{font-size:19px;font-weight:900;letter-spacing:1px;color:var(--green)}.copy-number{border:0;border-radius:8px;background:var(--green);color:white;padding:7px 12px;margin-top:6px}
 @media(max-width:420px){.owner-section{gap:12px;padding:11px}.owner-photo,.owner-placeholder{width:94px;height:116px;flex-basis:94px}.owner-copy h3{font-size:17px}.ai-launch{left:9px;bottom:12px;min-height:58px;padding:6px 12px 6px 7px}.ai-launch-icon{width:42px;height:42px}.ai-launch-copy b{font-size:12px}.floating{right:9px;bottom:12px;gap:7px}.floating a{width:43px;height:43px}#aiModal .modal-box{height:92dvh;max-height:92dvh}}
 @media(min-width:650px){.container{padding:18px}.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.product-img{height:205px}.offer-card img{height:245px}}
